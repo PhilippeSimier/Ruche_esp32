@@ -1,0 +1,8 @@
+ARDUINO_VARIANT = lolin32
+SERIAL_PORT = /dev/ttyUSB0
+ARDUINO_ARCH = esp32
+ARDUINO_LIBS = HX711/src BME280/src BH1750/src BH1750 INA219
+USER_LIBS = HX711/src BME280 INA219
+
+
+include /opt/Esp8266-Arduino-Makefile/espXArduino.mk
