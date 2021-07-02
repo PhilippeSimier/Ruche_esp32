@@ -16,12 +16,12 @@
 
 class Balance {
 public:
-    Balance(int dout = 26, int sck = 25, int gain = 64, int _adrOffsetEeprom = 0,int _adrScaleEeprom = 8 );
+    Balance(int _dout = 26, int _sck = 25, int _gain = 64, int _adrEEPROM = 0 );
     Balance(const Balance& orig);
     virtual ~Balance();
     
     void  tarerLaBalance();
-    float etalonnerLaBalance(float poidEtalon);
+    float etalonnerLaBalance(float poidsEtalon);
     float obtenirScale();
     float obtenirOffset();
     void  configuerOffset(float _offset);
@@ -29,6 +29,7 @@ public:
     float peser();
     float obtenirVariance();    
     bool  tarageEffectuer();
+    void  afficherCoefficients();
     
 private:
 
@@ -38,6 +39,7 @@ private:
     float scale;
     int adrOffsetEeprom;
     int adrScaleEeprom;
+    int adrTarageEffectue;
     float tab[TAILLEMAX];
     float calculerMoyenne();
 };

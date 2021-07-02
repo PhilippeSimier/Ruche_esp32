@@ -8,7 +8,7 @@
 #include "balance.h"
 
 Balance *laBalance;
-float masse;
+
 
 void setup() {
     int choix = 0;
@@ -21,9 +21,9 @@ void setup() {
 
     Serial.println(" Menu Balance, que souhaitez-vous faire ?");
     Serial.println("\n 1- Tarer la balance ");
-    Serial.println("\n 2- Etalonner la balance ");
-    Serial.println("\n 3- Afficher EEPROM ");
-    Serial.println("\n 4- Peser ");
+    Serial.println(" 2- Etalonner la balance ");
+    Serial.println(" 3- Afficher les coefficients ");
+    Serial.println(" 4- Peser ");
 
     do {
         while (Serial.available() == 0) {
@@ -32,7 +32,7 @@ void setup() {
 
         switch (choix) {
             case '1':
-                Serial.println("vider le plateau et appuyer sur une touche pour tarer ");
+                Serial.println("Vider le plateau et appuyer sur une touche pour tarer ");
                 while (!Serial.available());
                 while (Serial.available())
                     Serial.read();
@@ -53,28 +53,15 @@ void setup() {
                 break;
 
             case '3':
-                Serial.println("Afficher les valeurs EEPROM ");
-                Serial.print("offset : ");
-                Serial.println(EEPROM.readDouble(0));
-                Serial.print("scale : ");
-                Serial.println(EEPROM.readDouble(8));
+                laBalance->afficherCoefficients();
                 break;
         }
 
     } while (choix != '4');
-
-
-
-
-
-
 }
 
 void loop() {
-
-
-    masse = laBalance->peser();
-    Serial.print(masse);
+    Serial.print(laBalance->peser());
     Serial.print(" g\t");
     Serial.println(laBalance->obtenirVariance());
     delay(1000);
