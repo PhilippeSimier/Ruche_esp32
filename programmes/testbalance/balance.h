@@ -9,7 +9,7 @@
 #define BALANCE_H
 
 #define TAILLEMAX 9
-#define EEPROM_SIZE 512
+#define EEPROM_SIZE 64
 
 #include "HX711.h"
 #include <EEPROM.h>
@@ -28,7 +28,7 @@ public:
     void  configuerScale(float _scale);
     float peser();
     float obtenirVariance();    
-    bool  tarageEffectuer();
+    bool  tarageEffectue();
     void  afficherCoefficients();
     bool  ecrireCoefficients();
     void  fixerUnite(char* _unite);

@@ -43,8 +43,7 @@ float Balance::peser() {
     float tmp;
 
     for (int i = 0; i < TAILLEMAX; i++) {
-        tab[i] = leHX711.get_units(1);
-        delay(20);
+        tab[i] = leHX711.get_units(2);
     }
 
     for (int i = 0; i < TAILLEMAX - 1; i++)
@@ -107,7 +106,7 @@ void Balance::tarerLaBalance() {
  */
 float Balance::etalonnerLaBalance(float poidsEtalon) {
 
-    scale = (leHX711.read_average(10) - leHX711.get_offset()) / (poidsEtalon);
+    scale = (leHX711.read_average(10) - leHX711.get_offset()) / poidsEtalon;
 
     leHX711.set_scale(scale);
     scale = leHX711.get_scale();
@@ -119,7 +118,7 @@ float Balance::etalonnerLaBalance(float poidsEtalon) {
  * @detail vérification si le tarage à été effectuer avant l'étalonnage
  * @return retourne l'état d'une variable boolean
  */
-bool Balance::tarageEffectuer() {
+bool Balance::tarageEffectue() {
     return tarage;
 }
 
