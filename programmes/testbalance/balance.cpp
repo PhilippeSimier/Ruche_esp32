@@ -12,20 +12,25 @@ Balance::Balance(int _dout, int _sck, int _gain, int _adrEEPROM) {
     adrOffsetEeprom = _adrEEPROM;
     adrScaleEeprom = _adrEEPROM + sizeof (offset);
     adrTarageEffectue = adrScaleEeprom + sizeof (scale);
+    adrUnite = adrTarageEffectue + sizeof (tarage);
 
     leHX711.begin(_dout, _sck, _gain);
-
+    
     tarage = EEPROM.readBool(adrTarageEffectue);
-    offset = EEPROM.readDouble(adrOffsetEeprom);
+    offset = EEPROM.readLong(adrOffsetEeprom);
     leHX711.set_offset(offset);
-    scale = EEPROM.readDouble(adrScaleEeprom);
+    scale = EEPROM.readFloat(adrScaleEeprom);
     leHX711.set_scale(scale);
+    for(int i=0; i<10; i++){
+        unite[i] = EEPROM.readChar(adrUnite + i);
+    }
 }
 
 Balance::Balance(const Balance& orig) {
 }
 
 Balance::~Balance() {
+    
 }
 
 /**
@@ -91,10 +96,7 @@ void Balance::tarerLaBalance() {
     leHX711.tare();
     tarage = true;
     offset = leHX711.get_offset();
-    EEPROM.writeDouble(adrOffsetEeprom, offset);
-    EEPROM.writeBool(adrTarageEffectue, true);
 
-    EEPROM.commit();
 }
 
 /**
@@ -105,12 +107,10 @@ void Balance::tarerLaBalance() {
  */
 float Balance::etalonnerLaBalance(float poidsEtalon) {
 
-    float scale = (leHX711.read_average(10) - leHX711.get_offset()) / (poidsEtalon);
+    scale = (leHX711.read_average(10) - leHX711.get_offset()) / (poidsEtalon);
 
     leHX711.set_scale(scale);
     scale = leHX711.get_scale();
-    EEPROM.writeDouble(adrScaleEeprom, scale);
-    EEPROM.commit();
     return scale;
 }
 
@@ -128,7 +128,7 @@ bool Balance::tarageEffectuer() {
  * @detail récuperation du coefficient offset
  * @return retourne le  coefficient offset
  */
-float Balance::obtenirOffset() {
+long Balance::obtenirOffset() {
     return leHX711.get_offset();
 }
 
@@ -146,7 +146,7 @@ float Balance::obtenirScale() {
  * @detail permet de configurer le coefficient offset, utilisé après la lecture de l'EEPROM
  * @param _offset
  */
-void Balance::configuerOffset(float _offset) {
+void Balance::configuerOffset(long _offset) {
 
     leHX711.set_offset(_offset);
 }
@@ -162,17 +162,58 @@ void Balance::configuerScale(float _scale) {
 
 /**
  * @brief Balance::afficherCoefficients
- * @detail Affiche les coefficients enregistrés
+ * @detail Affiche les coefficients enregistrés en EEPROM
  */
 
 void Balance::afficherCoefficients() {
     Serial.print("tarage effectué : ");
     Serial.println(EEPROM.readBool(adrTarageEffectue));
     Serial.print("offset : ");
-    Serial.println(EEPROM.readDouble(adrOffsetEeprom));
+    Serial.println(EEPROM.readLong(adrOffsetEeprom));
     Serial.print("scale : ");
-    Serial.println(EEPROM.readDouble(adrScaleEeprom));
+    Serial.println(EEPROM.readFloat(adrScaleEeprom));
+    Serial.print("unité : ");
+    
+    for (int i=0; i < 10; i++){
+        byte readValue = EEPROM.readChar(adrUnite + i);
+        if (readValue == 0) {
+            break;
+        }
+        char readValueChar = char(readValue);
+        Serial.print(readValueChar);    
+    }
+    Serial.println(' ');
+}
 
+bool  Balance::ecrireCoefficients(){
+
+    EEPROM.writeLong(adrOffsetEeprom, offset);
+    EEPROM.writeFloat(adrScaleEeprom, scale);
+    EEPROM.writeBool(adrTarageEffectue, true);
+    
+    for (int i=0; i<10 ;i++){
+       EEPROM.writeChar(adrUnite + i, unite[i]);      
+    }
+    return EEPROM.commit();
+}
+
+
+/**
+ * @brief Balance::fixerUnite
+ * @detail Enregistre l'unité de mesure utilisée
+ * @param _unite
+ */
+void  Balance::fixerUnite(char* _unite){
+    
+    for (int i=0; i<10 ;i++){
+       unite[i] = _unite[i];
+       EEPROM.writeChar(adrUnite + i, unite[i]);      
+    }
+    EEPROM.commit();
+}
+
+char*  Balance::obtenirUnite(){
+    return unite;
 }
 
 

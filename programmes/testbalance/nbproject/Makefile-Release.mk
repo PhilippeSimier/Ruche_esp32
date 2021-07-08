@@ -14,9 +14,9 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=xtensa-esp32-elf-gcc
-CCC=xtensa-esp32-elf-g++
-CXX=xtensa-esp32-elf-g++
+CC=xtensa-esp32-elf-cc
+CCC=xtensa-esp32-elf-c++
+CXX=xtensa-esp32-elf-c++
 FC=gfortran
 AS=xtensa-esp32-elf-as
 
@@ -36,7 +36,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/balance.o \
-	${OBJECTDIR}/main.ino.o
+	${OBJECTDIR}/main.ino.o \
+	${OBJECTDIR}/scan.o
 
 
 # C Compiler Flags
@@ -72,6 +73,11 @@ ${OBJECTDIR}/main.ino.o: main.ino.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.ino.o main.ino.cpp
+
+${OBJECTDIR}/scan.o: scan.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/scan.o scan.cpp
 
 # Subprojects
 .build-subprojects:

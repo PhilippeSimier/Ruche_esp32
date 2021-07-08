@@ -127,4 +127,5 @@ build.lolin32-1.0.4/main.ino.cpp.o: main.ino.cpp \
  /opt/Esp8266-Arduino-Makefile/esp32-1.0.4/cores/esp32/Esp.h \
  /opt/Esp8266-Arduino-Makefile/esp32-1.0.4/variants/lolin32/pins_arduino.h \
  balance.h /opt/Esp8266-Arduino-Makefile/libraries/HX711/src/HX711.h \
- /opt/Esp8266-Arduino-Makefile/esp32-1.0.4/libraries/EEPROM/src/EEPROM.h
+ /opt/Esp8266-Arduino-Makefile/esp32-1.0.4/libraries/EEPROM/src/EEPROM.h \
+ scan.h

@@ -16,32 +16,37 @@
 
 class Balance {
 public:
-    Balance(int _dout = 26, int _sck = 25, int _gain = 64, int _adrEEPROM = 0 );
+    Balance(int _dout = 13, int _sck = 15, int _gain = 64, int _adrEEPROM = 0 );
     Balance(const Balance& orig);
     virtual ~Balance();
     
     void  tarerLaBalance();
     float etalonnerLaBalance(float poidsEtalon);
     float obtenirScale();
-    float obtenirOffset();
-    void  configuerOffset(float _offset);
+    long  obtenirOffset();
+    void  configuerOffset(long _offset);
     void  configuerScale(float _scale);
     float peser();
     float obtenirVariance();    
     bool  tarageEffectuer();
     void  afficherCoefficients();
+    bool  ecrireCoefficients();
+    void  fixerUnite(char* _unite);
+    char*  obtenirUnite();
     
 private:
 
     HX711 leHX711;
     bool tarage;
-    float offset;
+    long offset;
     float scale;
     int adrOffsetEeprom;
     int adrScaleEeprom;
     int adrTarageEffectue;
+    int adrUnite;
     float tab[TAILLEMAX];
     float calculerMoyenne();
+    char unite[10];
 };
 
 #endif /* BALANCE_H */

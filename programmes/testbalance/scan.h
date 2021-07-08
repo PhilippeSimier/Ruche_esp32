@@ -11,6 +11,8 @@ public:
    static float lireFloat();
    static int lireInt();
    static String lireString();
+   static void confirmer();
+   static void lireTabChar(char* buffer, int lenght);
 
 private:
    
