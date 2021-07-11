@@ -1,0 +1,62 @@
+Bill Of Materials
+=================
+Design:   E:\Ruche bts\Ruche_ESP32.DSN
+Doc. no.: <NONE>
+Revision: <NONE>
+Author:   <NONE>
+Created:  21/05/08
+Modified: 03/07/21
+
+QTY  PART-REFS           VALUE               CODE                          
+---  ---------           -----               ----                          
+Resistors
+---------
+1    R1                  1M                                                
+2    R2,R3               4.7K                                              
+2    R4,R11              1K                                                
+3    R5-R7               10k                                               
+2    R8,R9               3.3K                                              
+1    R10                 47k                                               
+
+Capacitors
+----------
+2    C1,C5               10uF                                              
+9    C2-C4,C6,C9,C10,    100nF                                             
+     C13-C15
+2    C7,C8               22pF                                              
+2    C11,C12             10nF                                              
+
+Integrated Circuits
+-------------------
+1    U1                  ESP32 WROOM                                       
+1    U2                  BRKWS01                                           
+1    U3                  HX711                                             
+1    U4                  LP5907-3.3                                        
+1    U5                  DRA818                                            
+
+Transistors
+-----------
+1    Q1                  2N7002                                            
+
+Diodes
+------
+1    D1                  LED1206                                           
+1    D2                  1N4007                                            
+
+Miscellaneous
+-------------
+1    BP1                 BP                                                
+1    GND                 POINT TEST                                        
+1    J1                  ALIM                                              
+1    J2                  CONN-SIL6                                         
+4    J3-J6               CONN-SIL4                                         
+1    J7                  CONN-SIL5                                         
+5    J8,J10-J13                                                            
+1    J14                 POCKET                                            
+1    J15                 CONN-SIL2                                         
+1    J16                 SMA                                               
+1    L1                  VK200                                             
+4    PT1-PT4             ENTRETOISE                                        
+1    RV1                 10K                                               
+1    X1                  32768Hz                                           
+
