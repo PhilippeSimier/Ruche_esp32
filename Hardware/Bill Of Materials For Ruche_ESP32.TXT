@@ -2,25 +2,25 @@ Bill Of Materials
 =================
 Design:   E:\Ruche bts\Ruche_ESP32.DSN
 Doc. no.: <NONE>
-Revision: <NONE>
-Author:   <NONE>
+Revision: 1.0
+Author:   Philippe S
 Created:  21/05/08
 Modified: 03/07/21
 
-QTY  PART-REFS           VALUE               CODE                          
+QTY  PART-REFS           VALUE               CODE                           
 ---  ---------           -----               ----                          
 Resistors
 ---------
 1    R1                  1M                                                
-2    R2,R3               4.7K                                              
-2    R4,R11              1K                                                
-3    R5-R7               10k                                               
-2    R8,R9               3.3K                                              
-1    R10                 47k                                               
+2    R2,R3               4.7K                16245  Gotronic                            
+2    R4,R11              1K                  16237  Gotronic                            
+3    R5-R7               10k                 16249  Gotronic                            
+2    R8,R9               3.3K                16243  Gotronic                            
+1    R10                 47k                 16257  Gotronic                            
 
 Capacitors
 ----------
-2    C1,C5               10uF                                              
+2    C1,C5               10uF                22531  Gotronic                           
 9    C2-C4,C6,C9,C10,    100nF                                             
      C13-C15
 2    C7,C8               22pF                                              
@@ -32,7 +32,7 @@ Integrated Circuits
 1    U2                  BRKWS01                                           
 1    U3                  HX711                                             
 1    U4                  LP5907-3.3                                        
-1    U5                  DRA818                                            
+1    U5                  DRA818U                                            
 
 Transistors
 -----------
@@ -45,7 +45,7 @@ Diodes
 
 Miscellaneous
 -------------
-1    BP1                 BP                                                
+1    BP1                 BP              	07131  Gotronic                                
 1    GND                 POINT TEST                                        
 1    J1                  ALIM                                              
 1    J2                  CONN-SIL6                                         
