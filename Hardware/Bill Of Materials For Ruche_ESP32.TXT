@@ -28,19 +28,19 @@ Capacitors
 
 Integrated Circuits
 -------------------
-1    U1                  ESP32 WROOM                                       
+1    U1                  ESP32 WROOM         
 1    U2                  BRKWS01                                           
 1    U3                  HX711                                             
-1    U4                  LP5907-3.3                                        
+1    U4                  LP5907MFX-3.3     9845313RL Farnel 	                                       
 1    U5                  DRA818U                                            
 
 Transistors
 -----------
-1    Q1                  2N7002                                            
+1    Q1                  2N7002            3122291 Farnel                                 
 
 Diodes
 ------
-1    D1                  LED1206                                           
+1    D1                  LED 1206          8530033 Farnel                                 
 1    D2                  1N4007                                            
 
 Miscellaneous
