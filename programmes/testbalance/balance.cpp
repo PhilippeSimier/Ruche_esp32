@@ -8,20 +8,25 @@
 #include "balance.h"
 
 Balance::Balance(int _dout, int _sck, int _gain, int _adrEEPROM) {
-    EEPROM.begin(EEPROM_SIZE);
+    if (!EEPROM.begin(EEPROM_SIZE)) {
+        Serial.println("Échec de l'initialisation de l'EEPROM");
+        Serial.println("Redémarrage... ");
+        delay(10000);
+        ESP.restart();
+    }
     adrOffsetEeprom = _adrEEPROM;
     adrScaleEeprom = _adrEEPROM + sizeof (offset);
     adrTarageEffectue = adrScaleEeprom + sizeof (scale);
     adrUnite = adrTarageEffectue + sizeof (tarage);
 
     leHX711.begin(_dout, _sck, _gain);
-    
+
     tarage = EEPROM.readBool(adrTarageEffectue);
     offset = EEPROM.readLong(adrOffsetEeprom);
     leHX711.set_offset(offset);
     scale = EEPROM.readFloat(adrScaleEeprom);
     leHX711.set_scale(scale);
-    for(int i=0; i<10; i++){
+    for (int i = 0; i < 10; i++) {
         unite[i] = EEPROM.readChar(adrUnite + i);
     }
 }
@@ -30,7 +35,7 @@ Balance::Balance(const Balance& orig) {
 }
 
 Balance::~Balance() {
-    
+
 }
 
 /**
@@ -172,46 +177,45 @@ void Balance::afficherCoefficients() {
     Serial.print("scale : ");
     Serial.println(EEPROM.readFloat(adrScaleEeprom));
     Serial.print("unité : ");
-    
-    for (int i=0; i < 10; i++){
+
+    for (int i = 0; i < 10; i++) {
         byte readValue = EEPROM.readChar(adrUnite + i);
         if (readValue == 0) {
             break;
         }
         char readValueChar = char(readValue);
-        Serial.print(readValueChar);    
+        Serial.print(readValueChar);
     }
     Serial.println(' ');
 }
 
-bool  Balance::ecrireCoefficients(){
+bool Balance::ecrireCoefficients() {
 
     EEPROM.writeLong(adrOffsetEeprom, offset);
     EEPROM.writeFloat(adrScaleEeprom, scale);
     EEPROM.writeBool(adrTarageEffectue, true);
-    
-    for (int i=0; i<10 ;i++){
-       EEPROM.writeChar(adrUnite + i, unite[i]);      
+
+    for (int i = 0; i < 10; i++) {
+        EEPROM.writeChar(adrUnite + i, unite[i]);
     }
     return EEPROM.commit();
 }
-
 
 /**
  * @brief Balance::fixerUnite
  * @detail Enregistre l'unité de mesure utilisée
  * @param _unite
  */
-void  Balance::fixerUnite(char* _unite){
-    
-    for (int i=0; i<10 ;i++){
-       unite[i] = _unite[i];
-       EEPROM.writeChar(adrUnite + i, unite[i]);      
+void Balance::fixerUnite(char* _unite) {
+
+    for (int i = 0; i < 10; i++) {
+        unite[i] = _unite[i];
+        EEPROM.writeChar(adrUnite + i, unite[i]);
     }
     EEPROM.commit();
 }
 
-char*  Balance::obtenirUnite(){
+char* Balance::obtenirUnite() {
     return unite;
 }
 
