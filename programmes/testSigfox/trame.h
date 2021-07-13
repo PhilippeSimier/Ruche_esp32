@@ -9,11 +9,13 @@
 #define TRAME_H
 
 typedef struct {
-  int16_t poids;
-  int16_t temperature;
-  
-  unsigned char humidite;
-  unsigned char type;
+    short field1;
+    short field2;
+    short field3;
+    unsigned short field5;
+    short field6;
+    unsigned char field4;
+    char type = 1;
 } trameMesure;
 
 

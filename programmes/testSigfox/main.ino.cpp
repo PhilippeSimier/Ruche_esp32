@@ -1,6 +1,6 @@
 /* 
  * File:   main.ino.cpp
- * Author: philippe
+ * Author: philippe S (SNIR Touchard)
  *
  * Created on 12 juillet 2021, 11:05
  */
@@ -33,10 +33,14 @@ void setup() {
     Serial.printf("Tension d'alimentation : %.2f V\r", V0);
     Serial.printf("Tension d'émission : %.2f V\r", V1);
     
-    laTrame.type = 1;
-    laTrame.humidite = 55;
-    laTrame.poids = 1024;
-    laTrame.temperature = 234;
+    
+    laTrame.field1 = 4413;  // Masse
+    laTrame.field2 = 3579;  // Température
+    laTrame.field3 = 10142; // Pression
+    laTrame.field5 = 7944;  // Eclairement
+    laTrame.field6 = 2234;  // Point de rosée
+    laTrame.field4 = 46;    // Humidité
+    
     
     bool status = mySigfox.envoyer(&laTrame, sizeof(laTrame));
     if (status){
