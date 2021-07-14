@@ -10,17 +10,9 @@
 
 
 Balance *laBalance;
-char unite[10] = {};
+char unite[10] = {0};
 
-void setup() {
-    int choix = 0;
-    float poids_connu = 0.0;
-    laBalance = new Balance(13, 15);
-
-    Serial.begin(115200);
-
-
-
+void afficherMenu() {
     Serial.println(" Menu Balance, que souhaitez-vous faire ?");
     Serial.println("\n 1- Configurer l'unité ");
     Serial.println(" 2- Tarer la balance ");
@@ -28,12 +20,19 @@ void setup() {
     Serial.println(" 4- Enregistrer les coefficients ");
     Serial.println(" 5- Afficher les coefficients ");
     Serial.println(" 6- Peser ");
+    Serial.println(" ?- Menu Balance ");
+}
 
+void setup() {
+    int choix = 0;
+    float poids_connu = 0.0;
+    laBalance = new Balance(13, 15);
 
+    Serial.begin(115200);
+    afficherMenu();
 
     do {
-        while (Serial.available() == 0) {
-        }
+        while (!Serial.available());
         choix = Serial.read();
 
         switch (choix) {
@@ -45,24 +44,18 @@ void setup() {
                 break;
 
             case '2':
-                Serial.println("\rVider le plateau et appuyer sur entrer pour tarer ");
+                Serial.println("\rVider le plateau et appuyer sur Entrée pour tarer ");
                 Scan::confirmer();
-                laBalance->tarerLaBalance();
-                Serial.print("offset : ");
-                Serial.println(laBalance->obtenirOffset());
+                Serial.printf("offset : %ld\r", laBalance->tarerLaBalance());
                 break;
 
             case '3':
-                Serial.println("\rDonnez la valeur du poids connu ");
-
+                Serial.println("\rDonner la valeur du poids connu ");
                 poids_connu = Scan::lireFloat();
-                Serial.println("\rPosez le poids connu et  appuyez sur entrer ");
+                Serial.println("\rPoser le poids connu et  appuyer sur Entrée ");
                 Scan::confirmer();
-                Serial.print("Poids connu : ");
-                Serial.println(poids_connu);
-                laBalance->etalonnerLaBalance(poids_connu);
-                Serial.print("scale : ");
-                Serial.println(laBalance->obtenirScale());
+                Serial.printf("Poids connu : %.3f\r", poids_connu);               
+                Serial.printf("scale : %.3f\r", laBalance->etalonnerLaBalance(poids_connu));
                 break;
 
             case '4':
@@ -75,15 +68,19 @@ void setup() {
                 Serial.println('\r');
                 laBalance->afficherCoefficients();
                 break;
+                
+            case '?': 
+                afficherMenu();
 
         }
 
     } while (choix != '6');
+    Serial.println(" ");
 }
 
 void loop() {
 
-    Serial.printf("\r\n%.2f %s \t%.2f", laBalance->peser(), laBalance->obtenirUnite(), laBalance->obtenirVariance());
+    Serial.printf("%.2f %s \t%.2f\r", laBalance->peser(), laBalance->obtenirUnite(), laBalance->obtenirVariance());
     delay(100);
 
 }

@@ -20,7 +20,7 @@ public:
     Balance(const Balance& orig);
     virtual ~Balance();
     
-    void  tarerLaBalance();
+    long  tarerLaBalance();
     float etalonnerLaBalance(float poidsEtalon);
     float obtenirScale();
     long  obtenirOffset();

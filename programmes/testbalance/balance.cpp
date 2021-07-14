@@ -29,6 +29,7 @@ Balance::Balance(int _dout, int _sck, int _gain, int _adrEEPROM) {
     for (int i = 0; i < 10; i++) {
         unite[i] = EEPROM.readChar(adrUnite + i);
     }
+    
 }
 
 Balance::Balance(const Balance& orig) {
@@ -94,12 +95,13 @@ float Balance::calculerMoyenne() {
  * @brief Balance::tarerLaBalance
  * @detail cette fonction permet de tarer la balance et de sauvegarder le coefficient offset
  */
-void Balance::tarerLaBalance() {
+long Balance::tarerLaBalance() {
 
 
     leHX711.tare();
     tarage = true;
     offset = leHX711.get_offset();
+    return offset;
 
 }
 
