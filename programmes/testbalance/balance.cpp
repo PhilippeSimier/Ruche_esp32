@@ -49,7 +49,7 @@ float Balance::peser() {
     float tmp;
 
     for (int i = 0; i < TAILLEMAX; i++) {
-        tab[i] = leHX711.get_units(2);
+        tab[i] = leHX711.get_units();
     }
 
     for (int i = 0; i < TAILLEMAX - 1; i++)
