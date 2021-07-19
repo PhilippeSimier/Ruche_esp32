@@ -10,7 +10,7 @@ BME280I2C::Settings parametrage(
         BME280::OSR_X1,
         BME280::Mode_Forced,
         BME280::StandbyTime_1000ms,
-        BME280::Filter_Off,
+        BME280::Filter_16,
         BME280::SpiEnable_False,
         BME280I2C::I2CAddr_0x77 // I2C address 77 pour BME 280 Adafruit.
         );
@@ -52,16 +52,13 @@ void setup() {
 
 void loop() {
     printBME280Data(&Serial);
-    delay(100);
+    delay(1000);
 }
 
 void printBME280Data(Stream* client) {
     float temp(NAN), hum(NAN), pres(NAN);
 
-    BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
-    BME280::PresUnit presUnit(BME280::PresUnit_hPa);
-
-    bme.read(pres, temp, hum, tempUnit, presUnit);
+    bme.read(pres, temp, hum);
     if (temp > 50 || temp < 0) ++erreur;
     nb++;
     client->print("Temp: ");
