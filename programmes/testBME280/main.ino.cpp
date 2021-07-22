@@ -28,6 +28,7 @@ void setup() {
     }
 
     Wire.begin();
+    Wire.setClock(10000);
     
     size_t clock = Wire.getClock();
     Serial.print("clock : ");
@@ -48,7 +49,7 @@ void setup() {
         default:
             Serial.println("Found UNKNOWN sensor! Error!");
     }
- }
+}
 
 void loop() {
     printBME280Data(&Serial);
@@ -57,9 +58,13 @@ void loop() {
 
 void printBME280Data(Stream* client) {
     float temp(NAN), hum(NAN), pres(NAN);
-
-    bme.read(pres, temp, hum);
-    if (temp > 50 || temp < 0) ++erreur;
+    int i = -1;
+    do {
+        bme.read(pres, temp, hum);
+        i++;
+    }    
+    while (temp > 60 || temp < -20  || temp == NAN);
+    erreur += i;
     nb++;
     client->print("Temp: ");
     client->print(temp);

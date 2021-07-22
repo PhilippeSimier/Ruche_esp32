@@ -2,6 +2,8 @@
 
 float Scan::lireFloat() {
     float valeur = 0.0;
+    afficherPrompt();
+    
     Serial.setTimeout(10000);
     while (!Serial.available());
     valeur = Serial.parseFloat();
@@ -12,6 +14,8 @@ float Scan::lireFloat() {
 
 int Scan::lireInt() {
     int valeur = 0;
+    afficherPrompt();
+    
     Serial.setTimeout(10000);
     while (!Serial.available());
     valeur = Serial.parseInt();
@@ -24,6 +28,7 @@ String Scan::lireString() {
 
     String message = "";
     char rc = '\0';
+    afficherPrompt();
 
     while (!Serial.available());
     while (rc != '\r') {
@@ -40,6 +45,8 @@ String Scan::lireString() {
 
 void Scan::confirmer() {
     char rc = '\0';
+    afficherPrompt();
+    
     while (!Serial.available());
     do {
         if (Serial.available())
@@ -50,6 +57,7 @@ void Scan::confirmer() {
 void Scan::lireTabChar(char* buffer, int lenght) {
     int i = 0;
     char rc = '\0';
+    afficherPrompt();
 
     Serial.setTimeout(10000);
     while (rc != '\r' && i < (lenght - 1)) {
@@ -63,3 +71,18 @@ void Scan::lireTabChar(char* buffer, int lenght) {
     buffer[i] = '\0';
 }
 
+void Scan::effacer(){
+    Serial.print("\x1b[H\x1b[2J");
+}
+
+
+void Scan::afficherPrompt(String message){
+    String prompt = message + "> ";
+    Serial.printf("\x1b[32;40m%s\x1b[1;0m", prompt);
+}
+
+
+void Scan::beep(){
+    Serial.print("\x7");
+    Serial.flush();
+}

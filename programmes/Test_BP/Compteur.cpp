@@ -21,7 +21,7 @@ Compteur::~Compteur() {
 }
 
 void Compteur::begin(byte sensePin) {
-    attachInterrupt(sensePin, Compteur::marshall, CHANGE);
+    attachInterrupt(sensePin, Compteur::marshall, FALLING);
 
 }
 
@@ -30,7 +30,7 @@ void Compteur::marshall() {
 }
 
 void IRAM_ATTR Compteur::interuption() {
-    if (millis() - this->lastMillis > 500) { //Software anti-rebond
+    if (millis() - this->lastMillis > 200) { //Software anti-rebond
 
         ets_printf("triggered\r\n");
         this->nb++;

@@ -16,16 +16,21 @@ Compteur leCompteur;
 
 void setup() {
     pinMode(34, INPUT);  //This pin doesn't have internal pull-ups or pull-down resistors.
-    pinMode(2, OUTPUT);
+    pinMode(4, OUTPUT);
     Serial.begin(115200);
     Serial.println("Test BP");
 
-    digitalWrite(2, 1);
+    digitalWrite(4, 0);
     
     leCompteur.begin(34);
 }
 
 void loop() {
     printf("compteur : %d\r\n", leCompteur.getValue());
+    if (leCompteur.getValue()%10 == 0) 
+        digitalWrite(4, 1);
+    else
+        digitalWrite(4, 0);
+    
     delay(10000);
 }

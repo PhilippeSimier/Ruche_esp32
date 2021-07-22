@@ -50,6 +50,7 @@ float Balance::peser() {
 
     for (int i = 0; i < TAILLEMAX; i++) {
         tab[i] = leHX711.get_units();
+        delay(5);
     }
 
     for (int i = 0; i < TAILLEMAX - 1; i++)
@@ -70,9 +71,9 @@ float Balance::peser() {
 float Balance::obtenirVariance() {
 
     float moyenne = calculerMoyenne();
-    float k = 0;
+    float k = .0;
     for (unsigned int i = 0; i < TAILLEMAX; i++)
-        k += (tab[i] - moyenne)*(tab[i] - moyenne);
+        k += (tab[i] - moyenne) * (tab[i] - moyenne);
     return 1000 * k / (float) TAILLEMAX;
 }
 
@@ -82,9 +83,9 @@ float Balance::obtenirVariance() {
  */
 float Balance::calculerMoyenne() {
 
-    float k = 0;
+    float k = .0;
     for (unsigned int i = 0; i < TAILLEMAX; i++) {
-        k = k + tab[i];
+        k +=  tab[i];
     }
 
     k = k / TAILLEMAX;
