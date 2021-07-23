@@ -15,7 +15,7 @@ BME280I2C::Settings parametrage(
         BME280I2C::I2CAddr_0x77 // I2C address 77 pour BME 280 Adafruit.
         );
 
-BME280I2C bme(parametrage);
+BME280I2C *bme;
 
 
 void printBME280Data(Stream* client);
@@ -28,18 +28,18 @@ void setup() {
     }
 
     Wire.begin();
-    Wire.setClock(10000);
+    Wire.setClock(100000);
     
     size_t clock = Wire.getClock();
     Serial.print("clock : ");
     Serial.println(clock);
-
-    while (!bme.begin()) {
+    bme = new BME280I2C(parametrage);
+    while (!bme->begin()) {
         Serial.println("Could not find BME280 sensor!");
         delay(1000);
     }
 
-    switch (bme.chipModel()) {
+    switch (bme->chipModel()) {
         case BME280::ChipModel_BME280:
             Serial.println("Found BME280 sensor! Success.");
             break;
@@ -60,7 +60,7 @@ void printBME280Data(Stream* client) {
     float temp(NAN), hum(NAN), pres(NAN);
     int i = -1;
     do {
-        bme.read(pres, temp, hum);
+        bme->read(pres, temp, hum);
         i++;
     }    
     while (temp > 60 || temp < -20  || temp == NAN);
