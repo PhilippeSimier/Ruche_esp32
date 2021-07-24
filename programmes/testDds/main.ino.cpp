@@ -3,7 +3,7 @@
    DAC sur GPIO25 (génération d'une sinusoide sur cette sortie)
    
    
-*/
+ */
 
 #include <Arduino.h>
 #include "Dds.h"
@@ -21,33 +21,38 @@
 Dds leDds;
 
 void setup() {
-  Serial.begin(115200);
-  leDds.begin(SAMPLING_FREQUENCY, MARK, SHIFT, DAC_CHANNEL, SYNC);
+    Serial.begin(115200);
+    leDds.begin(SAMPLING_FREQUENCY, MARK, SHIFT, DAC_CHANNEL, SYNC);
 }
 
 void loop() {
-  char c;
-  if (Serial.available() > 0) {
-    c = Serial.read();
-    switch (c) {
-      case '0': leDds.stop();   //stop le dac
-        break;
-      case '1': leDds.enableMark(); //sortie dds à 1200 hz
-        break;
-      case '2': leDds.enableSpace();  //sortie dds à 2200 hz
-        break;
-      case '3': leDds.setFrequency(500);  //change la fréquence du dds
-        break;
-      case '4': leDds.setFrequency(1000); //test le changement de phase 
-        for (int n = 0; n < 1000; n++) {
-          leDds.setPhase(0);
-          delay(10);
-          leDds.setPhase(180);
-          delay(10);
+    char c;
+    if (Serial.available() > 0) {
+        c = Serial.read();
+        switch (c) {
+            case '0': leDds.stop(); //stop le dac
+                Serial.println("stop");
+                break;
+            case '1': leDds.enableMark(); //sortie dds à 1200 hz
+                Serial.println("Mark");
+                break;
+            case '2': leDds.enableSpace(); //sortie dds à 2200 hz
+                Serial.println("Space");
+                break;
+            case '3': leDds.setFrequency(500); //change la fréquence du dds
+                Serial.println("Fréquence 500");
+                break;
+            case '4': leDds.setFrequency(1000); //test le changement de phase 
+                Serial.println("phase");
+                for (int n = 0; n < 1000; n++) {
+                    leDds.setPhase(0);
+                    delay(10);
+                    leDds.setPhase(180);
+                    delay(10);
+                }
+                break;
         }
-        break;
     }
-  }
 }
 
 

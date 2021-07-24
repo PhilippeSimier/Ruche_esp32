@@ -31,7 +31,7 @@ Dds::~Dds() {
  * @param
  * slpFreq : fréquence d'échantillonage
  * mkFreq : fréquence dite mark ou 1ere fréquence pour une modulation fsk
- * shFreq : fréquence de shift (la 2eme fréquence space = mark + shift) voir fiche rtty
+ * shFreq : fréquence de shift (la 2eme fréquence space = mark + shift)
  * dac : numero de cannal du DAC 
  * sLed : numero de GPIO de la syncro oscilloscope et led (led allumée = dds en fonctionnement)
  */
