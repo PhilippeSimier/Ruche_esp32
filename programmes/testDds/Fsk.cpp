@@ -7,11 +7,13 @@
 
 #include "Fsk.h"
 
-Fsk::Fsk() :
+Fsk::Fsk(float mkFreq, float shFreq ) :
 Dds(),
 nbEchPerBit(splFreq) // Un baud 
 {
-   
+    incrementMark  = Dds::computeIncrementPhase(mkFreq);   
+    incrementSpace = Dds::computeIncrementPhase(mkFreq + shFreq); 
+    
 }
 
 Fsk::Fsk(const Fsk& orig) {
@@ -20,12 +22,15 @@ Fsk::Fsk(const Fsk& orig) {
 Fsk::~Fsk() {
 }
 
+
+
 void Fsk::sendBit(bool value) {
-    compteur = 0;
+    
     if (value) 
         enableMark();
     else 
         enableSpace();
+    compteur = 0;
     while (compteur < nbEchPerBit);
 }
 
@@ -72,4 +77,41 @@ void Fsk::sendBitOff(){
     stop();
     compteur = 0;
     while (compteur < nbEchPerBit);
+}
+
+/**
+ * @brief Dds::enableSpace()
+ *
+ * @details active la fréquence prédéterminée space en sortie du dds
+ */
+
+void Fsk::enableSpace() {
+    Dds::incrementPhase = incrementSpace;
+}
+
+/**
+ * @brief Fsk::enableMark()
+ *
+ * @details active la fréquence prédéterminée mark en sortie du dds
+ */
+
+void Fsk::enableMark() {
+    Dds::incrementPhase = incrementMark;
+}
+
+/**
+ * @brief Configure le saut de phase pour la fréquence Marq
+ * @param mkFreq
+ */
+void Fsk::setMarkFrequence(float mkFreq){
+    incrementMark  = Dds::computeIncrementPhase(mkFreq);   
+    
+}
+
+/**
+ * @brief Configure le saut de phase pour la fréquence Space
+ * @param mkFreq
+ */
+void Fsk::setSpaceFrequence(float spFreq){
+    incrementSpace = Dds::computeIncrementPhase(spFreq); 
 }

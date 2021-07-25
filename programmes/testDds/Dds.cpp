@@ -11,10 +11,22 @@
 
 #include "Dds.h"
 
-Dds::Dds() :
+/**
+@param
+ * Le Constructeur Dds
+ * _slpFreq : fréquence d'échantillonage
+ * _dacChannel : numero de cannal du DAC 
+ * _syncLed : numero de GPIO de la syncro oscilloscope et led (led allumée = dds en fonctionnement)
+*/
+
+Dds::Dds(float _splFreq, dac_channel_t _dacChannel, gpio_num_t _syncLed) :
+syncLed(_syncLed),
+splFreq(_splFreq),
+dacChannel(_dacChannel),
 timer(NULL),
 accumulateur(0),
-dephase(0) {
+dephase(0) 
+{
     anchor = this;
 }
 
@@ -25,32 +37,24 @@ Dds::~Dds() {
 }
 
 /**
- * @brief Dds::begin(float splFreq, float mkFreq,float shFreq,dac_channel_t dac,gpio_num_t sLed)
+ * @brief Dds::begin()
  *
  * @details Permet d'initialiser le dds
- * @param
- * _slpFreq : fréquence d'échantillonage
- * mkFreq : fréquence dite mark ou 1ere fréquence pour une modulation fsk
- * shFreq : fréquence de shift (la 2eme fréquence space = mark + shift)
- * _dacChannel : numero de cannal du DAC 
- * _syncLed : numero de GPIO de la syncro oscilloscope et led (led allumée = dds en fonctionnement)
+ * 
  */
 
-void Dds::begin(float mkFreq, float shFreq, float _splFreq, dac_channel_t _dacChannel, gpio_num_t _syncLed) {
-    syncLed = _syncLed;
-    splFreq = _splFreq;
-    dacChannel = _dacChannel;
+void Dds::begin() {
+
     pinMode(syncLed, OUTPUT);
-    
+
     timer = timerBegin(0, 80, true);
     timerAttachInterrupt(timer, Dds::marshall, true);
-    timerAlarmWrite(timer, 1000000 / splFreq, true);
+    timerAlarmWrite(timer, 1000000 / splFreq,  true);
     timerAlarmEnable(timer);
-    
+
     dac_output_enable(dacChannel);
     incrementPhase = 0;
-    incrementMark = computeIncrementPhase(mkFreq);
-    incrementSpace = computeIncrementPhase(mkFreq + shFreq);
+    compteur = 0;
 }
 
 void Dds::marshall() {
@@ -77,7 +81,7 @@ void IRAM_ATTR Dds::interuption() {
         6, 6, 7, 7, 8, 8, 9, 10, 10, 11, 11, 12, 13, 13, 14, 15, 15, 16, 17, 18, 19, 19, 20, 21, 22, 23, 24, 25, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 51, 52, 53, 54, 56, 57,
         58, 60, 61, 62, 64, 65, 66, 68, 69, 70, 72, 73, 75, 76, 77, 79, 80, 82, 83, 85, 86, 88, 89, 91, 92, 94, 95, 97, 98, 100, 101, 103, 104, 106, 107, 109, 110, 112, 114, 115, 117, 118, 120, 121, 123, 124, 126};
     uint16_t phase;
-    uint8_t  sinus;
+    uint8_t sinus;
     digitalWrite(syncLed, digitalRead(syncLed) ^ 1); //demi période = fréquence d'échantillonage
     accumulateur += incrementPhase; // accumulateur de phase  (sur 32 bits)
     phase = ((accumulateur >> 23 + dephase) & 0x1ff); //ajoute la phase
@@ -128,28 +132,11 @@ void Dds::stop() {
  */
 
 void Dds::setPhase(int ph) {
-    dephase = round(ph * 511 / 359);
+    dephase = round(ph * 512 / 360);
 }
 
-/**
- * @brief Dds::enableMark()
- *
- * @details active la fréquence prédéterminée mark en sortie du dds
- */
 
-void Dds::enableMark() {
-    incrementPhase = incrementMark;
-}
 
-/**
- * @brief Dds::enableSpace()
- *
- * @details active la fréquence prédéterminée space en sortie du dds
- */
-
-void Dds::enableSpace() {
-    incrementPhase = incrementSpace;
-}
 
 Dds* Dds::anchor = NULL;
 

@@ -10,7 +10,7 @@
 #include "Fsk.h"
 
 
-Fsk leFsk;
+Fsk leFsk(1200,1000);
 
 void setup() {
     Serial.begin(115200);
@@ -40,9 +40,22 @@ void loop() {
                 for (int n = 0; n < 1000; n++) {
                     leFsk.sendBit(0);
                     leFsk.sendBit(1);
-                    leFsk.sendBitOff();
+                    //leFsk.sendBitOff();
                 }
+                leFsk.stop();
                 break;
+            case '5': 
+                Serial.println("setbit à 300 bauds 2400hz 3600hz");
+                leFsk.setBitRate(300);
+                leFsk.setMarkFrequence(3600);
+                leFsk.setSpaceFrequence(2400);
+                for (int n = 0; n < 1000; n++) {
+                    leFsk.sendBit(0);
+                    leFsk.sendBit(1);
+                    //leFsk.sendBitOff();
+                }
+                leFsk.stop();
+                break;    
         }
     }
 }
