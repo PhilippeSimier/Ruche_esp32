@@ -1,54 +1,46 @@
 /*
-   tests unitairs de la classe Dds 
+   tests unitairs de la classe Dds et Fsk
+ * la classe Fsk hérite de Dds 
    DAC sur GPIO25 (génération d'une sinusoide sur cette sortie)
    
    
  */
 
 #include <Arduino.h>
-#include "Dds.h"
+#include "Fsk.h"
 
-#define SAMPLING_FREQUENCY 25000    //fréquence d'échantillonage
-#define MARK 1200.0                 //fréquence mark
-#define SHIFT 1000.0                //fréquence de shift pour calculer la fréquence space (space=mark+shift)
-#define DAC_CHANNEL DAC_CHANNEL_1   //numéro du dac
-#define SYNC GPIO_NUM_2             //gpio pour sync led et oscillo
 
-#if ((10000000/SAMPLING_FREQUENCY)%10>0)
-#error "Fréquence d'échantillonage incompatible avec la période du timer"
-#endif
-
-Dds leDds;
+Fsk leFsk;
 
 void setup() {
     Serial.begin(115200);
-    leDds.begin(SAMPLING_FREQUENCY, MARK, SHIFT, DAC_CHANNEL, SYNC);
+    leFsk.begin();
 }
 
 void loop() {
-    char c;
+    char c=0;
     if (Serial.available() > 0) {
         c = Serial.read();
         switch (c) {
-            case '0': leDds.stop(); //stop le dac
+            case '0': leFsk.stop(); //stop le dac
                 Serial.println("stop");
                 break;
-            case '1': leDds.enableMark(); //sortie dds à 1200 hz
+            case '1': leFsk.enableMark(); //sortie dds à 1200 hz
                 Serial.println("Mark");
                 break;
-            case '2': leDds.enableSpace(); //sortie dds à 2200 hz
+            case '2': leFsk.enableSpace(); //sortie dds à 2200 hz
                 Serial.println("Space");
                 break;
-            case '3': leDds.setFrequency(500); //change la fréquence du dds
+            case '3': leFsk.setFrequency(500); //change la fréquence du dds
                 Serial.println("Fréquence 500");
                 break;
-            case '4': leDds.setFrequency(1000); //test le changement de phase 
-                Serial.println("phase");
+            case '4': 
+                Serial.println("setbit à 300 bauds");
+                leFsk.setBitRate(300);
                 for (int n = 0; n < 1000; n++) {
-                    leDds.setPhase(0);
-                    delay(10);
-                    leDds.setPhase(180);
-                    delay(10);
+                    leFsk.sendBit(0);
+                    leFsk.sendBit(1);
+                    leFsk.sendBitOff();
                 }
                 break;
         }

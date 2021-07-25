@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Dds.o \
+	${OBJECTDIR}/Fsk.o \
 	${OBJECTDIR}/main.ino.o
 
 
@@ -67,6 +68,11 @@ ${OBJECTDIR}/Dds.o: Dds.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Dds.o Dds.cpp
+
+${OBJECTDIR}/Fsk.o: Fsk.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Fsk.o Fsk.cpp
 
 ${OBJECTDIR}/main.ino.o: main.ino.cpp
 	${MKDIR} -p ${OBJECTDIR}

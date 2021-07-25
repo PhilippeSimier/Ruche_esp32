@@ -13,8 +13,8 @@
 
 Dds::Dds() :
 timer(NULL),
-ddsAccu(0),
-phase(0) {
+accumulateur(0),
+dephase(0) {
     anchor = this;
 }
 
@@ -29,26 +29,28 @@ Dds::~Dds() {
  *
  * @details Permet d'initialiser le dds
  * @param
- * slpFreq : fréquence d'échantillonage
+ * _slpFreq : fréquence d'échantillonage
  * mkFreq : fréquence dite mark ou 1ere fréquence pour une modulation fsk
  * shFreq : fréquence de shift (la 2eme fréquence space = mark + shift)
- * dac : numero de cannal du DAC 
- * sLed : numero de GPIO de la syncro oscilloscope et led (led allumée = dds en fonctionnement)
+ * _dacChannel : numero de cannal du DAC 
+ * _syncLed : numero de GPIO de la syncro oscilloscope et led (led allumée = dds en fonctionnement)
  */
 
-void Dds::begin(float splFreq, float mkFreq, float shFreq, dac_channel_t dac, gpio_num_t sLed) {
-    syncLed = sLed;
-    samplingFrequency = splFreq;
-    dacChannel = dac;
+void Dds::begin(float mkFreq, float shFreq, float _splFreq, dac_channel_t _dacChannel, gpio_num_t _syncLed) {
+    syncLed = _syncLed;
+    splFreq = _splFreq;
+    dacChannel = _dacChannel;
     pinMode(syncLed, OUTPUT);
+    
     timer = timerBegin(0, 80, true);
     timerAttachInterrupt(timer, Dds::marshall, true);
-    timerAlarmWrite(timer, 1000000 / samplingFrequency, true);
+    timerAlarmWrite(timer, 1000000 / splFreq, true);
     timerAlarmEnable(timer);
+    
     dac_output_enable(dacChannel);
-    ddsWord = 0;
-    ddsMark = computeDdsWord(mkFreq);
-    ddsSpace = computeDdsWord(mkFreq + shFreq);
+    incrementPhase = 0;
+    incrementMark = computeIncrementPhase(mkFreq);
+    incrementSpace = computeIncrementPhase(mkFreq + shFreq);
 }
 
 void Dds::marshall() {
@@ -74,25 +76,25 @@ void IRAM_ATTR Dds::interuption() {
         22, 21, 20, 19, 19, 18, 17, 16, 15, 15, 14, 13, 13, 12, 11, 11, 10, 10, 9, 8, 8, 7, 7, 6, 6, 6, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 6,
         6, 6, 7, 7, 8, 8, 9, 10, 10, 11, 11, 12, 13, 13, 14, 15, 15, 16, 17, 18, 19, 19, 20, 21, 22, 23, 24, 25, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 51, 52, 53, 54, 56, 57,
         58, 60, 61, 62, 64, 65, 66, 68, 69, 70, 72, 73, 75, 76, 77, 79, 80, 82, 83, 85, 86, 88, 89, 91, 92, 94, 95, 97, 98, 100, 101, 103, 104, 106, 107, 109, 110, 112, 114, 115, 117, 118, 120, 121, 123, 124, 126};
-    uint16_t sinusPtr;
-    uint8_t octetSinus;
+    uint16_t phase;
+    uint8_t  sinus;
     digitalWrite(syncLed, digitalRead(syncLed) ^ 1); //demi période = fréquence d'échantillonage
-    ddsAccu = ddsAccu + ddsWord; // Phase accu sur 32 bits
-    sinusPtr = ddsAccu >> 23; //conversion 32bits 9 bits car 2^9=512 valeurs dans la table (shift DDS)
-    sinusPtr = ((sinusPtr + phase) & 0x1ff); //ajoute la phase
-    octetSinus = pgm_read_byte(&(sinusTable[sinusPtr])); //lecture de la valeur 8 bits dans la table 
-    dac_output_voltage(dacChannel, octetSinus); //envoi de la valeur vers le dac
+    accumulateur += incrementPhase; // accumulateur de phase  (sur 32 bits)
+    phase = ((accumulateur >> 23 + dephase) & 0x1ff); //ajoute la phase
+    sinus = pgm_read_byte(&(sinusTable[phase])); //lecture de la valeur du sinus dans la table 
+    dac_output_voltage(dacChannel, sinus); //envoi de la valeur vers le dac
+    compteur++;
 }
 
 /**
- * @brief Dds::computeDdsWord(float freq)
+ * @brief Dds::computeIncrementPhase(float freq)
  *
  * @details calcul le mot utilisé par le DDS pour générer une sinusoide à fréquence donnée
  * @param   float la frequence en hz
  */
 
-uint32_t Dds::computeDdsWord(float freq) {
-    return pow(2, 32) * freq / samplingFrequency;
+uint32_t Dds::computeIncrementPhase(float freq) {
+    return pow(2, 32) * freq / splFreq;
 }
 
 /**
@@ -103,7 +105,7 @@ uint32_t Dds::computeDdsWord(float freq) {
  */
 
 void Dds::setFrequency(float freq) {
-    ddsWord = computeDdsWord(freq);
+    incrementPhase = computeIncrementPhase(freq);
 }
 
 /**
@@ -113,8 +115,9 @@ void Dds::setFrequency(float freq) {
  */
 
 void Dds::stop() {
-    ddsWord = 0;
-    phase = 0;
+    accumulateur = 0;
+    incrementPhase = 0;
+    dephase = 0;
 }
 
 /**
@@ -125,7 +128,7 @@ void Dds::stop() {
  */
 
 void Dds::setPhase(int ph) {
-    phase = round(ph * 511 / 359);
+    dephase = round(ph * 511 / 359);
 }
 
 /**
@@ -135,7 +138,7 @@ void Dds::setPhase(int ph) {
  */
 
 void Dds::enableMark() {
-    ddsWord = ddsMark;
+    incrementPhase = incrementMark;
 }
 
 /**
@@ -145,7 +148,7 @@ void Dds::enableMark() {
  */
 
 void Dds::enableSpace() {
-    ddsWord = ddsSpace;
+    incrementPhase = incrementSpace;
 }
 
 Dds* Dds::anchor = NULL;
