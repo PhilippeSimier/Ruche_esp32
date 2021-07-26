@@ -10,7 +10,7 @@
 #include "Fsk.h"
 
 
-Fsk leFsk(1200,1000);
+Fsk leFsk(1200,1000,300);  // Mark, shift, baudRate
 
 void setup() {
     Serial.begin(115200);
@@ -25,11 +25,11 @@ void loop() {
             case '0': leFsk.stop(); //stop le dac
                 Serial.println("stop");
                 break;
-            case '1': leFsk.enableMark(); //sortie dds à 1200 hz
-                Serial.println("Mark");
+            case '1': leFsk.setFrequency(1200); //sortie dds à 1200 hz
+                Serial.println("Mark 1200");
                 break;
-            case '2': leFsk.enableSpace(); //sortie dds à 2200 hz
-                Serial.println("Space");
+            case '2': leFsk.setFrequency(2200); //sortie dds à 2200 hz
+                Serial.println("Space 2200");
                 break;
             case '3': leFsk.setFrequency(500); //change la fréquence du dds
                 Serial.println("Fréquence 500");
@@ -37,19 +37,18 @@ void loop() {
             case '4': 
                 Serial.println("setbit à 300 bauds");
                 leFsk.setBitRate(300);
-                for (int n = 0; n < 1000; n++) {
+                for (int n = 0; n < 450; n++) {  // Trame de 01 (900 bits) durée 3s
                     leFsk.sendBit(0);
                     leFsk.sendBit(1);
-                    //leFsk.sendBitOff();
                 }
                 leFsk.stop();
                 break;
             case '5': 
-                Serial.println("setbit à 300 bauds 2400hz 3600hz");
-                leFsk.setBitRate(300);
-                leFsk.setMarkFrequence(3600);
-                leFsk.setSpaceFrequence(2400);
-                for (int n = 0; n < 1000; n++) {
+                Serial.println("setbit à 45.5 bauds 1000 Hz 1170 Hz");
+                leFsk.setBitRate(45.5);
+                leFsk.setMarkFrequence(1000);
+                leFsk.setSpaceFrequence(1170);
+                for (int n = 0; n < 90; n++) {    // Trame de 01 (180 bits) durée 4s
                     leFsk.sendBit(0);
                     leFsk.sendBit(1);
                     //leFsk.sendBitOff();

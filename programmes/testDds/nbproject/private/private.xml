@@ -9,7 +9,9 @@
         <group>
             <file>file:/home/philippe/Ruche_esp32/programmes/testDds/Dds.h</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testDds/main.ino.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testDds/Fsk.h</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testDds/Dds.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testDds/Fsk.cpp</file>
         </group>
     </open-files>
 </project-private>
