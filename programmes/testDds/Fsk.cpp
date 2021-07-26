@@ -25,10 +25,10 @@ Fsk::~Fsk() {
 
 void Fsk::sendBit(bool value) {
     
-    if (value) 
-        Dds::incrementPhase = incrementMark; // active la fréquence Mark (1 logique)
+    if (!value) 
+        Dds::incrementPhase = incrementMark; // active la fréquence Mark (basse fréquence) (0 logique)
     else 
-        Dds::incrementPhase = incrementSpace; // active la fréquence prédéterminée space
+        Dds::incrementPhase = incrementSpace; // active la fréquence prédéterminée space (haute frequence) (1 logique)
     compteur = 0;
     while (compteur < nbEchPerBit);
 }
