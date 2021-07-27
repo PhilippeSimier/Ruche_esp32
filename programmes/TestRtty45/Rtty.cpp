@@ -7,11 +7,29 @@
 
 #include "Rtty.h"
 
+/**
+ * @brief Constructeur Rtty par défaut
+ *        Mark 1000Hz, Carrier shift 170Hz, Baud rate 45.5, Stop bits 2 
+ * @param _nbStopBits
+ */
 Rtty::Rtty(stopBits _nbStopBits) :
 leFsk(new Fsk(1000, 170, 45.5)),
-nbStopBits(_nbStopBits) 
-{
+nbStopBits(_nbStopBits) {
     leFsk->begin();
+}
+
+/**
+ * @brief Constructeur avec paramètres 
+ * @param mkFreq   Marc Fréquency 
+ * @param shift    Carrier Shift
+ * @param br       Baud rate (45 45.45 50 60 75 100 200 300) 
+ * @param _nbStopBits Stop bits (1 1.5 2)
+ */
+Rtty::Rtty(float mkFreq, float shift, float br, stopBits _nbStopBits) :
+leFsk(new Fsk(mkFreq, shift, br)),
+nbStopBits(_nbStopBits) {
+    leFsk->begin();
+    figlett = LETTERS; // RTTY Baudot signs/letters toggle
 }
 
 Rtty::Rtty(const Rtty& orig) {
@@ -50,45 +68,52 @@ void Rtty::stop() {
  */
 
 void Rtty::tx(char message[]) {
+    
+    Rtty::txByte(31); // Code LETTERS 
+     
+    for (int i = 0; message[i] != '\0'; i++) {
+        txChar(message[i]);
+    }
+    Rtty::stop();
+}
 
+/**
+ * @brief méthode pour encoder le caractère en baudot 
+ *        et l'envoyer 
+ * @param x
+ */
+void Rtty::txChar(char x) {
     //  Tableau d'encodage                     sp  !   "   #  $  %   &   '   (   )  *  +  ,   -  .   /   0   1   2   3   4   5   6  7   8  9   :   ;   <  =  >  ?   @  A  B   C   D   E   F   G   H   I   J   K   L   M   N   O   P   Q   R   S   T   U   V  W   X   Y   Z
     const static char TableRtty[59] PROGMEM = {4, 13, 17, 20, 9, 0, 26, 11, 15, 18, 0, 0, 12, 3, 28, 29, 22, 23, 19, 1, 10, 16, 21, 7, 6, 24, 14, 30, 0, 0, 0, 25, 0, 3, 25, 14, 9, 1, 13, 26, 20, 6, 11, 15, 18, 28, 12, 24, 22, 23, 10, 5, 16, 7, 30, 19, 29, 21, 17};
 
-    etatRtty figlett = LETTERS; // RTTY Baudot signs/letters toggle
-    Rtty::txByte(31); // Code LETTERS         
-    Rtty::txByte(4); // Un espace 
+    char car = toupper(x);
+    switch (car) {
+        case '\n':
+            Rtty::txByte(8);
+            break;
 
-
-    char car = '\0';
-    for (int i = 0; message[i] != '\0'; i++) {
-        car = toupper(message[i]);
-        switch (car) {
-            case '\n':
-                Rtty::txByte(8);
-                break;
-
-            case '\r':
-                Rtty::txByte(2);
-                break;
-
-            default:
-                if (car >= ' ' && car <= 'Z') // is alphanumeric char
-                {
-                    car = car - ' '; //substract space char
-                    if (car < 33) {
-                        if (figlett == FIGURES) {
-                            figlett = LETTERS; // toggle form signs to letters table
-                            Rtty::txByte(27);
-                        }
-                    } else
+        case '\r':
+            Rtty::txByte(2);
+            break;
+ 
+        default:
+            if (car >= ' ' && car <= 'Z') // is alphanumeric char
+            {
+                car = car - ' '; //substract space char
+                if (car < 33) {
+                    if (figlett == FIGURES) {
+                        figlett = LETTERS; // toggle form signs to letters table
+                        Rtty::txByte(27);
+                    }
+                } else {
                     if (figlett == LETTERS) {
                         figlett = FIGURES; // toggle form letters to signs table
                         Rtty::txByte(31);
                     }
-
-                    Rtty::txByte(pgm_read_word(&TableRtty[int(car)])); // Send the 5 bits word
                 }
-        }
+
+                Rtty::txByte(pgm_read_word(&TableRtty[int(car)])); // Send the 5 bits word
+            }
     }
-    Rtty::stop();
+
 }

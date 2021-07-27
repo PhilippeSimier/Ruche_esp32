@@ -43,10 +43,11 @@ private:
     static Dds* anchor;
     gpio_num_t syncLed;
     dac_channel_t dacChannel;
+    volatile uint32_t accumulateur;        // Accumulateur de phase
     
 protected:
     uint32_t computeIncrementPhase(float freq);
-    volatile uint32_t accumulateur;        // Accumulateur de phase
+    
     volatile uint32_t incrementPhase;      // Increment de phase courant
     volatile uint32_t dephase;             // Valeur du déphasage de la porteuse  
     volatile uint32_t compteur;            // Compteur d'échantillons

@@ -18,17 +18,21 @@ enum etatRtty
 
 class Rtty {
 public:
+    
     Rtty(stopBits _nbStopBits = BITS_2);
+    Rtty(float mkFreq, float shift, float br = 45.5, stopBits _nbStopBits = BITS_2);
     Rtty(const Rtty& orig);
     virtual ~Rtty();
     
     void txByte(char car);
+    void txChar(char car);
     void tx(char message[]);
     void stop();
     
 private:
     Fsk* leFsk;
     stopBits nbStopBits;   //Nb de bit de stops
+    etatRtty figlett;
     
 };
 
