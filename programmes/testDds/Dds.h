@@ -19,10 +19,11 @@
 #endif
 
 typedef enum {
-    dB_O  = 0x0,   /* 1/1. Default value */
-    dB_6  = 0x1,   /* 1/2. */
-    dB_12 = 0x2,   /* 1/4. */
-    dB_18 = 0x3,   /* 1/8. */
+    dB_O  = 0x0,   /* 1/1 Default value */
+    dB_6  = 0x1,   /* 1/2 */
+    dB_12 = 0x2,   /* 1/4 */
+    dB_18 = 0x3,   /* 1/8 */
+    dB_24 = 0x4,   /* 1/16 */        
 } attenuation_t;
 
 class Dds {

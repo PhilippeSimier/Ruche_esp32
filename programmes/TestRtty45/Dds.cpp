@@ -25,7 +25,8 @@ splFreq(_splFreq),
 dacChannel(_dacChannel),
 timer(NULL),
 accumulateur(0),
-dephase(0) 
+dephase(0),
+attenuation(dB_O)        
 {
     anchor = this;
 }
@@ -86,6 +87,7 @@ void IRAM_ATTR Dds::interuption() {
     accumulateur += incrementPhase; // accumulateur de phase  (sur 32 bits)
     phase = ((accumulateur >> 23 + dephase) & 0x1ff); //ajoute la phase
     sinus = pgm_read_byte(&(sinusTable[phase])); //lecture de la valeur du sinus dans la table 
+    sinus = sinus >> attenuation;  //attenuation de l'amplitude
     dac_output_voltage(dacChannel, sinus); //envoi de la valeur vers le dac
     compteur++;
 }
@@ -133,6 +135,15 @@ void Dds::stop() {
 
 void Dds::setPhase(int ph) {
     dephase = round(ph * 512 / 360);
+}
+
+/**
+ * @brief setAmplitude(int value)
+ * @detail Valeur possible 0 1 2 3 -> (1, 1/2, 1/4, 1/8) -> (0dB, 6dB, 12dB, 18dB).
+ * @param The multiple of the amplitude of the sine wave dds. The max amplitude is 3.3V.
+ */
+void Dds::setAttenuation(int _attenuation){
+    attenuation = _attenuation;
 }
 
 

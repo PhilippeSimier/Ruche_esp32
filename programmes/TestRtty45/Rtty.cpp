@@ -1,6 +1,6 @@
 /* 
  * File:   Rtty.cpp
- * Author: Anthony (Touchard Washington)
+ * Author: Anthony & philippe S(Touchard Washington)
  * 
  * Created on 26 juillet 2021, 11:27
  */
@@ -16,13 +16,14 @@ Rtty::Rtty(stopBits _nbStopBits) :
 leFsk(new Fsk(1000, 170, 45.5)),
 nbStopBits(_nbStopBits) {
     leFsk->begin();
+    leFsk->setAttenuation(4);
 }
 
 /**
  * @brief Constructeur avec paramètres 
  * @param mkFreq   Marc Fréquency 
  * @param shift    Carrier Shift
- * @param br       Baud rate (45 45.45 50 60 75 100 200 300) 
+ * @param br       Baud rate (45 45.45 50) 
  * @param _nbStopBits Stop bits (1 1.5 2)
  */
 Rtty::Rtty(float mkFreq, float shift, float br, stopBits _nbStopBits) :
@@ -95,20 +96,25 @@ void Rtty::txChar(char x) {
         case '\r':
             Rtty::txByte(2);
             break;
+            
+        case ' ':
+            Rtty::txByte(4);
+            figlett = LETTERS;
+            break;    
  
         default:
             if (car >= ' ' && car <= 'Z') // is alphanumeric char
             {
                 car = car - ' '; //substract space char
-                if (car < 33) {
+                if (car > 32) {
                     if (figlett == FIGURES) {
                         figlett = LETTERS; // toggle form signs to letters table
-                        Rtty::txByte(27);
+                        Rtty::txByte(31);
                     }
                 } else {
                     if (figlett == LETTERS) {
                         figlett = FIGURES; // toggle form letters to signs table
-                        Rtty::txByte(31);
+                        Rtty::txByte(27);
                     }
                 }
 

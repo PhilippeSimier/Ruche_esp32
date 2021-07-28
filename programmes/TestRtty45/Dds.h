@@ -18,6 +18,14 @@
 #error "Fréquence d'échantillonage incompatible avec la période du timer"
 #endif
 
+typedef enum {
+    dB_O  = 0x0,   /* 1/1 Default value */
+    dB_6  = 0x1,   /* 1/2 */
+    dB_12 = 0x2,   /* 1/4 */
+    dB_18 = 0x3,   /* 1/8 */
+    dB_24 = 0x4,   /* 1/16 */        
+} attenuation_t;
+
 class Dds {
 public:
     Dds(float _splFreq = SAMPLING_FREQUENCY,  
@@ -32,6 +40,7 @@ public:
     void setFrequency(float freq);
     void stop();
     void setPhase(int ph);
+    void setAttenuation(int _attenuation);
 
 
 private:
@@ -52,6 +61,7 @@ protected:
     volatile uint32_t dephase;             // Valeur du déphasage de la porteuse  
     volatile uint32_t compteur;            // Compteur d'échantillons
     int splFreq;                           // Fréquence d'échantillonage
+    int attenuation;                       // Attenuation de l'amplitude (1, 1/2, 1/4, 1/8) soit (0dB, 6dB, 12dB, 18 dB)
 };
 
 #endif /* DDS_H */

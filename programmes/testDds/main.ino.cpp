@@ -43,8 +43,10 @@ void loop() {
             case '6': leFsk.setAttenuation(dB_18); //change l'amplitude attenuation 18dB
                 Serial.println("Attenution de l'amplitude 18dB");
                 break;     
-                
-            case '7': 
+            case '7': leFsk.setAttenuation(dB_24); //change l'amplitude attenuation 24dB
+                Serial.println("Attenution de l'amplitude 24dB");
+                break;        
+            case '8': 
                 Serial.println("setbit à 300 bauds");
                 leFsk.setBitRate(300);
                 for (int n = 0; n < 450; n++) {  // Trame de 01 (900 bits) durée 3s
@@ -53,7 +55,7 @@ void loop() {
                 }
                 leFsk.stop();
                 break;
-            case '8': 
+            case '9': 
                 Serial.println("setbit à 45.5 bauds 1000 Hz 1170 Hz");
                 leFsk.setBitRate(45.5);
                 leFsk.setMarkFrequence(1000);

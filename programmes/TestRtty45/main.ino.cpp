@@ -60,6 +60,11 @@ void loop() {
                     }
                 } while (car != 27 && car != 3);
                 break;
+                
+            case '4':
+                Serial.println("Attenuation 6 dB");
+                                
+                break;    
         }
     }
 }
