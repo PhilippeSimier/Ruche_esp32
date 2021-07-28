@@ -1,6 +1,6 @@
 /* 
  * File:   Dds.cpp
- * Author: Anthony (f4goh@orange.fr)
+ * Author: Anthony (f4goh@orange.fr) & Philippe S (philaure@wanadoo.fr)
  * 
  *  Created on 21 juillet 2021, 18:47
  * La fréquence de la sinusoide crée avec DDS est précise à 0.01 Hz (mesurée avec un fréquence mètre compteur)
@@ -25,7 +25,8 @@ splFreq(_splFreq),
 dacChannel(_dacChannel),
 timer(NULL),
 accumulateur(0),
-dephase(0) 
+dephase(0),
+attenuation(dB_O)
 {
     anchor = this;
 }
@@ -85,7 +86,8 @@ void IRAM_ATTR Dds::interuption() {
     digitalWrite(syncLed, digitalRead(syncLed) ^ 1); //demi période = fréquence d'échantillonage
     accumulateur += incrementPhase; // accumulateur de phase  (sur 32 bits)
     phase = ((accumulateur >> 23 + dephase) & 0x1ff); //ajoute la phase
-    sinus = pgm_read_byte(&(sinusTable[phase])); //lecture de la valeur du sinus dans la table 
+    sinus = pgm_read_byte(&(sinusTable[phase])); //lecture de la valeur du sinus dans la table
+    sinus = sinus >> attenuation;
     dac_output_voltage(dacChannel, sinus); //envoi de la valeur vers le dac
     compteur++;
 }
@@ -125,9 +127,9 @@ void Dds::stop() {
 }
 
 /**
- * @brief setPhase(int ph
+ * @brief setPhase(int ph)
  *
- * @details met a jour la phase du dds
+ * @details met a jour la phase du signal generé
  * @param   int la phase entre 0 et 359°
  */
 
@@ -135,7 +137,14 @@ void Dds::setPhase(int ph) {
     dephase = round(ph * 512 / 360);
 }
 
-
+/**
+ * @brief setAmplitude(int value)
+ * @detail Valeur possible 0 1 2 3 -> (1, 1/2, 1/4, 1/8) -> (0dB, 6dB, 12dB, 18dB).
+ * @param The multiple of the amplitude of the sine wave dds. The max amplitude is 3.3V.
+ */
+void Dds::setAttenuation(int _attenuation){
+    attenuation = _attenuation;
+}
 
 
 Dds* Dds::anchor = NULL;

@@ -34,7 +34,17 @@ void loop() {
             case '3': leFsk.setFrequency(500); //change la fréquence du dds
                 Serial.println("Fréquence 500");
                 break;
-            case '4': 
+            case '4': leFsk.setAttenuation(dB_6); //change l'amplitude attenuation 6dB
+                Serial.println("Attenution de l'amplitude 6dB");
+                break;    
+            case '5': leFsk.setAttenuation(dB_12); //change l'amplitude attenuation 12dB
+                Serial.println("Attenution de l'amplitude 12dB");
+                break;   
+            case '6': leFsk.setAttenuation(dB_18); //change l'amplitude attenuation 18dB
+                Serial.println("Attenution de l'amplitude 18dB");
+                break;     
+                
+            case '7': 
                 Serial.println("setbit à 300 bauds");
                 leFsk.setBitRate(300);
                 for (int n = 0; n < 450; n++) {  // Trame de 01 (900 bits) durée 3s
@@ -43,7 +53,7 @@ void loop() {
                 }
                 leFsk.stop();
                 break;
-            case '5': 
+            case '8': 
                 Serial.println("setbit à 45.5 bauds 1000 Hz 1170 Hz");
                 leFsk.setBitRate(45.5);
                 leFsk.setMarkFrequence(1000);
