@@ -87,7 +87,7 @@ void IRAM_ATTR Dds::interuption() {
     accumulateur += incrementPhase; // accumulateur de phase  (sur 32 bits)
     phase = ((accumulateur >> 23 + dephase) & 0x1ff); //ajoute la phase
     sinus = pgm_read_byte(&(sinusTable[phase])); //lecture de la valeur du sinus dans la table 
-    sinus = sinus >> attenuation;  //attenuation de l'amplitude
+    sinus = (sinus >> attenuation)  - (0x80 >> attenuation) + 0x80;  //attenuation de l'amplitude la valeur moyenne reste constante
     dac_output_voltage(dacChannel, sinus); //envoi de la valeur vers le dac
     compteur++;
 }

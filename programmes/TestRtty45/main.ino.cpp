@@ -1,5 +1,5 @@
 /*
-   tests unitairs de la classe Rtty45
+   tests unitairs de la classe Rtty
  * la classe Fsk hérite de Dds 
    DAC sur GPIO25 (génération d'une sinusoide sur cette sortie)
    
@@ -60,11 +60,7 @@ void loop() {
                     }
                 } while (car != 27 && car != 3);
                 break;
-                
-            case '4':
-                Serial.println("Attenuation 6 dB");
-                                
-                break;    
+    
         }
     }
 }
