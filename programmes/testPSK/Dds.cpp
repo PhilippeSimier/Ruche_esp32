@@ -55,8 +55,6 @@ void Dds::begin() {
     timerAlarmEnable(timer);
 
     dac_output_enable(dacChannel);
-    //incrementPhase = 0;
-    //compteur = 0;
 }
 
 void Dds::marshall() {

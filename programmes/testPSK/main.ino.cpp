@@ -1,7 +1,7 @@
 /*
    tests unitairs de la classe Psk
  * la classe Psk hérite de Dds 
-   DAC sur GPIO25 (génération d'une sinusoide sur cette sortie)
+   
    
    
  */
@@ -10,7 +10,8 @@
 #include "Psk.h"
 
 
-Psk lePsk(992,31);
+Psk lePsk(1000, 31.25);
+  
 
 void setup() {
     Serial.begin(115200);
@@ -21,35 +22,62 @@ void setup() {
 }
 
 void loop() {
+    char car = 0;
     char c = 0;
     int i;
-
+    char message[] = "Bonjour test unitaire pour PSK31\r";
+    
     if (Serial.available()) {
         c = Serial.read();
         switch (c) {
 
             case '1':
-                Serial.println("test méthode Psk::sendBitPhase");
-                delay(5000);
-                lePsk.setFrequency(992);
-                for (i = 0; i < 10; i++) {
-                    lePsk.sendBitPhase(0);
-                    lePsk.sendBitPhase(180);
-                }
+                Serial.println("test méthode Psk::send Idle");
+                
+                lePsk.setFrequency(1000);
+                lePsk.idle(31);
                 lePsk.stop();
-
-
                 break;
 
             case '2':
-                Serial.println("test methode tx(\"Bonjour le monde....\")");
-
-
+                message[1] = '\0';
+                Serial.println("test message au clavier (echap pour quitter)");
+                car = '\0';
+                
+                do {
+                    if (Serial.available()) {
+                        car = Serial.read();
+                        lePsk.setFrequency(1000);
+                        message[0] = car;
+                        lePsk.tx(message,BPSK);
+                        
+                    }
+                } while (car != 27 && car != 3);
                 break;
-
-
-
-
+                
+            case '3':
+                Serial.println("Pas d'attenuation");
+                Serial.println(message);
+                lePsk.setAttenuation(dB_O);
+                lePsk.setFrequency(1000);               
+                lePsk.tx(message, BPSK);
+                break;
+                
+            case '4':
+                Serial.println("attenuation 18 dB");
+                Serial.println(message);
+                lePsk.setAttenuation(dB_18);
+                lePsk.setFrequency(1000);               
+                lePsk.tx(message, BPSK);
+                break; 
+                
+            case '5':
+                Serial.println("attenuation 24 dB");
+                Serial.println(message);
+                lePsk.setAttenuation(dB_24);
+                lePsk.setFrequency(1000);               
+                lePsk.tx(message, BPSK);
+                break;    
         }
     }
 }
