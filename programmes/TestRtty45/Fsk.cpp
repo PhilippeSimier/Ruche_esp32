@@ -73,7 +73,7 @@ void Fsk::sendStopBit(stopBits nStop){
            Méthode pour la génération d'un signal tout ou rien OOK (On Off Keying)
 */
 void Fsk::sendBitOff(){
-    Dds::stop();
+    Dds::off();
     Dds::compteur = 0;
     while (Dds::compteur < nbEchPerBit);
 }
