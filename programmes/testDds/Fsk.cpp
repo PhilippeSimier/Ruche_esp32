@@ -35,7 +35,6 @@ void Fsk::sendBit(bool value) {
 
 /**
    @brief Fsk::setBitRate(float br)
-
    @details calcul le bitrate du signal à transmettre en accord avec la féquence d'achantillonage
    @param   float  bitrate 
  */

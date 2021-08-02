@@ -15,6 +15,7 @@ Fsk leFsk(1200,1000,300);  // Mark, shift, baudRate
 void setup() {
     Serial.begin(115200);
     leFsk.begin();
+    leFsk.start();
 }
 
 void loop() {
