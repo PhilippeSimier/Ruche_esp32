@@ -10,10 +10,12 @@
 Psk::Psk(float _freq, float br, modesPsk_t _mode) :
 Dds(),
 freq(_freq),
-mode(_mode) 
+mode(_mode),
+phase(0)
 {
 
     setBitRate(br);
+    setFrequency(_freq);
 
 }
 
@@ -28,14 +30,14 @@ void Psk::setBitRate(float br) {
 }
 
 void Psk::idle(int nb) {
-    int phase = 0;
-    setFrequency(freq);
+   
     for (int n = 0; n < nb; n++) {
         if (phase == 0) phase = 180;
         else phase = 0;
 
-        Dds::compteur = 0;
+        
         Dds::setPhase(phase); // Changement de phase
+        Dds::compteur = 0;
         while (Dds::compteur < Psk::nbEchPerBit);
     }
 }
@@ -58,14 +60,14 @@ void Psk::tx(char* message) {
     const static int QpskConvol[32] PROGMEM = {180, 90, -90, 0, -90, 0, 180, 90, 0, -90, 90, 180, 90, 180, 0, -90, 90, 180, 0,
         -90, 0, -90, 90, 180, -90, 0, 180, 90, 180, 90, -90, 0};
 
-
-
-    int phase = 0;
     int shreg = 0; // Shift register qpsk
     byte nb_bits, val;
     int c, d, e;
     Dds::start(); // start Dds
-    idle(50);
+    
+    //début idle;
+    idle(10);
+     
     for (int i = 0; message[i] != '\0'; i++) {
         c = message[i];
         e = int(pgm_read_word(&varicode[0][c])); // Get PSK varicode & spacing
@@ -85,12 +87,13 @@ void Psk::tx(char* message) {
                 d = (int) int(pgm_read_word(&QpskConvol[shreg & 31])); // Get the phase shift from convolution code of 5 bits in shit register
                 phase = (phase + d) % 360; // Phase shifting
             }
-
-            Dds::compteur = 0;
+            
             Dds::setPhase(phase); // Changement de phase
+            Dds::compteur = 0;
             while (Dds::compteur < Psk::nbEchPerBit);
         }
     }
+    idle(4);
     Dds::stop(); // stop Dds
 }
 

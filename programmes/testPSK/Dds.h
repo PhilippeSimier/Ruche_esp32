@@ -40,6 +40,7 @@ public:
     void setFrequency(float freq);
     void stop();
     void start();
+    void off();
     void setPhase(int ph);
     void setAttenuation(int _attenuation);
 

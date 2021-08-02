@@ -52,7 +52,7 @@ void Dds::begin() {
     timer = timerBegin(0, 80, true);
     timerAttachInterrupt(timer, Dds::marshall, true);
     timerAlarmWrite(timer, 1000000 / splFreq,  true);
-    timerAlarmEnable(timer);
+    //timerAlarmEnable(timer);
 
     dac_output_enable(dacChannel);
 }
@@ -116,7 +116,7 @@ void Dds::setFrequency(float freq) {
 /**
  * @brief Dds::stop()
  *
- * @details stop le dds
+ * @details stop le dds désactive les interuptions
  */
 
 void Dds::stop() {
@@ -126,6 +126,11 @@ void Dds::stop() {
     digitalWrite(syncLed, false); 
 }
 
+/**
+ * @brief Dds::start()
+ *
+ * @details démarre le dds
+ */
 void Dds::start() {
     accumulateur = 0;
     timerAlarmEnable(timer);
@@ -152,6 +157,16 @@ void Dds::setAttenuation(int _attenuation){
     attenuation = _attenuation;
 }
 
+/**
+   @brief    Dds::off()
+   @details  arrête la génération du signal
+*/
+
+void Dds::off(){
+    dephase = 0;
+    incrementPhase = 0;
+    accumulateur = 0;
+}
 
 
 

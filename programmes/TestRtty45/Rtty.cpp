@@ -70,8 +70,10 @@ void Rtty::txByte(char car) {
 void Rtty::tx(char message[]) {
     leFsk->start();
     
-    Rtty::txByte(31); // Code LETTERS 
-     
+    Rtty::txByte(0);   // 0 pour reveiller le récepteur
+    Rtty::txByte(31);  // Passage en mode lettre
+    figlett = LETTERS;
+    
     for (int i = 0; message[i] != '\0'; i++) {
         txChar(message[i]);
     }

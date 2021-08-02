@@ -152,7 +152,16 @@ void Dds::setAttenuation(int _attenuation){
     attenuation = _attenuation;
 }
 
+/**
+   @brief    Dds::off()
+   @details  arrête la génération du signal
+*/
 
+void Dds::off(){
+    dephase = 0;
+    incrementPhase = 0;
+    accumulateur = 0;
+}
 
 
 Dds* Dds::anchor = NULL;

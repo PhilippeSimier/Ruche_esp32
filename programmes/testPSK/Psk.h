@@ -36,6 +36,7 @@ private:
     int nbEchPerBit;    //nombre d'échantillons pour un bit en accord avec le bit rate
     modesPsk_t mode;
     int freq;
+    int phase;
 };
 
 #endif /* PSK_H */

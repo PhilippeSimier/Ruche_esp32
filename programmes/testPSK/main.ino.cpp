@@ -1,16 +1,14 @@
 /*
    tests unitairs de la classe Psk
  * la classe Psk hérite de Dds 
-   
-   
-   
+    
  */
 
 #include <Arduino.h>
 #include "Psk.h"
 
 
-Psk lePsk(1000, 31.25);    // fréquence 1000Hz débit 31.25 Bauds
+Psk lePsk(1000, 31.25);    // fréquence de la porteuse 1000Hz débit de symboles 31.25 Bauds
   
 
 void setup() {

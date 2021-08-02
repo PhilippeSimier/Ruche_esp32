@@ -42,6 +42,7 @@ public:
     void start();
     void setPhase(int ph);
     void setAttenuation(int _attenuation);
+    void off();
 
 
 private:
