@@ -10,7 +10,7 @@
 #include "Psk.h"
 
 
-Psk lePsk(1000, 31.25);
+Psk lePsk(1000, 31.25);    // fréquence 1000Hz débit 31.25 Bauds
   
 
 void setup() {
@@ -33,8 +33,7 @@ void loop() {
 
             case '1':
                 Serial.println("test méthode Psk::send Idle");
-                
-                lePsk.setFrequency(1000);
+                lePsk.start();
                 lePsk.idle(31);
                 lePsk.stop();
                 break;
@@ -47,9 +46,8 @@ void loop() {
                 do {
                     if (Serial.available()) {
                         car = Serial.read();
-                        lePsk.setFrequency(1000);
                         message[0] = car;
-                        lePsk.tx(message,BPSK);
+                        lePsk.tx(message);
                         
                     }
                 } while (car != 27 && car != 3);
@@ -58,25 +56,22 @@ void loop() {
             case '3':
                 Serial.println("Pas d'attenuation");
                 Serial.println(message);
-                lePsk.setAttenuation(dB_O);
-                lePsk.setFrequency(1000);               
-                lePsk.tx(message, BPSK);
+                lePsk.setAttenuation(dB_0);               
+                lePsk.tx(message);
                 break;
                 
             case '4':
                 Serial.println("attenuation 18 dB");
                 Serial.println(message);
-                lePsk.setAttenuation(dB_18);
-                lePsk.setFrequency(1000);               
-                lePsk.tx(message, BPSK);
+                lePsk.setAttenuation(dB_18);               
+                lePsk.tx(message);
                 break; 
                 
             case '5':
                 Serial.println("attenuation 24 dB");
                 Serial.println(message);
                 lePsk.setAttenuation(dB_24);
-                lePsk.setFrequency(1000);               
-                lePsk.tx(message, BPSK);
+                lePsk.tx(message);
                 break;    
         }
     }

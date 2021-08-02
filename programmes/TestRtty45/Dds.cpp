@@ -1,12 +1,11 @@
 /* 
  * File:   Dds.cpp
- * Author: Anthony (f4goh@orange.fr)
+ * Author: Anthony (f4goh@orange.fr) & Philippe S (philaure@wanadoo.fr)
  * 
  *  Created on 21 juillet 2021, 18:47
  * La fréquence de la sinusoide crée avec DDS est précise à 0.01 Hz (mesurée avec un fréquence mètre compteur)
  * Pour augementer la précision -> augementer les valeurs de la table, passer sur une table de 1024 ou 2048 etc...
- * https://github.com/f4goh/WSPR/blob/master/doc/baudot_rtty_code.pdf
- * https://github.com/f4goh/WSPR/blob/master/doc/psk_code.pdf
+ *
  */
 
 #include "Dds.h"
@@ -26,7 +25,9 @@ dacChannel(_dacChannel),
 timer(NULL),
 accumulateur(0),
 dephase(0),
-attenuation(dB_O)        
+attenuation(dB_0),
+incrementPhase(0),
+compteur(0)        
 {
     anchor = this;
 }
@@ -40,7 +41,7 @@ Dds::~Dds() {
 /**
  * @brief Dds::begin()
  *
- * @details Permet d'initialiser le dds
+ * @details Permet d'initialiser le dds 
  * 
  */
 
@@ -54,8 +55,6 @@ void Dds::begin() {
     timerAlarmEnable(timer);
 
     dac_output_enable(dacChannel);
-    incrementPhase = 0;
-    compteur = 0;
 }
 
 void Dds::marshall() {
@@ -83,9 +82,9 @@ void IRAM_ATTR Dds::interuption() {
         58, 60, 61, 62, 64, 65, 66, 68, 69, 70, 72, 73, 75, 76, 77, 79, 80, 82, 83, 85, 86, 88, 89, 91, 92, 94, 95, 97, 98, 100, 101, 103, 104, 106, 107, 109, 110, 112, 114, 115, 117, 118, 120, 121, 123, 124, 126};
     uint16_t phase;
     uint8_t sinus;
-    digitalWrite(syncLed, digitalRead(syncLed) ^ 1); //demi période = fréquence d'échantillonage
+    
     accumulateur += incrementPhase; // accumulateur de phase  (sur 32 bits)
-    phase = ((accumulateur >> 23 + dephase) & 0x1ff); //ajoute la phase
+    phase = ((accumulateur >> 23) + dephase) & 0x1ff; //ajoute la phase
     sinus = pgm_read_byte(&(sinusTable[phase])); //lecture de la valeur du sinus dans la table 
     sinus = (sinus >> attenuation)  - (0x80 >> attenuation) + 0x80;  //attenuation de l'amplitude la valeur moyenne reste constante
     dac_output_voltage(dacChannel, sinus); //envoi de la valeur vers le dac
@@ -121,9 +120,16 @@ void Dds::setFrequency(float freq) {
  */
 
 void Dds::stop() {
+    
+    timerAlarmDisable(timer);
+    dac_output_voltage(dacChannel, 128);
+    digitalWrite(syncLed, false); 
+}
+
+void Dds::start() {
     accumulateur = 0;
-    incrementPhase = 0;
-    dephase = 0;
+    timerAlarmEnable(timer);
+    digitalWrite(syncLed, true); 
 }
 
 /**
@@ -150,4 +156,3 @@ void Dds::setAttenuation(int _attenuation){
 
 
 Dds* Dds::anchor = NULL;
-

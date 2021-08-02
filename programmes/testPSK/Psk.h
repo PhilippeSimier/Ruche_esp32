@@ -24,18 +24,17 @@ enum modesPsk_t
 class Psk : public Dds
 {
 public:
-    Psk(float _freq = PSK_FREQ, float br = PSK_RATE);
+    Psk(float _freq = PSK_FREQ, float br = PSK_RATE, modesPsk_t _mode = BPSK);
     Psk(const Psk& orig);
     virtual ~Psk();
     
     void setBitRate(float br);
-    void sendBitPhase(int phase);
     void idle(int nb);
-    void tx(char* c, modesPsk_t modePsk);
+    void tx(char* c);
     
 private:
     int nbEchPerBit;    //nombre d'échantillons pour un bit en accord avec le bit rate
-    int phaseActuelle;    // la phase actuelle
+    modesPsk_t mode;
     int freq;
 };
 

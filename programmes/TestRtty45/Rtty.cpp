@@ -16,7 +16,7 @@ Rtty::Rtty(stopBits _nbStopBits) :
 leFsk(new Fsk(1000, 170, 45.5)),
 nbStopBits(_nbStopBits) {
     leFsk->begin();
-    leFsk->setAttenuation(4);
+    figlett = LETTERS;
 }
 
 /**
@@ -49,6 +49,7 @@ Rtty::~Rtty() {
  */
 
 void Rtty::txByte(char car) {
+    
     bool val;
     car = car << 1; //ajout du bit de start
     for (int b = 0; b < 6; b++) // LSB first
@@ -59,9 +60,7 @@ void Rtty::txByte(char car) {
     leFsk->sendStopBit(nbStopBits);
 }
 
-void Rtty::stop() {
-    leFsk->stop();
-}
+
 
 /**
  * @brief Rtty::tx(char message[])
@@ -69,13 +68,14 @@ void Rtty::stop() {
  */
 
 void Rtty::tx(char message[]) {
+    leFsk->start();
     
     Rtty::txByte(31); // Code LETTERS 
      
     for (int i = 0; message[i] != '\0'; i++) {
         txChar(message[i]);
     }
-    Rtty::stop();
+    leFsk->stop();    
 }
 
 /**
