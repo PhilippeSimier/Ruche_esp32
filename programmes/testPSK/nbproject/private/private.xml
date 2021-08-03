@@ -9,7 +9,9 @@
         <group>
             <file>file:/home/philippe/Ruche_esp32/programmes/testPSK/Psk.h</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testPSK/Psk.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testPSK/Dds.cpp</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testPSK/main.ino.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testPSK/Dds.h</file>
         </group>
     </open-files>
 </project-private>
