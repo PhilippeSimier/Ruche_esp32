@@ -8,7 +8,7 @@
 #include "Psk.h"
 
 
-Psk lePsk(1000, 31.25);    // fréquence de la porteuse 1000Hz débit de symboles 31.25 Bauds
+Psk lePsk(1000, 31.25, QPSK);    // fréquence de la porteuse 1000Hz débit de symboles 31.25 Bauds (31.25 * 32 = 1000 Hz)
   
 
 void setup() {
@@ -23,7 +23,7 @@ void loop() {
     char car = 0;
     char c = 0;
     int i;
-    char message[] = "Bonjour test unitaire pour PSK31\r";
+    char message[] = "Bonjour test unitaire pour QPSK31\r";
     
     if (Serial.available()) {
         c = Serial.read();
@@ -52,7 +52,7 @@ void loop() {
                 break;
                 
             case '3':
-                Serial.println("Pas d'attenuation");
+                Serial.println("Pas d'attenuation 0 dB");
                 Serial.println(message);
                 lePsk.setAttenuation(dB_0);               
                 lePsk.tx(message);

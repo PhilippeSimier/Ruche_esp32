@@ -66,7 +66,7 @@ void Psk::tx(char* message) {
     Dds::start(); // start Dds
     
     //début idle;
-    idle(10);
+    idle(5);
      
     for (int i = 0; message[i] != '\0'; i++) {
         c = message[i];
@@ -93,7 +93,7 @@ void Psk::tx(char* message) {
             while (Dds::compteur < Psk::nbEchPerBit);
         }
     }
-    idle(4);
+    idle(60);   // Postamble une suite de zéros
     Dds::stop(); // stop Dds
 }
 
