@@ -25,6 +25,11 @@ public:
     virtual ~Position();
     
     char* getPduAprs();
+    char* getCompressedPduAprs();
+    void setLatitude(const double _latitude);
+    void setLongitude(const double _longitude);
+    void setComment(String _comment);
+    
     
 private:
     double  latitude;
@@ -39,6 +44,12 @@ private:
     
     void longitude_to_str();
     char slong[10];
+    
+    void latitude_to_comp_str();
+    char clon[5];
+    
+    void longitude_to_comp_str();
+    char clat[5];
     
 
 };
