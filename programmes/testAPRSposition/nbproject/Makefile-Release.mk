@@ -35,6 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Ax25.o \
+	${OBJECTDIR}/Dds.o \
+	${OBJECTDIR}/Fsk.o \
 	${OBJECTDIR}/Position.o \
 	${OBJECTDIR}/main.ino.o
 
@@ -62,6 +65,21 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprsposition: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprsposition ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/Ax25.o: Ax25.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Ax25.o Ax25.cpp
+
+${OBJECTDIR}/Dds.o: Dds.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Dds.o Dds.cpp
+
+${OBJECTDIR}/Fsk.o: Fsk.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Fsk.o Fsk.cpp
 
 ${OBJECTDIR}/Position.o: Position.cpp
 	${MKDIR} -p ${OBJECTDIR}

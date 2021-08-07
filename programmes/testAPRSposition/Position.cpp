@@ -35,7 +35,7 @@ void Position::latitude_to_str() {
     char hemi; // Hemisphere: N or S
     int ideg; // whole number of degrees
     double dmin; // Minutes after removing degrees
-    char smin[6]; // Decimal Minutes in format mm.mm 
+    char smin[8]; // Decimal Minutes in format mm.mm 
 
     if (latitude < 0) {
         latitude = (-latitude);
@@ -47,7 +47,7 @@ void Position::latitude_to_str() {
     ideg = (int) latitude;
     dmin = (latitude - ideg) * 60.;
 
-    snprintf(smin, sizeof (smin), "%02.2f", dmin);
+    snprintf(smin, sizeof (smin), "%05.2f", dmin);
     /* Due to roundoff, 59.99 could come out as "60.00" */
     if (smin[0] == '6') {
         smin[0] = '0';
@@ -61,7 +61,7 @@ void Position::longitude_to_str() {
     char    hemi;      // Hemisphere: W or E
     int     ideg;      // whole number of degrees. 
     double  dmin;      // Minutes after removing degrees. */
-    char    smin[7];   // Minutes in format mmm.mm */
+    char    smin[8];   // Minutes in format mmm.mm */
 
     if (longitude < 0) {
         longitude = (-longitude);
