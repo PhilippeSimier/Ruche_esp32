@@ -2,6 +2,7 @@
 #include "Fsk.h"
 #include "Ax25.h"
 #include "Position.h"
+#include "Message.h"
 
 #define BITRATE 1200
 
@@ -10,6 +11,8 @@ Ax25 ax25(leFsk);
 
 Position p1(48.010524, 0.205744, '>', "test unitaire p1"); 
 Position p2(48.010524, 0.205744, '>', "test unitaire p2");
+Message  m1("Anthony",  "test unitaire m1"); 
+Message  m2("Philippe", "test unitaire m2", "0001");
 
 void setup() {
   Serial.begin(115200);
@@ -24,8 +27,10 @@ void setup() {
   ax25.txMessage(p2.getCompressedPduAprs());
   ax25.debug();
   Serial.println("Trame position envoyée");
-  
-  
+  delay(10000);
+  ax25.txMessage(m1.getPduAprs());
+  delay(10000);
+  ax25.txMessage(m2.getPduAprs());
 }
 
 void loop() {

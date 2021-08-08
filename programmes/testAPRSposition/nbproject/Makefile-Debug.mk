@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Ax25.o \
 	${OBJECTDIR}/Dds.o \
 	${OBJECTDIR}/Fsk.o \
+	${OBJECTDIR}/Message.o \
 	${OBJECTDIR}/Position.o \
 	${OBJECTDIR}/main.ino.o
 
@@ -80,6 +81,11 @@ ${OBJECTDIR}/Fsk.o: Fsk.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Fsk.o Fsk.cpp
+
+${OBJECTDIR}/Message.o: Message.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Message.o Message.cpp
 
 ${OBJECTDIR}/Position.o: Position.cpp
 	${MKDIR} -p ${OBJECTDIR}
