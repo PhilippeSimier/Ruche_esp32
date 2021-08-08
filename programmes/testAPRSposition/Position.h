@@ -40,18 +40,15 @@ private:
     char  pdu[100];
     
     void latitude_to_str();
+    void latitude_to_comp_str();
     char slat[9];
     
     void longitude_to_str();
+    void longitude_to_comp_str();
     char slong[10];
     
-    void latitude_to_comp_str();
-    char clon[5];
+    void convBase91(int x, char* base91);
     
-    void longitude_to_comp_str();
-    char clat[5];
-    
-
 };
 
 #endif /* POSITION_H */

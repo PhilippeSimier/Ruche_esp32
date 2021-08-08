@@ -46,7 +46,7 @@ char* Position::getCompressedPduAprs() {
     latitude_to_comp_str();
     longitude_to_comp_str();
     
-    snprintf(pdu, sizeof (pdu), "!/%s%s%c  T%s", clat, clon, symbole, comment);
+    snprintf(pdu, sizeof (pdu), "!/%s%s%c  T%s", slat, slong, symbole, comment);
     return pdu;
     
 }
@@ -105,49 +105,37 @@ void Position::longitude_to_str() {
 
 void Position::latitude_to_comp_str() {
 
-    int y, y0, y1, y2, y3;
-
+    int y;
     y = (int) round(380926. * (90. - latitude));
-
-    y0 = y / (91 * 91 * 91);
-    y -= y0 * (91 * 91 * 91);
-
-    y1 = y / (91 * 91);
-    y -= y1 * (91 * 91);
-
-    y2 = y / (91);
-    y -= y2 * (91);
-
-    y3 = y;
-
-    clat[0] = y0 + 33;
-    clat[1] = y1 + 33;
-    clat[2] = y2 + 33;
-    clat[3] = y3 + 33;
-    clat[4] = '\0';
+    convBase91(y,slat);
 }
 
 void Position::longitude_to_comp_str() {
 
-    int x, x0, x1, x2, x3;
-
+    int x;
     x = (int) round(190463. * (180. + longitude));
+    convBase91(x,slong);
+}
 
-    x0 = x / (91 * 91 * 91);
-    x -= x0 * (91 * 91 * 91);
+void Position::convBase91(int x, char* base91){
+    
+    int c[4];
+    
+    c[0] = x / (91 * 91 * 91);
+    x -= c[0] * (91 * 91 * 91);
 
-    x1 = x / (91 * 91);
-    x -= x1 * (91 * 91);
+    c[1] = x / (91 * 91);
+    x -= c[1] * (91 * 91);
 
-    x2 = x / (91);
-    x -= x2 * (91);
+    c[2] = x / (91);
+    x -= c[2] * (91);
 
-    x3 = x;
+    c[3] = x;
 
-    clon[0] = x0 + 33;
-    clon[1] = x1 + 33;
-    clon[2] = x2 + 33;
-    clon[3] = x3 + 33;
-    clon[4] = '\0';
+    base91[0] = c[0] + 33;
+    base91[1] = c[1] + 33;
+    base91[2] = c[2] + 33;
+    base91[3] = c[3] + 33;
+    base91[4] = '\0';
 }
 
