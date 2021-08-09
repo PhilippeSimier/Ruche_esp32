@@ -185,11 +185,11 @@ void Ax25::debug() {
     Serial.print((char)(buffer[n] >> 1));
     Serial.print(')');
   }
-  Serial.println("\nMessage");
+  Serial.println("\n\rPDU APRS");
   for (n = AX25_HEADER_SIZE; n < frameLength - 2; n++) {
     Serial.print((char)buffer[n]);
   }
-  Serial.println("\nCRC");
+  Serial.println("\n\rCRC");
   Serial.print(buffer[frameLength - 2], HEX);
   Serial.print(',');
   Serial.println(buffer[frameLength - 1], HEX);

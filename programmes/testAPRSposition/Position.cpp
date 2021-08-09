@@ -7,9 +7,10 @@
 
 #include "Position.h"
 
-Position::Position(const double _latitude, const double _longitude, const char _symbole, String _comment) :
+Position::Position(const double _latitude, const double _longitude, String _comment, const char _symboleTable, const char _symbole) :
 latitude(_latitude),
 longitude(_longitude),
+symboleTable(_symboleTable),
 symbole(_symbole) {
     _comment.toCharArray(comment, 43);
 }
@@ -31,24 +32,29 @@ void Position::setLongitude(const double _longitude) {
 void Position::setComment(String _comment) {
     _comment.toCharArray(comment, 43);
 }
+/**
+ * @brief Fabrique le PDU APRS position 
+ *        si compressed est true la position est compressée (base91)
+ * @param bool compressed indique si la position doit être compressée
+ * @return char* Le pdu APRS position 
+ */
+char* Position::getPduAprs(bool compressed) {
 
-char* Position::getPduAprs() {
+    if (compressed) {
 
-    latitude_to_str();
-    longitude_to_str();
+        latitude_to_comp_str();
+        longitude_to_comp_str();
 
-    snprintf(pdu, sizeof (pdu), "!%s/%s%c%s", slat, slong, symbole, comment);
+        snprintf(pdu, sizeof (pdu), "!%c%s%s%c  T%s", symboleTable, slat, slong, symbole, comment);
+    }
+    else {
+
+        latitude_to_str();
+        longitude_to_str();
+
+        snprintf(pdu, sizeof (pdu), "!%s%c%s%c%s", slat, symboleTable, slong, symbole, comment);
+    }
     return pdu;
-}
-
-char* Position::getCompressedPduAprs() {
-    
-    latitude_to_comp_str();
-    longitude_to_comp_str();
-    
-    snprintf(pdu, sizeof (pdu), "!/%s%s%c  T%s", slat, slong, symbole, comment);
-    return pdu;
-    
 }
 
 void Position::latitude_to_str() {
@@ -107,21 +113,21 @@ void Position::latitude_to_comp_str() {
 
     int y;
     y = (int) round(380926. * (90. - latitude));
-    convBase91(y,slat);
+    convBase91(y, slat);
 }
 
 void Position::longitude_to_comp_str() {
 
     int x;
     x = (int) round(190463. * (180. + longitude));
-    convBase91(x,slong);
+    convBase91(x, slong);
 }
 
-void Position::convBase91(int x, char* base91){
-    
+void Position::convBase91(int x, char* base91) {
+
     int c[4];
-    
-    for (int i = 3; i >= 0; i--){
+
+    for (int i = 3; i >= 0; i--) {
         base91[i] = (x % 91) + 33;
         x /= 91;
     }

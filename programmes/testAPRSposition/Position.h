@@ -20,22 +20,29 @@
 class Position {
 public:
     
-    Position(const double _latitude, const double _longitude, const char _symbole= '>', String _comment = "");
+    Position(const double _latitude, 
+             const double _longitude, 
+             String _comment = "", 
+             const char _symboleTable = '/',
+             const char _symbole= '>'
+             );
+    
     Position(const Position& orig);
     virtual ~Position();
     
-    char* getPduAprs();
-    char* getCompressedPduAprs();
+    char* getPduAprs(bool compressed = false);
     void setLatitude(const double _latitude);
     void setLongitude(const double _longitude);
     void setComment(String _comment);
     
     
 private:
-    double  latitude;
+    double  latitude;   
     double  longitude;
-    char    symbole;
     char    comment[44];
+    char    symboleTable;
+    char    symbole;
+    
     
     char  pdu[100];
     
