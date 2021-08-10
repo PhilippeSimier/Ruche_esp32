@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Position.h
  * Author: philippe
@@ -34,12 +28,13 @@ public:
     void setLatitude(const double _latitude);
     void setLongitude(const double _longitude);
     void setComment(String _comment);
-    
+    void setAltitude(const double _alt);
     
 private:
     double  latitude;   
     double  longitude;
-    char    comment[44];
+    int     alt;
+    String  comment;
     char    symboleTable;
     char    symbole;
     

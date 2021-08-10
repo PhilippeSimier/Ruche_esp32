@@ -10,9 +10,11 @@
 Position::Position(const double _latitude, const double _longitude, String _comment, const char _symboleTable, const char _symbole) :
 latitude(_latitude),
 longitude(_longitude),
+alt(0),
+comment(_comment),        
 symboleTable(_symboleTable),
 symbole(_symbole) {
-    _comment.toCharArray(comment, 43);
+    
 }
 
 Position::Position(const Position& orig) {
@@ -30,7 +32,11 @@ void Position::setLongitude(const double _longitude) {
 }
 
 void Position::setComment(String _comment) {
-    _comment.toCharArray(comment, 43);
+    comment = _comment;
+}
+
+void Position::setAltitude(const double _alt) {
+    alt = (int)(3.2809 * _alt);
 }
 /**
  * @brief Fabrique le PDU APRS position 
@@ -39,20 +45,31 @@ void Position::setComment(String _comment) {
  * @return char* Le pdu APRS position 
  */
 char* Position::getPduAprs(bool compressed) {
-
+    char com[43];
+    char scom[33];
+    char salt[10];
+    
+    if (alt != 0){
+        snprintf(salt, sizeof (salt), "/A=%06d", alt);
+        comment.toCharArray(scom, 33);
+        snprintf(com, sizeof(com), "%s %s", salt, scom);
+    }else{
+        comment.toCharArray(com, 43);
+    }
+    
     if (compressed) {
 
         latitude_to_comp_str();
         longitude_to_comp_str();
 
-        snprintf(pdu, sizeof (pdu), "!%c%s%s%c  T%s", symboleTable, slat, slong, symbole, comment);
+        snprintf(pdu, sizeof (pdu), "!%c%s%s%c  T%s", symboleTable, slat, slong, symbole, com);
     }
     else {
 
         latitude_to_str();
         longitude_to_str();
 
-        snprintf(pdu, sizeof (pdu), "!%s%c%s%c%s", slat, symboleTable, slong, symbole, comment);
+        snprintf(pdu, sizeof (pdu), "!%s%c%s%c%s", slat, symboleTable, slong, symbole, com);
     }
     return pdu;
 }
@@ -133,4 +150,3 @@ void Position::convBase91(int x, char* base91) {
     }
     base91[4] = '\0';
 }
-
