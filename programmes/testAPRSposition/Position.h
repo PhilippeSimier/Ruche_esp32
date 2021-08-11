@@ -30,27 +30,25 @@ public:
     void setComment(String _comment);
     void setAltitude(const double _alt);
     
-private:
+protected:
+    void latitude_to_str();
+    void longitude_to_str();
+    void convBase91(int x, char* base91);
+    char    slat[9];
+    char    slong[10];
     double  latitude;   
     double  longitude;
-    int     alt;
-    String  comment;
     char    symboleTable;
     char    symbole;
+    char    pdu[100];
     
-    
-    char  pdu[100];
-    
-    void latitude_to_str();
+private:
+
+    int     alt;
+    String  comment;
+   
     void latitude_to_comp_str();
-    char slat[9];
-    
-    void longitude_to_str();
-    void longitude_to_comp_str();
-    char slong[10];
-    
-    void convBase91(int x, char* base91);
-    
+    void longitude_to_comp_str();    
 };
 
 #endif /* POSITION_H */

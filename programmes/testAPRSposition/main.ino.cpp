@@ -3,18 +3,20 @@
 #include "Ax25.h"
 #include "Position.h"
 #include "Message.h"
+#include "Weather.h"
 
 #define BITRATE 1200
 
 Fsk leFsk(1200, 1000);
 Ax25 ax25(leFsk);
 
-Position p1(48.010524, 0.205744, "test unitaire p1");
+Position p1(48.010524, 0.205744, "test unitaire p1");            // icon car
 Position p2(48.010237, 0.206267, "test unitaire p2", '/', '[');  // icon Human
-Message m1("Anthony", "test unitaire m1");
-Message m2("Philippe", "test unitaire m2", "0001");
+Weather  w3(47.816326, 0.113171);                                // a Weather station
+Message  m1("Anthony", "test unitaire m1");
+Message  m2("Philippe", "test unitaire m2", "0001");
 
-
+ 
 void setup() {
     Serial.begin(115200);
     Serial.println("Test APRS position");
@@ -54,8 +56,12 @@ void loop() {
                 ax25.debug();
                 break;
             case '5':
-                p2.setAltitude(100);
-                Serial.println(p2.getPduAprs());
+                Serial.println("message test weather");
+                w3.setTemp(23.5);
+                w3.setHumidity(48);
+                w3.setPressure(1024.5);
+                ax25.txMessage(w3.getPduAprs());
+                ax25.debug();
                 break;
         }
     }

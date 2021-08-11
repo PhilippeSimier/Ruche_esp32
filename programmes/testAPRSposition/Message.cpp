@@ -12,8 +12,8 @@
 Message::Message(String _addressee, String _text, String _message_No) {
     
     char adr[10];
-    _addressee.toCharArray(adr, 10);          // les 9 premiers caratères du String
-    sprintf (addressee, "%-9s", adr);         // On complète avec du blanc 
+    _addressee.toCharArray(adr, 10);          // les 9 premiers caratères du String dans adr
+    snprintf (addressee, sizeof(addressee), "%-9s", adr);         // On complète avec du blanc 
     _text.toCharArray(text, 68);              // Les 67 premiers caratères du text
     _message_No.toCharArray(message_No, 6);   // Le numero de message
 }

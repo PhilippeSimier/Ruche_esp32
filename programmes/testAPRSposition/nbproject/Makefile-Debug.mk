@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Fsk.o \
 	${OBJECTDIR}/Message.o \
 	${OBJECTDIR}/Position.o \
+	${OBJECTDIR}/Weather.o \
 	${OBJECTDIR}/main.ino.o
 
 
@@ -91,6 +92,11 @@ ${OBJECTDIR}/Position.o: Position.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Position.o Position.cpp
+
+${OBJECTDIR}/Weather.o: Weather.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Weather.o Weather.cpp
 
 ${OBJECTDIR}/main.ino.o: main.ino.cpp
 	${MKDIR} -p ${OBJECTDIR}
