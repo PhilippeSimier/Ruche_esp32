@@ -19,7 +19,13 @@ class Weather : public Position {
 
     virtual ~Weather();
     
-    void setTemp(double _temp);
+    void setWind(int  _wind);
+    void setSpeed(double _speed);
+    void setGust(double _gust);
+    void setRain(double  _rain);
+    void setRain24(double  _rain24);
+    void setRainMid(double  _rainMid);
+    void setTemp(double  _temp);
     void setHumidity(double _humidity);
     void setPressure(double _pressure);
     char* getPduAprs();
@@ -31,7 +37,7 @@ class Weather : public Position {
     double  temp;         // température en °F
     double  rain;         // Pluie en mm
     double  rain24;       // Pluie sur 24h
-    double  rainMidnight; // Pluie depuis minuit
+    double  rainMid;      // Pluie depuis minuit
     double  humidity;     // Humidité en %
     double  pressure;     // Pression barométrique    
         
