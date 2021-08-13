@@ -21,18 +21,16 @@ enum stopBits {
 class Fsk : public Dds 
 {
 public:
-    Fsk(float mkFreq = MARK, float shFreq = SHIFT);
+    Fsk(float mkFreq = MARK, float shFreq = SHIFT, float br = 300);
     Fsk(const Fsk& orig);
     virtual ~Fsk();
     
-    void sendBit(bool value);
+    
     void setBitRate(float br); 
-
     void setMarkFrequence(float mkFreq);
     void setSpaceFrequence(float spFreq);
-    void enableMark();
-    void enableSpace();
     
+    void sendBit(bool value);
     void sendStopBit(stopBits nStop);
     void sendBitOff();
     

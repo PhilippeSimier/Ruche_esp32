@@ -7,13 +7,12 @@
 
 #include "Fsk.h"
 
-Fsk::Fsk(float mkFreq, float shFreq ) :
-Dds(),
-nbEchPerBit(splFreq) // Un baud 
+Fsk::Fsk(float mkFreq, float shFreq, float br ) :
+Dds()
 {
     incrementMark  = Dds::computeIncrementPhase(mkFreq);   
     incrementSpace = Dds::computeIncrementPhase(mkFreq + shFreq); 
-    
+    setBitRate(br);
 }
 
 Fsk::Fsk(const Fsk& orig) {
@@ -26,17 +25,16 @@ Fsk::~Fsk() {
 
 void Fsk::sendBit(bool value) {
     
-    if (value) 
-        enableMark();
+    if (!value) 
+        Dds::incrementPhase = incrementMark; // active la fréquence Mark (basse fréquence) (0 logique)
     else 
-        enableSpace();
+        Dds::incrementPhase = incrementSpace; // active la fréquence prédéterminée space (haute frequence) (1 logique)
     compteur = 0;
     while (compteur < nbEchPerBit);
 }
 
 /**
    @brief Fsk::setBitRate(float br)
-
    @details calcul le bitrate du signal à transmettre en accord avec la féquence d'achantillonage
    @param   float  bitrate 
  */
@@ -61,9 +59,9 @@ void Fsk::sendStopBit(stopBits nStop){
     case BITS_2: nbIrq = nbEchPerBit * 2;
       break;
   }
-  enableSpace();
-  compteur = 0;
-  while (compteur < nbIrq);
+  Dds::incrementPhase = incrementSpace; // active la fréquence prédéterminée space
+  Dds::compteur = 0;
+  while (Dds::compteur < nbIrq);
 }
 
 
@@ -74,29 +72,9 @@ void Fsk::sendStopBit(stopBits nStop){
            Méthode pour la génération d'un signal tout ou rien OOK (On Off Keying)
 */
 void Fsk::sendBitOff(){
-    stop();
-    compteur = 0;
-    while (compteur < nbEchPerBit);
-}
-
-/**
- * @brief Dds::enableSpace()
- *
- * @details active la fréquence prédéterminée space en sortie du dds
- */
-
-void Fsk::enableSpace() {
-    Dds::incrementPhase = incrementSpace;
-}
-
-/**
- * @brief Fsk::enableMark()
- *
- * @details active la fréquence prédéterminée mark en sortie du dds
- */
-
-void Fsk::enableMark() {
-    Dds::incrementPhase = incrementMark;
+    Dds::off();
+    Dds::compteur = 0;
+    while (Dds::compteur < nbEchPerBit);
 }
 
 /**
