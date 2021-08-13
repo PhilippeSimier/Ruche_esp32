@@ -1,0 +1,1 @@
+https://api.aprs.fi/api/get?name=F1ZMM-5&what=loc&apikey=161274.5rS1QKH5v4Re45&format=json

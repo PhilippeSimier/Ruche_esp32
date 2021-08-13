@@ -1,0 +1,161 @@
+Codage PSK31
+
+site officiel http://aintel.bi.ehu.es/psk31.html
+
+dds http://ko7m.blogspot.com/2014/08/direct-digital-synthesis-dds.html
+
+Description du codage à longueur variable utilisé dans le système BPSK à 31,25 bauds. 
+
+Les lettres sont représentées par un codage de Huffman : chaque lettre est codée par une suite de bits de longueur variable. Les plus fréquentes ont les codes les plus courts.
+
+Le code de longueur variable utilisé dans le système BPSK fonctionne de la manière suivante.
+
+1. Tous les caractères sont séparés les uns des autres par deux bits 0 consécutifs.
+2. Aucun caractère ne contient plus d'un bit 0 consécutif.
+
+Il s'ensuit que tous les caractères doivent commencer et se terminer par un 1. 
+exemple la lettre t 101 
+la lettre e 11
+la lettre s 10111
+
+le double 00 marque le début d'un caratère
+
+Avec un tel code, le récepteur détecte la fin d'un code et le début du suivant en détectant l'apparition d'un motif 00, et comme ce motif ne se produit jamais à l'intérieur d'un caractère, le problème de "perte de synchronisation" qui se produit avec les systèmes asynchrones ne peut jamais se produire. L'écart 00 entre les caractères est équivalent à l'écart entre les lettres du code morse, et de manière similaire permet la possibilité d'un système de code à longueur variable. 
+
+le niveau 0 logique est codé par une inversion de phase.
+le niveau 1 logique est codé par une continuité de phase. 
+
+
+Un système PSK bien conçu donnera de meilleurs résultats que les systèmes FSK conventionnels que les amateurs utilisent depuis des années, et est potentiellement capable de fonctionner dans des bandes passantes beaucoup plus étroites que FSK. Le débit de données de 31 bauds a été choisi pour que le système gère facilement le texte dactylographié envoyé à la main 
+
+La solution est de filtrer la sortie, ou de façonner l'amplitude d'enveloppe de chaque bit ce qui revient au même. Dans PSK31, une forme de cosinus est utilisée.
+Cela ressemble non seulement à un signal de test à deux tons, mais EST un signal de test à deux tons, et le spectre se compose de deux tons purs à +/-15 Hz du centre, et sans éclaboussures.
+
+NUL 1010101011
+SOH 1011011011
+STX 1011101101
+ETX 1101110111
+EOT 1011101011
+ENQ 1101011111
+ACK 1011101111
+BEL 1011111101
+BS  1011111111
+HT  11101111
+LF  11101
+VT  1101101111
+FF  1011011101
+CR  11111
+SO  1101110101
+SI  1110101011
+DLE 1011110111
+DC1 1011110101
+DC2 1110101101
+DC3 1110101111
+DC4 1101011011
+NAK 1101101011
+SYN 1101101101
+ETB 1101010111
+CAN 1101111011
+EM  1101111101
+SUB 1110110111
+ESC 1101010101
+FS  1101011101
+GS  1110111011
+RS  1011111011
+US  1101111111
+SP  1
+!   111111111
+"   101011111
+#   111110101
+$   111011011
+%   1011010101
+&   1010111011
+'   101111111
+(   11111011
+)   11110111
+*   101101111
++   111011111
+,   1110101
+-   110101
+.   1010111
+/   110101111
+0   10110111
+1   10111101
+2   11101101
+3   11111111
+4   101110111
+5   101011011
+6   101101011
+7   110101101
+8   110101011
+9   110110111
+:   11110101
+;   110111101
+<   111101101
+=   1010101
+>   111010111
+?   1010101111
+@   1010111101
+A   1111101
+B   11101011
+C   10101101
+D   10110101
+E   1110111
+F   11011011
+G   11111101
+H   101010101
+I   1111111
+J   111111101
+K   101111101
+L   11010111
+M   10111011
+N   11011101
+O   10101011
+P   11010101
+Q   111011101
+R   10101111
+S   1101111
+T   1101101
+U   101010111
+V   110110101
+W   101011101
+X   101110101
+Y   101111011
+Z   1010101101
+[   111110111
+\   111101111
+]   111111011
+^   1010111111
+_   101101101
+`   1011011111
+a   1011
+b   1011111
+c   101111
+d   101101
+e   11
+f   111101
+g   1011011
+h   101011
+i   1101
+j   111101011
+k   10111111
+l   11011
+m   111011
+n   1111
+o   111
+p   111111
+q   110111111
+r   10101
+s   10111
+t   101
+u   110111
+v   1111011
+w   1101011
+x   11011111
+y   1011101
+z   111010101
+{   1010110111
+|   110111011
+}   1010110101
+~   1011010111
+DEL 1110110101
