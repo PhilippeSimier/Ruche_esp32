@@ -7,13 +7,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRSposition/Dds.h</file>
-            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRSposition/Position.h</file>
-            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRSposition/Weather.cpp</file>
-            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRSposition/Weather.h</file>
-            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRSposition/Position.cpp</file>
-            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRSposition/main.ino.cpp</file>
-            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRSposition/Ax25.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Telemetrie.h</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Telemetrie.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/main.ino.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Dds.h</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Message.h</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Weather.cpp</file>
         </group>
     </open-files>
 </project-private>
