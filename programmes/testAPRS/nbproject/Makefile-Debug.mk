@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Fsk.o \
 	${OBJECTDIR}/Message.o \
 	${OBJECTDIR}/Position.o \
+	${OBJECTDIR}/Telemetrie.o \
 	${OBJECTDIR}/Weather.o \
 	${OBJECTDIR}/main.ino.o
 
@@ -62,11 +63,11 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprsposition
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprs
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprsposition: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprs: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprsposition ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprs ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/Ax25.o: Ax25.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -92,6 +93,11 @@ ${OBJECTDIR}/Position.o: Position.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Position.o Position.cpp
+
+${OBJECTDIR}/Telemetrie.o: Telemetrie.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Telemetrie.o Telemetrie.cpp
 
 ${OBJECTDIR}/Weather.o: Weather.cpp
 	${MKDIR} -p ${OBJECTDIR}

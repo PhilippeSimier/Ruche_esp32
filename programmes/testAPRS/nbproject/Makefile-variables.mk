@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=esp32-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/esp32-Linux
-CND_ARTIFACT_NAME_Debug=testaprsposition
-CND_ARTIFACT_PATH_Debug=dist/Debug/esp32-Linux/testaprsposition
+CND_ARTIFACT_NAME_Debug=testaprs
+CND_ARTIFACT_PATH_Debug=dist/Debug/esp32-Linux/testaprs
 CND_PACKAGE_DIR_Debug=dist/Debug/esp32-Linux/package
-CND_PACKAGE_NAME_Debug=testaprsposition.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/esp32-Linux/package/testaprsposition.tar
+CND_PACKAGE_NAME_Debug=testaprs.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/esp32-Linux/package/testaprs.tar
 # Release configuration
 CND_PLATFORM_Release=esp32-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/esp32-Linux
-CND_ARTIFACT_NAME_Release=testaprsposition
-CND_ARTIFACT_PATH_Release=dist/Release/esp32-Linux/testaprsposition
+CND_ARTIFACT_NAME_Release=testaprs
+CND_ARTIFACT_PATH_Release=dist/Release/esp32-Linux/testaprs
 CND_PACKAGE_DIR_Release=dist/Release/esp32-Linux/package
-CND_PACKAGE_NAME_Release=testaprsposition.tar
-CND_PACKAGE_PATH_Release=dist/Release/esp32-Linux/package/testaprsposition.tar
+CND_PACKAGE_NAME_Release=testaprs.tar
+CND_PACKAGE_PATH_Release=dist/Release/esp32-Linux/package/testaprs.tar
 #
 # include compiler specific variables
 #

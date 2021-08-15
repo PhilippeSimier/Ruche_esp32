@@ -4,6 +4,7 @@
 #include "Position.h"
 #include "Message.h"
 #include "Weather.h"
+#include "Telemetrie.h"
 
 #define BITRATE 1200
 
@@ -15,6 +16,7 @@ Position p2(48.010237, 0.206267, "test unitaire p2", '/', '[');  // icon Human
 Weather  w3(47.816326, 0.113171);                                // a Weather station
 Message  m1("Anthony", "test unitaire m1");
 Message  m2("Philippe", "test unitaire m2", "0001");
+Telemetrie t1;
 
  
 void setup() {
@@ -70,6 +72,14 @@ void loop() {
                 ax25.txMessage(w3.getPduAprs());
                 ax25.debug();
                 break;
+                
+            case '6':
+                Serial.println("test télémétrie");
+                t1.setValue(1, 128);
+                t1.setValue(2, 255);
+                t1.setDigital(7,true);
+                t1.setDigital(3,true);
+                ax25.txMessage(t1.getPduAprs());
         }
     }
 }
