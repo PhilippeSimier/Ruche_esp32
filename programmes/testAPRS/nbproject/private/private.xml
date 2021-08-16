@@ -7,8 +7,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Telemetrie.h</file>
-            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Telemetrie.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Telemetry.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Telemetry.h</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/main.ino.cpp</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Ax25.cpp</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Dds.h</file>

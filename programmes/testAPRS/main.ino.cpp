@@ -4,7 +4,7 @@
 #include "Position.h"
 #include "Message.h"
 #include "Weather.h"
-#include "Telemetrie.h"
+#include "Telemetry.h"
 
 #define BITRATE 1200
 
@@ -16,7 +16,7 @@ Position p2(48.010237, 0.206267, "test unitaire p2", '/', '[');  // icon Human
 Weather  w3(47.816326, 0.113171);                                // a Weather station
 Message  m1("Anthony", "test unitaire m1");
 Message  m2("Philippe", "test unitaire m2", "0001");
-Telemetrie t1("F1ZMM-5");
+Telemetry t1("F1ZMM-5");
 
  
 void setup() {

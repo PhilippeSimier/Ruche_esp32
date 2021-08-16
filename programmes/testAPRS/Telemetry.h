@@ -11,18 +11,18 @@
  * Created on 15 août 2021, 11:48
  */
 
-#ifndef TELEMETRIE_H
-#define TELEMETRIE_H
+#ifndef TELEMETRY_H
+#define TELEMETRY_H
 
 #include <stdint.h>
 
 
-class Telemetrie {
+class Telemetry {
 public:
 
-    Telemetrie(char* _callsign);
-    Telemetrie(const Telemetrie& orig);
-    virtual ~Telemetrie();
+    Telemetry(char* _callsign);
+    Telemetry(const Telemetry& orig);
+    virtual ~Telemetry();
 
         
     char* getValuePduAprs();
@@ -50,5 +50,5 @@ private:
 
 };
 
-#endif /* TELEMETRIE_H */
+#endif /* TELEMETRY_H */
 

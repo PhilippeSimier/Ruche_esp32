@@ -9,7 +9,7 @@
       <itemPath>Fsk.h</itemPath>
       <itemPath>Message.h</itemPath>
       <itemPath>Position.h</itemPath>
-      <itemPath>Telemetrie.h</itemPath>
+      <itemPath>Telemetry.h</itemPath>
       <itemPath>Weather.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -24,7 +24,7 @@
       <itemPath>Fsk.cpp</itemPath>
       <itemPath>Message.cpp</itemPath>
       <itemPath>Position.cpp</itemPath>
-      <itemPath>Telemetrie.cpp</itemPath>
+      <itemPath>Telemetry.cpp</itemPath>
       <itemPath>Weather.cpp</itemPath>
       <itemPath>main.ino.cpp</itemPath>
     </logicalFolder>
@@ -70,9 +70,9 @@
       </item>
       <item path="Position.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Telemetrie.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Telemetry.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Telemetrie.h" ex="false" tool="3" flavor2="0">
+      <item path="Telemetry.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Weather.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -121,9 +121,9 @@
       </item>
       <item path="Position.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Telemetrie.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Telemetry.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Telemetrie.h" ex="false" tool="3" flavor2="0">
+      <item path="Telemetry.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Weather.cpp" ex="false" tool="1" flavor2="0">
       </item>

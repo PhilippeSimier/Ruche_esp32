@@ -40,7 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Fsk.o \
 	${OBJECTDIR}/Message.o \
 	${OBJECTDIR}/Position.o \
-	${OBJECTDIR}/Telemetrie.o \
+	${OBJECTDIR}/Telemetry.o \
 	${OBJECTDIR}/Weather.o \
 	${OBJECTDIR}/main.ino.o
 
@@ -94,10 +94,10 @@ ${OBJECTDIR}/Position.o: Position.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Position.o Position.cpp
 
-${OBJECTDIR}/Telemetrie.o: Telemetrie.cpp
+${OBJECTDIR}/Telemetry.o: Telemetry.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Telemetrie.o Telemetrie.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Telemetry.o Telemetry.cpp
 
 ${OBJECTDIR}/Weather.o: Weather.cpp
 	${MKDIR} -p ${OBJECTDIR}
