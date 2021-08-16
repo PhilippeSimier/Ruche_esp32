@@ -20,7 +20,7 @@
 class Telemetrie {
 public:
 
-    Telemetrie();
+    Telemetrie(char* _callsign);
     Telemetrie(const Telemetrie& orig);
     virtual ~Telemetrie();
 
@@ -44,6 +44,7 @@ private:
     char digital[9];
     char comment[101];
     int sequenceNo;
+    char callsign[8];
     
     char pdu[512];
 

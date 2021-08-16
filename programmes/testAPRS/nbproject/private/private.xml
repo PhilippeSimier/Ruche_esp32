@@ -10,9 +10,11 @@
             <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Telemetrie.h</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Telemetrie.cpp</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/main.ino.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Ax25.cpp</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Dds.h</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Message.h</file>
             <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Weather.cpp</file>
+            <file>file:/home/philippe/Ruche_esp32/programmes/testAPRS/Ax25.h</file>
         </group>
     </open-files>
 </project-private>

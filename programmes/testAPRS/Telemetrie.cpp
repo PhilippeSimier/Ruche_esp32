@@ -10,7 +10,7 @@
 
 #include "Telemetrie.h"
 
-Telemetrie::Telemetrie():
+Telemetrie::Telemetrie(char* _callsign):
 sequenceNo(0) {
     for (int i = 0; i < 5; i++) {
         value[i] = 0;
@@ -21,6 +21,7 @@ sequenceNo(0) {
         digital[i] = '0';
     }
     digital[8] = '\0';
+    strcpy(callsign, _callsign);
 }
 
 Telemetrie::Telemetrie(const Telemetrie& orig) {
@@ -60,7 +61,7 @@ void Telemetrie::setComment(String _comment) {
 
 char* Telemetrie::getValuePduAprs() {
     
-    snprintf(pdu,   sizeof (pdu), "T#%03u,%03u,%03u,%03u,%03u,%03u,%s", sequenceNo, value[0], value[1], value[2], value[3], value[4], digital);
+    snprintf(pdu, sizeof(pdu), "T#%03u,%03u,%03u,%03u,%03u,%03u,%s", sequenceNo, value[0], value[1], value[2], value[3], value[4], digital);
     sequenceNo++;
     if (sequenceNo == 999)
         sequenceNo = 0;
@@ -70,13 +71,13 @@ char* Telemetrie::getValuePduAprs() {
 
 char* Telemetrie::getNamePduAprs() {
     
-    snprintf(pdu,   sizeof (pdu),":F1ZMM-5  :PARM.%s,%s,%s,%s,%s,B1,B2,B3,B4,B5,B6,B7,B8", name[0], name[1], name[2], name[3], name[4]);
+    snprintf(pdu, sizeof(pdu),":%-9s:PARM.%s,%s,%s,%s,%s,B1,B2,B3,B4,B5,B6,B7,B8", callsign, name[0], name[1], name[2], name[3], name[4]);
     return pdu;
 }
 
 char* Telemetrie::getUnitPduAprs() {
     
-    snprintf(pdu,   sizeof (pdu),":F1ZMM-5  :UNIT.%s,%s,%s,%s,%s,B1,B2,B3,B4,B5,B6,B7,B8", unit[0], unit[1], unit[2], unit[3], unit[4]);
+    snprintf(pdu, sizeof(pdu),":%-9s:UNIT.%s,%s,%s,%s,%s,B1,B2,B3,B4,B5,B6,B7,B8", callsign, unit[0], unit[1], unit[2], unit[3], unit[4]);
     return pdu;
 }
 
