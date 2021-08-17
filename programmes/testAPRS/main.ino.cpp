@@ -30,7 +30,7 @@ void setup() {
     char path2[]       = "WIDE2-2";
     ax25.begin(BITRATE, srcCallsign, dstCallsign, path1, path2);
     
-    t1.setName(1, "tension");   t1.setUnit(1, "V");
+    t1.setName(1, "tension");   t1.setUnit(1, "V");  t1.setEqn(1, 0, 0.1, 0);
     t1.setName(2, "courant");   t1.setUnit(2, "mA");
     t1.setName(3, "puiss");     t1.setUnit(3, "mW");
     t1.setName(4, "charge");    t1.setUnit(4, "mAh");
@@ -91,13 +91,17 @@ void loop() {
                 break;
                 
             case '7':
-                Serial.println("test télémétrie Unit");
+                Serial.println("test télémétrie MetaData");
                 ax25.txMessage(t1.getUnitPduAprs());
                 ax25.debug();
                 delay(1000);
                 ax25.txMessage(t1.getNamePduAprs());
                 ax25.debug();
+                delay(1000);
+                ax25.txMessage(t1.getEqnsPduAprs());
+                ax25.debug();
                 break;
+                
         }
     }
 }
