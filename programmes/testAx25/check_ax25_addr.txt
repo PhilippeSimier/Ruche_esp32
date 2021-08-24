@@ -1,0 +1,25 @@
+static int check_ax25_addr(unsigned char *buf)
+{
+	int k;
+	unsigned char c;
+
+	/* must start with at least one capital letter or digit */
+	for (k = 0; k < 6; k++) {
+		c = buf[k] >> 1;
+		if (c == ' ')
+			break;
+		if ((c < 'A' || c > 'Z') && (c < '0' || c > '9'))
+			return 1;
+	}
+
+	/* NULL address is invalid */
+	if (k == 0)
+		return 1;
+
+	/* remaining fields must consist of spaces only */
+	for (k++; k < 6; k++)
+		if (buf[k] >> 1 != ' ')
+			return 1;
+
+	return 0;
+}
