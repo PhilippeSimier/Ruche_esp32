@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   DdsI2s.cpp
  * Author: Anthony Le Cren
@@ -80,14 +74,14 @@ void DdsI2s::computeSampleRate(float br) {
         sr = ddsConfig.nBuffer * br*NUM_SAMPLES;
     }
     splFreq = (int) sr;
-    /*
+    
     Serial.println();
     Serial.print(br);
     Serial.print('/');
     Serial.print(splFreq);
     Serial.print('/');
     Serial.println(ddsConfig.nBuffer);
-    */
+    
 }
 
 void DdsI2s::updateSampleRate(float br) {
@@ -104,6 +98,7 @@ void DdsI2s::updateSampleRate(float br) {
  */
 
 void DdsI2s::configureI2s() {
+    
     i2s_config_t i2s_config = {
         .mode = (i2s_mode_t) (I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN), // I2S receive mode with dac
         .sample_rate = splFreq, // sample frequency
@@ -117,7 +112,7 @@ void DdsI2s::configureI2s() {
     };
     if (i2s_driver_install(I2S_NUM_0, &i2s_config, 0, NULL) == ESP_OK) { // i2s on channel 0 (no possible on channel 1 with ADC/DAC)
         i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN); //DAC ouput pin
-        i2s_adc_enable(I2S_NUM_0); //dma i2s channel 0 enable for the  DAC 
+        //i2s_adc_enable(I2S_NUM_0); //dma i2s channel 0 enable for the  DAC 
     }
 }
 
@@ -263,3 +258,5 @@ void DdsI2s::off() {
     ddsConfig.dephase = 0;
     ddsConfig.incrementPhase = 0;
 }
+
+QueueHandle_t DdsI2s::queueDds = xQueueCreate(64, sizeof (ddsConfig_t));
