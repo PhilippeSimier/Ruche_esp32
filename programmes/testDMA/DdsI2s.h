@@ -15,7 +15,7 @@
 
 #define DAC_CHANNEL DAC_CHANNEL_1   //numéro du dac
 #define SYNC GPIO_NUM_2             //gpio pour led
-#define NUM_SAMPLES 32
+#define NUM_SAMPLES 32              //taille d'un buffer doit être compris entre 8 et 1024
 #define MIN_SAMPLING_FREQUENCY 20000
 
 typedef enum {

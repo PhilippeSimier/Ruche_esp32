@@ -7,7 +7,7 @@
 
 #include "DdsI2s.h"
 
-DdsI2s leDds(300); //init du bitrate
+DdsI2s leDds(600); //init du bitrate
 
  
 void setup() {

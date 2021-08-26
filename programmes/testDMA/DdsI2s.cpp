@@ -112,7 +112,7 @@ void DdsI2s::configureI2s() {
     };
     if (i2s_driver_install(I2S_NUM_0, &i2s_config, 0, NULL) == ESP_OK) { // i2s on channel 0 (no possible on channel 1 with ADC/DAC)
         i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN); //DAC ouput pin
-        //i2s_adc_enable(I2S_NUM_0); //dma i2s channel 0 enable for the  DAC 
+        i2s_zero_dma_buffer(I2S_NUM_0);
     }
 }
 
@@ -139,7 +139,7 @@ void DdsI2s::dma(void *pvParameter) {
     uint16_t phase;
     uint16_t sinus;
     uint16_t bufferOut[NUM_SAMPLES]; //dac buffer output
-    size_t bytesWrite;
+    size_t bytesWritten;
     uint32_t accumulateur = 0; // Accumulateur de phase
     gpio_num_t syncLed = *(gpio_num_t*) pvParameter; //récupère le numéro de broche
     int n, m;
@@ -151,7 +151,6 @@ void DdsI2s::dma(void *pvParameter) {
     while (1) {
         vTaskDelay(1); //indispensable car sinon guru ?!
         xQueueReceive(queueDds, &ddsConfig, 0);
-        //Serial.println(ddsConfig.nBuffer);
         for (n = 0; n < ddsConfig.nBuffer; n++) { //send buffer n time according to bitrate and samplerate           
             for (m = 0; m < NUM_SAMPLES; m++) { //update bufferOut
                 accumulateur += ddsConfig.incrementPhase; // accumulateur de phase  (sur 32 bits)
@@ -161,7 +160,11 @@ void DdsI2s::dma(void *pvParameter) {
                 sinus <<= 8;
                 bufferOut[m ^ 1] = sinus & 0xff00; //so swapp even and odd sample
             }
-            i2s_write(I2S_NUM_0, (char*) bufferOut, NUM_SAMPLES * sizeof (uint16_t), &bytesWrite, portMAX_DELAY); //load dma for dac
+            //write buffer dma for dac
+            i2s_write(I2S_NUM_0, bufferOut, NUM_SAMPLES * sizeof (uint16_t), &bytesWritten, portMAX_DELAY);
+            if (bytesWritten != NUM_SAMPLES * sizeof (uint16_t)){
+                Serial.println("Erreur : Ne peut pas écrire tout le buffer");
+            }
         }
         digitalWrite(syncLed, digitalRead(syncLed) ^ 1);
     }
