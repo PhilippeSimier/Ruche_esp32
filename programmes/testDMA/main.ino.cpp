@@ -9,15 +9,14 @@
 
 DdsI2s leDds(600); //init du bitrate
 
- 
 void setup() {
-    Serial.begin(115200);  
+    Serial.begin(115200);
     leDds.begin();
 
 }
 
 void loop() {
-    
+
     char c;
     if (Serial.available() > 0) {
         c = Serial.read();
@@ -39,7 +38,9 @@ void loop() {
             case '4': leDds.updateSampleRate(400);
                 break;
             case 'f': leDds.setFrequency(1000);
+
                 leDds.start();
+
                 break;
             case 'g': leDds.setFrequency(2000);
                 leDds.start();

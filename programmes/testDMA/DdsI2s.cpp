@@ -66,7 +66,7 @@ boolean DdsI2s::isInteger(float num) {
 
 void DdsI2s::computeSampleRate(float br) {
     float sr;
-    ddsConfig.nBuffer=1;
+    ddsConfig.nBuffer = 1;
     sr = ddsConfig.nBuffer * br*NUM_SAMPLES;
 
     while (sr < MIN_SAMPLING_FREQUENCY || !isInteger(sr)) {
@@ -74,20 +74,20 @@ void DdsI2s::computeSampleRate(float br) {
         sr = ddsConfig.nBuffer * br*NUM_SAMPLES;
     }
     splFreq = (int) sr;
-    
+
     Serial.println();
     Serial.print(br);
     Serial.print('/');
     Serial.print(splFreq);
     Serial.print('/');
     Serial.println(ddsConfig.nBuffer);
-    
+
 }
 
 void DdsI2s::updateSampleRate(float br) {
     computeSampleRate(br);
     i2s_set_sample_rates(I2S_NUM_0, splFreq);
-    bitRate=br;
+    bitRate = br;
 }
 
 /**
@@ -98,7 +98,7 @@ void DdsI2s::updateSampleRate(float br) {
  */
 
 void DdsI2s::configureI2s() {
-    
+
     i2s_config_t i2s_config = {
         .mode = (i2s_mode_t) (I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN), // I2S receive mode with dac
         .sample_rate = splFreq, // sample frequency
@@ -108,7 +108,8 @@ void DdsI2s::configureI2s() {
         .intr_alloc_flags = 0, // none
         .dma_buf_count = 4, // nb buffers DMA
         .dma_buf_len = NUM_SAMPLES, // sample size
-        .use_apll = 0, // no Audio PLL
+        .use_apll = 0 // no Audio PLL
+        
     };
     if (i2s_driver_install(I2S_NUM_0, &i2s_config, 0, NULL) == ESP_OK) { // i2s on channel 0 (no possible on channel 1 with ADC/DAC)
         i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN); //DAC ouput pin
@@ -144,29 +145,33 @@ void DdsI2s::dma(void *pvParameter) {
     gpio_num_t syncLed = *(gpio_num_t*) pvParameter; //récupère le numéro de broche
     int n, m;
     ddsConfig_t ddsConfig; //commandes du dds
+    BaseType_t status;
     pinMode(syncLed, OUTPUT);
 
     Serial.println("Tache DDS en fonctionnement");
 
     while (1) {
         vTaskDelay(1); //indispensable car sinon guru ?!
-        xQueueReceive(queueDds, &ddsConfig, 0);
-        for (n = 0; n < ddsConfig.nBuffer; n++) { //send buffer n time according to bitrate and samplerate           
-            for (m = 0; m < NUM_SAMPLES; m++) { //update bufferOut
-                accumulateur += ddsConfig.incrementPhase; // accumulateur de phase  (sur 32 bits)
-                phase = ((accumulateur >> 23) + ddsConfig.dephase) & 0x1ff; //ajoute la phase
-                sinus = pgm_read_byte(&(sinusTable[phase])); //lecture de la valeur du sinus dans la table 
-                sinus = (sinus >> ddsConfig.attenuation) - (0x80 >> ddsConfig.attenuation) + 0x80; //attenuation de l'amplitude la valeur moyenne reste constante
-                sinus <<= 8;
-                bufferOut[m ^ 1] = sinus & 0xff00; //so swapp even and odd sample
+        status = xQueueReceive(queueDds, &ddsConfig, 0);
+        
+            for (n = 0; n < ddsConfig.nBuffer; n++) { //send buffer n time according to bitrate and samplerate
+
+                for (m = 0; m < NUM_SAMPLES; m++) { //update bufferOut
+                    accumulateur += ddsConfig.incrementPhase; // accumulateur de phase  (sur 32 bits)
+                    phase = ((accumulateur >> 23) + ddsConfig.dephase) & 0x1ff; //ajoute la phase
+                    sinus = pgm_read_byte(&(sinusTable[phase])); //lecture de la valeur du sinus dans la table 
+                    sinus = (sinus >> ddsConfig.attenuation) - (0x80 >> ddsConfig.attenuation) + 0x80; //attenuation de l'amplitude la valeur moyenne reste constante
+                    sinus <<= 8;
+                    bufferOut[m ^ 1] = sinus; //so swapp even and odd sample
+                }
+                // write buffer dma for dac
+                i2s_write(I2S_NUM_0, bufferOut, NUM_SAMPLES * sizeof (uint16_t), &bytesWritten, portMAX_DELAY);
+                if (bytesWritten != NUM_SAMPLES * sizeof (uint16_t)) {
+                    Serial.println("Erreur : Ne peut pas écrire tout le buffer");
+                }
             }
-            //write buffer dma for dac
-            i2s_write(I2S_NUM_0, bufferOut, NUM_SAMPLES * sizeof (uint16_t), &bytesWritten, portMAX_DELAY);
-            if (bytesWritten != NUM_SAMPLES * sizeof (uint16_t)){
-                Serial.println("Erreur : Ne peut pas écrire tout le buffer");
-            }
-        }
-        digitalWrite(syncLed, digitalRead(syncLed) ^ 1);
+            digitalWrite(syncLed, digitalRead(syncLed) ^ 1);
+        
     }
 }
 
