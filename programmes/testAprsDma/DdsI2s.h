@@ -58,7 +58,7 @@ public:
 private:
     void configureI2s();
     TaskHandle_t TaskHandle_Dac;
-    static void dma(void *pvParameter);
+    void dma();
     static void flipOut(uint8_t *flip, uint8_t *stuff);
     static void sendBit(uint32_t *accumulateur, uint32_t freq[], uint8_t flip,int attenuation, gpio_num_t syncLed);
     static void sendByte(uint32_t *accumulateur, uint32_t freq[], uint8_t *flip,int attenuation, gpio_num_t syncLed,uint8_t inByte, bool flag,uint8_t *stuff);
@@ -66,7 +66,9 @@ private:
     dac_channel_t dacChannel;
 
     static uint32_t computeIncrementPhase(float freq);
-   
+    
+    static DdsI2s* anchor;
+    static void marshall(void *);
 
 };
 

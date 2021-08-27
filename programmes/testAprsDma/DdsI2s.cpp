@@ -10,6 +10,11 @@
 DdsI2s::DdsI2s(dac_channel_t _dacChannel, gpio_num_t _syncLed) :
 syncLed(_syncLed),
 dacChannel(_dacChannel) {
+    anchor = this;
+}
+
+void DdsI2s::marshall(void * parametres) {
+    anchor->dma();
 }
 
 DdsI2s::DdsI2s(const DdsI2s& orig) {
@@ -27,7 +32,7 @@ DdsI2s::~DdsI2s() {
 
 void DdsI2s::begin() {
     configureI2s();
-    xTaskCreatePinnedToCore(DdsI2s::dma, "dac_i2s", 50000, &syncLed, 3, &TaskHandle_Dac, 0); // creation de la tache    
+    xTaskCreatePinnedToCore(DdsI2s::marshall, "dac_i2s", 50000, &syncLed, 3, &TaskHandle_Dac, 0); // creation de la tache    
 }
 
 /**
@@ -115,11 +120,11 @@ void DdsI2s::sendByte(uint32_t *accumulateur, uint32_t freq[], uint8_t *flip, in
  * 
  */
 
-void DdsI2s::dma(void *pvParameter) {
+void DdsI2s::dma() {
 
     uint32_t accumulateur; // Accumulateur de phase
     uint32_t freq[2];
-    gpio_num_t syncLed = *(gpio_num_t*) pvParameter; //récupère le numéro de broche
+    //gpio_num_t syncLed = *(gpio_num_t*) pvParameter; //récupère le numéro de broche
     int i;
     uint8_t stuff, flip;
     frame_t frame; //commandes du dds
@@ -159,4 +164,5 @@ uint32_t DdsI2s::computeIncrementPhase(float freq) {
 }
 
 QueueHandle_t DdsI2s::queueDds = xQueueCreate(3, sizeof (frame_t));
+DdsI2s* DdsI2s::anchor = NULL;
 
