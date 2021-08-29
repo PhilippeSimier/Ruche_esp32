@@ -19,12 +19,11 @@
 
 #define DAC_CHANNEL DAC_CHANNEL_1   //numéro du dac
 #define SYNC GPIO_NUM_2             //gpio pour led
-#define NUM_SAMPLES 22
-#define SAMPLING_FREQUENCY 26400
+#define NUM_SAMPLES 32
+#define SAMPLING_FREQUENCY 38400
 #define DATA_MAX_LENGTH 512
 #define AX25_PREAMBULE_BYTE 0x7E  //valeur de l'octet de préambule
 #define AX25_PREAMBULE_LEN 100    //longeur du préambule en octets
-
 
 typedef enum {
     dB_0 = 0x0, /* 1/1 Default value */
@@ -34,11 +33,10 @@ typedef enum {
     dB_24 = 0x4, /* 1/16 */
 } attenuation_t;
 
-
 //structure de la trame AX25 à envoyer au DMA
 
 typedef struct {
-    int attenuation;
+    attenuation_t attenuation;
     uint16_t nBytes;
     uint8_t data[DATA_MAX_LENGTH];    
 } frame_t;
@@ -59,16 +57,21 @@ private:
     void configureI2s();
     TaskHandle_t TaskHandle_Dac;
     void dma();
-    static void flipOut(uint8_t *flip, uint8_t *stuff);
-    static void sendBit(uint32_t *accumulateur, uint32_t freq[], uint8_t flip,int attenuation, gpio_num_t syncLed);
-    static void sendByte(uint32_t *accumulateur, uint32_t freq[], uint8_t *flip,int attenuation, gpio_num_t syncLed,uint8_t inByte, bool flag,uint8_t *stuff);
-    gpio_num_t syncLed;
-    dac_channel_t dacChannel;
+    void flipOut();
+    void sendBit();
+    void sendByte( uint8_t inByte, bool flag);
 
-    static uint32_t computeIncrementPhase(float freq);
-    
+    uint32_t computeIncrementPhase(float freq);
     static DdsI2s* anchor;
     static void marshall(void *);
+    
+    gpio_num_t      syncLed;
+    dac_channel_t   dacChannel;
+    uint32_t        accumulateur;
+    uint8_t         flip;
+    uint8_t         stuff;
+    attenuation_t   attenuation;
+    uint32_t        freq[2];
 
 };
 

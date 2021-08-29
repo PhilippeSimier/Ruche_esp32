@@ -9,8 +9,13 @@
 
 DdsI2s::DdsI2s(dac_channel_t _dacChannel, gpio_num_t _syncLed) :
 syncLed(_syncLed),
-dacChannel(_dacChannel) {
+dacChannel(_dacChannel),
+accumulateur(0)
+{
     anchor = this;
+    pinMode(syncLed, OUTPUT);
+    freq[0] = computeIncrementPhase(1200);
+    freq[1] = computeIncrementPhase(2200);
 }
 
 void DdsI2s::marshall(void * parametres) {
@@ -60,7 +65,7 @@ void DdsI2s::configureI2s() {
     }
 }
 
-void DdsI2s::sendBit(uint32_t *accumulateur, uint32_t freq[], uint8_t flip, int attenuation, gpio_num_t syncLed) {
+void DdsI2s::sendBit() {
     const static byte sinusTable[512] PROGMEM = {128, 129, 131, 132, 134, 135, 137, 138, 140, 141, 143, 145, 146, 148, 149, 151, 152, 154, 155, 157, 158, 160, 161, 163, 164, 166, 167, 169, 170, 172, 173, 175, 176, 178, 179, 180, 182, 183, 185, 186,
         187, 189, 190, 191, 193, 194, 195, 197, 198, 199, 201, 202, 203, 204, 206, 207, 208, 209, 210, 212, 213, 214, 215, 216, 217, 218, 219, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 230, 231, 232,
         233, 234, 235, 236, 236, 237, 238, 239, 240, 240, 241, 242, 242, 243, 244, 244, 245, 245, 246, 247, 247, 248, 248, 249, 249, 249, 250, 250, 251, 251, 251, 252, 252, 252, 253, 253, 253, 253, 254, 254,
@@ -79,8 +84,8 @@ void DdsI2s::sendBit(uint32_t *accumulateur, uint32_t freq[], uint8_t flip, int 
     int m;
     size_t bytesWrite;
     for (m = 0; m < NUM_SAMPLES; m++) { //update bufferOut
-        *accumulateur += freq[flip]; // accumulateur de phase  (sur 32 bits)
-        phase = (*accumulateur >> 23); //ajoute la phase
+        accumulateur += freq[flip]; // accumulateur de phase  (sur 32 bits)
+        phase = (accumulateur >> 23); //ajoute la phase
         sinus = pgm_read_byte(&(sinusTable[phase])); //lecture de la valeur du sinus dans la table 
         sinus = (sinus >> attenuation) - (0x80 >> attenuation) + 0x80; //attenuation de l'amplitude la valeur moyenne reste constante
         sinus <<= 8;
@@ -90,26 +95,26 @@ void DdsI2s::sendBit(uint32_t *accumulateur, uint32_t freq[], uint8_t flip, int 
     digitalWrite(syncLed, digitalRead(syncLed) ^ 1);
 }
 
-void DdsI2s::flipOut(uint8_t *flip, uint8_t *stuff) {
-    *stuff = 0; //mise à zéro du bit stuffing
-    *flip ^= 1; //inversion drapeau mark <-> space
+void DdsI2s::flipOut() {
+    stuff = 0; //mise à zéro du bit stuffing
+    flip ^= 1; //inversion drapeau mark <-> space
 }
 
-void DdsI2s::sendByte(uint32_t *accumulateur, uint32_t freq[], uint8_t *flip, int attenuation, gpio_num_t syncLed, uint8_t inByte, bool flag, uint8_t *stuff) {
+void DdsI2s::sendByte( uint8_t inByte, bool flag) {
     uint8_t k, bt;
     for (k = 0; k < 8; k++) {
-        bt = inByte & 0x01; //masque sur le LSB 1st
-        if (bt == 0) flipOut(flip, stuff); //si c'est un 0 alors appel inversion mark <-> space
-        else { //c'est un 1 on reste sur la meme fréquence
-            (*stuff)++; //incrementation bit stuffing
-            if ((flag == 0) && (*stuff == 5)) //inversion mark <-> space pour le bit stuffing
+        bt = inByte & 0x01;         //masque sur le LSB 1st
+        if (bt == 0) flipOut();     //si c'est un 0 alors appel inversion mark <-> space
+        else {                      //c'est un 1 on reste sur la meme fréquence
+            stuff++;                         //incrementation compteur pour inserer un bit de stuffing
+            if ((flag == 0) && (stuff == 5)) //inversion mark <-> space pour le bit stuffing
             { //et si flag = 0 (pas de bit stuffing dans le préambule)
-                sendBit(accumulateur, freq, *flip, attenuation, syncLed);
-                flipOut(flip, stuff);
+                sendBit();
+                flipOut();
             }
         }
         inByte >>= 1; //décallage vers la droite pour le prochain bit
-        sendBit(accumulateur, freq, *flip, attenuation, syncLed); //envoi du bit en cours
+        sendBit(); //envoi du bit en cours
     }
 }
 
@@ -122,15 +127,12 @@ void DdsI2s::sendByte(uint32_t *accumulateur, uint32_t freq[], uint8_t *flip, in
 
 void DdsI2s::dma() {
 
-    uint32_t accumulateur; // Accumulateur de phase
-    uint32_t freq[2];
-    //gpio_num_t syncLed = *(gpio_num_t*) pvParameter; //récupère le numéro de broche
+    
+    
     int i;
-    uint8_t stuff, flip;
     frame_t frame; //commandes du dds
-    pinMode(syncLed, OUTPUT);
-    freq[0] = computeIncrementPhase(1200);
-    freq[1] = computeIncrementPhase(2200);
+    
+
 
     Serial.println("Tache DDS en fonctionnement");
 
@@ -139,14 +141,15 @@ void DdsI2s::dma() {
         vTaskDelay(1); //indispensable car sinon guru ?!
         if (xQueueReceive(queueDds, &frame, portMAX_DELAY) == pdPASS) {
             Serial.println("Trame recue");
-            accumulateur = 0;
+            // accumulateur = 0;  
             stuff = 0; //compteur de bit stuffing à zéro
             flip = 1; //fréquence space activée
+            attenuation = frame.attenuation;
             i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN);
-            sendBit(&accumulateur, freq, flip, frame.attenuation, syncLed);
-            for (i = 0; i < AX25_PREAMBULE_LEN; i++) sendByte(&accumulateur, freq, &flip, frame.attenuation, syncLed, AX25_PREAMBULE_BYTE, 1, &stuff); //préambule de début
-            for (i = 0; i < frame.nBytes; i++)       sendByte(&accumulateur, freq, &flip, frame.attenuation, syncLed, frame.data[i], 0, &stuff); //envoi du packet
-            for (i = 0; i < AX25_PREAMBULE_LEN; i++) sendByte(&accumulateur, freq, &flip, frame.attenuation, syncLed, AX25_PREAMBULE_BYTE, 1, &stuff); //préambule de fin
+            sendBit();
+            for (i = 0; i < AX25_PREAMBULE_LEN; i++) sendByte( AX25_PREAMBULE_BYTE, 1); //préambule de début
+            for (i = 0; i < frame.nBytes; i++)       sendByte( frame.data[i], 0); //envoi du packet
+            for (i = 0; i < AX25_PREAMBULE_LEN; i++) sendByte( AX25_PREAMBULE_BYTE, 1); //préambule de fin
             i2s_set_dac_mode(I2S_DAC_CHANNEL_DISABLE);
         }
     }
