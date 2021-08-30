@@ -1,47 +1,32 @@
 /*
  Utilisation de l'interface i2s dans l'ESP32 avec une tache
  
- * test de trame brute ax25
-
-#define SOURCE_CALLSIGN "F1ZMM-1"
-#define DESTINATON_CALLSIGN "F1ZMM-2"
-#define PATH1 "WIDE1-1"
-#define PATH2 "WIDE2-2"
-
-!4753.41N/00016.61E>test
- 
  */
 
 
-#include "DdsI2s.h"
+#include "Ax25.h"
 
-#define NB_BYTES 56
-DdsI2s leDds; //init du bitrate
-
-
-
-frame_t frame;
-
-uint8_t f[NB_BYTES]={0x8C,0x62,0xB4,0x9A,0x9A,0x40,0x64,0x8C,0x62,0xB4,0x9A,0x9A,0x40,0x62,0xAE,0x92,0x88,0x8A,0x62,0x40,0x62,
-0xAE,0x92,0x88,0x8A,0x64,0x40,0x65,0x3,0xF0,0x21,0x34,0x37,0x35,0x33,0x2E,0x34,0x31,0x4E,0x2F,0x30,0x30,0x30,0x31,0x36,
-0x2E,0x36,0x31,0x45,0x3E,0x74,0x65,0x73,0x74,0x99,0x34};
-
+Ax25 leAx25;
+char srcCallsign[]  = "F1ZMM-5";
+char dstCallsign[]  = "F1ZMM-2";
+char path1[]        = "WIDE1-1";
+char path2[]        = "WIDE2-2";
 
 void setup() {
-    Serial.begin(115200);    
-    leDds.begin();
-    frame.attenuation=dB_0;
-    frame.nBytes=NB_BYTES;
-    memcpy(frame.data,f,NB_BYTES);  
+    Serial.begin(115200);
+    leAx25.begin(srcCallsign, dstCallsign, path1, path2);
+
 }
 
 void loop() {
-    
+
     char c;
     if (Serial.available() > 0) {
         c = Serial.read();
         switch (c) {
-            case 'f': xQueueSend(leDds.queueDds, &frame, portMAX_DELAY);
+            case 'f': 
+                leAx25.txMessage("!4753.41N/00016.61E>test");
+                leAx25.debug();
                 break;
         }
     }

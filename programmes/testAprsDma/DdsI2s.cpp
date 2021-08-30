@@ -126,22 +126,16 @@ void DdsI2s::sendByte( uint8_t inByte, bool flag) {
  */
 
 void DdsI2s::dma() {
-
-    
-    
+        
     int i;
     frame_t frame; //commandes du dds
     
-
-
     Serial.println("Tache DDS en fonctionnement");
-
 
     while (1) {
         vTaskDelay(1); //indispensable car sinon guru ?!
         if (xQueueReceive(queueDds, &frame, portMAX_DELAY) == pdPASS) {
-            Serial.println("Trame recue");
-            // accumulateur = 0;  
+  
             stuff = 0; //compteur de bit stuffing à zéro
             flip = 1; //fréquence space activée
             attenuation = frame.attenuation;
