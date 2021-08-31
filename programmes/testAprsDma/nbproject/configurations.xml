@@ -5,7 +5,12 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Ax25.h</itemPath>
+      <itemPath>DRA818.h</itemPath>
       <itemPath>DdsI2s.h</itemPath>
+      <itemPath>Message.h</itemPath>
+      <itemPath>Position.h</itemPath>
+      <itemPath>Telemetry.h</itemPath>
+      <itemPath>Weather.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -15,7 +20,12 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Ax25.cpp</itemPath>
+      <itemPath>DRA818.cpp</itemPath>
       <itemPath>DdsI2s.cpp</itemPath>
+      <itemPath>Message.cpp</itemPath>
+      <itemPath>Position.cpp</itemPath>
+      <itemPath>Telemetry.cpp</itemPath>
+      <itemPath>Weather.cpp</itemPath>
       <itemPath>main.ino.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -44,9 +54,29 @@
       </item>
       <item path="Ax25.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="DRA818.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DRA818.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="DdsI2s.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DdsI2s.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Message.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Message.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Position.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Position.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Telemetry.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Telemetry.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Weather.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Weather.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.ino.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -75,9 +105,29 @@
       </item>
       <item path="Ax25.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="DRA818.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DRA818.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="DdsI2s.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DdsI2s.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Message.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Message.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Position.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Position.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Telemetry.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Telemetry.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Weather.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Weather.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.ino.cpp" ex="false" tool="1" flavor2="0">
       </item>

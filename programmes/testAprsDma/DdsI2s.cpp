@@ -119,10 +119,10 @@ void DdsI2s::sendByte( uint8_t inByte, bool flag) {
 }
 
 /**
- * @brief DdsI2s::dma(void *pvParameter)
+ * @brief DdsI2s::dma()
  *
- * @details tache du DDS avec passage de paramètre (juste la broche pour la syncro oscillo)
- * 
+ * @details tache du DDS
+ * envoie une trame AX25 compléte 
  */
 
 void DdsI2s::dma() {

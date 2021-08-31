@@ -36,7 +36,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Ax25.o \
+	${OBJECTDIR}/DRA818.o \
 	${OBJECTDIR}/DdsI2s.o \
+	${OBJECTDIR}/Message.o \
+	${OBJECTDIR}/Position.o \
+	${OBJECTDIR}/Telemetry.o \
+	${OBJECTDIR}/Weather.o \
 	${OBJECTDIR}/main.ino.o
 
 
@@ -69,10 +74,35 @@ ${OBJECTDIR}/Ax25.o: Ax25.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Ax25.o Ax25.cpp
 
+${OBJECTDIR}/DRA818.o: DRA818.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DRA818.o DRA818.cpp
+
 ${OBJECTDIR}/DdsI2s.o: DdsI2s.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DdsI2s.o DdsI2s.cpp
+
+${OBJECTDIR}/Message.o: Message.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Message.o Message.cpp
+
+${OBJECTDIR}/Position.o: Position.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Position.o Position.cpp
+
+${OBJECTDIR}/Telemetry.o: Telemetry.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Telemetry.o Telemetry.cpp
+
+${OBJECTDIR}/Weather.o: Weather.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Weather.o Weather.cpp
 
 ${OBJECTDIR}/main.ino.o: main.ino.cpp
 	${MKDIR} -p ${OBJECTDIR}
