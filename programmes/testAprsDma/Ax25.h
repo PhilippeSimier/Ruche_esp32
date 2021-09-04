@@ -9,6 +9,7 @@
 #define AX25_H
 
 #include <Arduino.h>
+#include <WString.h>
 #include "DdsI2s.h"
 
 #define AX25_HEADER_SIZE 30    //longueur de l'entete pour 4 callsign (fixe)
@@ -26,6 +27,8 @@ public:
                char *destinationCallsign ,
                char *path1 ,
                char *path2);
+    
+
     
     void txMessage(char *bufMsg);
     void debug();

@@ -10,7 +10,8 @@
 DdsI2s::DdsI2s(dac_channel_t _dacChannel, gpio_num_t _syncLed) :
 syncLed(_syncLed),
 dacChannel(_dacChannel),
-accumulateur(0)
+accumulateur(0),
+dra(new DRA818())        
 {
     anchor = this;
     pinMode(syncLed, OUTPUT);
@@ -26,6 +27,7 @@ DdsI2s::DdsI2s(const DdsI2s& orig) {
 }
 
 DdsI2s::~DdsI2s() {
+    delete dra;
 }
 
 /**
@@ -37,7 +39,17 @@ DdsI2s::~DdsI2s() {
 
 void DdsI2s::begin() {
     configureI2s();
-    xTaskCreatePinnedToCore(DdsI2s::marshall, "dac_i2s", 50000, &syncLed, 3, &TaskHandle_Dac, 0); // creation de la tache    
+    xTaskCreatePinnedToCore(DdsI2s::marshall, "dac_i2s", 50000, &syncLed, 3, &TaskHandle_Dac, 0); // creation de la tache 
+    
+    uint8_t ret;
+    //modelDra, freq_rx, freq_tx, squelch, vol, ctcss_rx, ctcss_tx, bandwidth, pre, high, low
+
+    ret = dra->configure(DRA_TYPE, TX_RX_FREQUENCY, TX_RX_FREQUENCY, 4, 8, 0, 0, DRA818_12K5, true, true, true);
+    if (!ret) {
+        Serial.println("\nError while configuring DRA818");
+    } else {
+        Serial.println("DRA818 configuration finished");
+    }
 }
 
 /**
@@ -139,12 +151,14 @@ void DdsI2s::dma() {
             stuff = 0; //compteur de bit stuffing à zéro
             flip = 1; //fréquence space activée
             attenuation = frame.attenuation;
+            dra->ptt(1);
             i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN);
             sendBit();
             for (i = 0; i < AX25_PREAMBULE_LEN; i++) sendByte( AX25_PREAMBULE_BYTE, 1); //préambule de début
             for (i = 0; i < frame.nBytes; i++)       sendByte( frame.data[i], 0); //envoi du packet
             for (i = 0; i < AX25_PREAMBULE_LEN; i++) sendByte( AX25_PREAMBULE_BYTE, 1); //préambule de fin
             i2s_set_dac_mode(I2S_DAC_CHANNEL_DISABLE);
+            dra->ptt(0);
         }
     }
 }

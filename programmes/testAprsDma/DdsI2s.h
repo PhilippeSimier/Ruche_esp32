@@ -15,6 +15,7 @@
 #include <Arduino.h>
 #include <driver/i2s.h>
 #include <driver/dac.h>
+#include "DRA818.h"
 
 
 #define DAC_CHANNEL DAC_CHANNEL_1   //numéro du dac
@@ -24,6 +25,9 @@
 #define DATA_MAX_LENGTH 512
 #define AX25_PREAMBULE_BYTE 0x7E  //valeur de l'octet de préambule
 #define AX25_PREAMBULE_LEN 100    //longeur du préambule en octets
+
+#define DRA_TYPE DRA818_VHF  // or DRA818_UHF
+#define TX_RX_FREQUENCY 144.800
 
 typedef enum {
     dB_0 = 0x0, /* 1/1 Default value */
@@ -72,7 +76,7 @@ private:
     uint8_t         stuff;
     attenuation_t   attenuation;
     uint32_t        freq[2];
-
+    DRA818          *dra;
 };
 
 #endif /* DDSI2S_H */

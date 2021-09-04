@@ -61,6 +61,8 @@ void Ax25::begin(char *sourceCallsign, char *destinationCallsign, char *path1, c
     *(ptr++) = AX25_PROTOCOL;
 }
 
+
+
 /**
    @brief   Ax25::addCallsign(uint8_t *buf, char *callsign)
    @details Ajoute un callSign (addresse) dans l'entête de la trame
