@@ -86,36 +86,24 @@ uint8_t* Ax25::addCallsign(uint8_t *buf, char *callsign) {
     return (buf);
 }
 
-/**
-   @brief uint16_t Ax25::crcCcittUpdate(uint16_t crc, uint8_t data)
-   @details calcul le crc d'un octet (valeur cumulée)
-   @param crc précédent
-          octet a prendre en compte
-          retourne un nouveau crc
- */
-
-uint16_t Ax25::crcCcittUpdate(uint16_t crc, uint8_t data) {
-    data ^= crc & 0xFF;
-    data ^= data << 4;
-
-    return ((((uint16_t) data << 8) | (crc >> 8)) ^ (uint8_t) (data >> 4) ^ ((uint16_t) data << 3));
-}
 
 /**
    @brief Ax25::calculateCRC()
-   @details calcul le crc de la trame complete et ajoute le crc en fin de trame
- */
+   @details calcule le crc16 de la trame complete et ajoute le crc en fin de trame en utilisant les fonctions intégrées de la rom dans l'ESP32
+ * https://github.com/espressif/esp-idf/blob/master/components/esp_rom/include/esp32/rom/crc.h
+*/ 
 
 void Ax25::calculateCRC() {
+    uint16_t crc;
     uint8_t *s;
-    uint16_t crc = 0xFFFF;
-    for (s = buffer; s < buffer + frameLength; s++) {
-        crc = crcCcittUpdate(crc, *s);
-    }
-    *(s++) = ~(crc & 0xFF);
-    *(s++) = ~((crc >> 8) & 0xFF);
+    s=buffer+ frameLength;
+    crc = crc16_le(0, buffer, frameLength);
+    *(s++) = crc & 0xFF;
+    *(s++) = crc >> 8;
     frameLength += 2;
 }
+
+
 
 /**
    @brief Ax25::debug()

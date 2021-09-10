@@ -11,6 +11,7 @@
 #include <Arduino.h>
 #include <WString.h>
 #include "DdsI2s.h"
+#include "rom/crc.h"
 
 #define AX25_HEADER_SIZE 30    //longueur de l'entete pour 4 callsign (fixe)
 #define AX25_CONTROL     0x03  //APRS-UI frame
@@ -34,12 +35,11 @@ public:
     void debug();
     
 private:
-    uint8_t* addCallsign(uint8_t *buf, char *callsign);
-    uint16_t  crcCcittUpdate(uint16_t crc, uint8_t data);
+    uint8_t*  addCallsign(uint8_t *buf, char *callsign);
     void      calculateCRC();
     
-    uint8_t* buffer;
-    int      frameLength;  //longeur de la trame à envoyer
+    uint8_t*  buffer;
+    int       frameLength;  //longeur de la trame à envoyer
     attenuation_t attenuation;
     
     DdsI2s  *leDdsI2s;
