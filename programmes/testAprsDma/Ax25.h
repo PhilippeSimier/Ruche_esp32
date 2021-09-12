@@ -11,7 +11,7 @@
 #include <Arduino.h>
 #include <WString.h>
 #include "DdsI2s.h"
-#include "rom/crc.h"
+#include <rom/crc.h>
 
 #define AX25_HEADER_SIZE 30    //longueur de l'entete pour 4 callsign (fixe)
 #define AX25_CONTROL     0x03  //APRS-UI frame

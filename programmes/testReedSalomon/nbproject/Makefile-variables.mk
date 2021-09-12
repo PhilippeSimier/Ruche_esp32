@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=testrs
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/testrs
+CND_ARTIFACT_NAME_Debug=testreedsalomon
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/testreedsalomon
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=testrs.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/testrs.tar
+CND_PACKAGE_NAME_Debug=testreedsalomon.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/testreedsalomon.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=testrs
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/testrs
+CND_ARTIFACT_NAME_Release=testreedsalomon
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/testreedsalomon
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=testrs.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/testrs.tar
+CND_PACKAGE_NAME_Release=testreedsalomon.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/testreedsalomon.tar
 #
 # include compiler specific variables
 #
