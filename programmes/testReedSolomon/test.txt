@@ -1,0 +1,217 @@
+Affiche toute les trames possible à partir du payload
+------
+FX.25[0] send frame: FX.25 mode = 101
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: transmit 239 data bytes, ctag number 0x01
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+  040:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  050:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  060:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  070:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  080:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  090:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0a0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0b0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0c0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0d0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0e0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9     ...............
+FX.25[0]: transmit 16 check bytes:
+  000:  9f 08 cd 76 c8 21 7f 81 3b 84 74 ed df 21 8f 56  ...v.!..;.t..!.V
+taille totale : 263
+------
+FX.25[0] send frame: FX.25 mode = 102
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: transmit 128 data bytes, ctag number 0x02
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+  040:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  050:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  060:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  070:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+FX.25[0]: transmit 16 check bytes:
+  000:  5f d8 e2 b8 20 5d ad 0c be ca 7c 8b ed f5 28 45  _... ]....|...(E
+taille totale : 152
+------
+FX.25[0] send frame: FX.25 mode = 103
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: transmit 64 data bytes, ctag number 0x03
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+FX.25[0]: transmit 16 check bytes:
+  000:  0c a2 76 b2 d1 f6 40 f8 0e 1f 12 af 87 88 cb 5e  ..v...@........^
+taille totale : 88
+
+------
+FX.25[0] send frame: FX.25 mode = 104
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: Could not find suitable format for requested 104 and data length 59.
+------
+FX.25[0] send frame: FX.25 mode = 105
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: transmit 223 data bytes, ctag number 0x05
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+  040:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  050:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  060:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  070:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  080:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  090:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0a0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0b0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0c0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0d0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9     ...............
+FX.25[0]: transmit 32 check bytes:
+  000:  c4 2f 5c 99 f0 d6 65 6a 03 2c 7b c9 01 6b 88 62  ./\...ej.,{..k.b
+  010:  03 02 ec a6 fb a9 68 cf d9 27 86 ea 55 0a 57 0f  ......h..'..U.W.
+taille totale : 263
+------
+FX.25[0] send frame: FX.25 mode = 106
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: transmit 128 data bytes, ctag number 0x06
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+  040:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  050:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  060:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  070:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+FX.25[0]: transmit 32 check bytes:
+  000:  80 aa 51 95 4e 6b 3c 3c 95 ff 9f a9 2d d0 ea 1d  ..Q.Nk<<....-...
+  010:  af 48 73 12 64 18 57 49 9c eb a1 79 a4 96 c1 2a  .Hs.d.WI...y...*
+taille totale : 168
+------
+FX.25[0] send frame: FX.25 mode = 107
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: transmit 64 data bytes, ctag number 0x07
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+FX.25[0]: transmit 32 check bytes:
+  000:  b7 48 d1 2b 98 b6 9c c9 c7 c8 a1 7d ec d4 3b f8  .H.+.......}..;.
+  010:  a5 62 cd d9 c4 2c 78 4d e0 80 57 c7 3f 62 f8 d5  .b...,xM..W.?b..
+taille totale : 104
+------
+FX.25[0] send frame: FX.25 mode = 108
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: Could not find suitable format for requested 108 and data length 59.
+------
+FX.25[0] send frame: FX.25 mode = 109
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: transmit 191 data bytes, ctag number 0x09
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+  040:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  050:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  060:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  070:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  080:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  090:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0a0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  0b0:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9     ...............
+FX.25[0]: transmit 64 check bytes:
+  000:  86 c4 c0 e2 e5 32 e3 1c 0c 3d 4a 82 00 50 79 3c  .....2...=J..Py<
+  010:  7b 51 88 ea 18 c9 7a d5 22 08 86 d6 c8 05 ee 4b  {Q....z."......K
+  020:  54 b2 ae 13 17 a6 28 46 3d 67 ce 67 37 e8 fc f1  T.....(F=g.g7...
+  030:  cd 43 56 5d d1 ee f4 b4 b3 5a 52 bc 45 c0 14 83  .CV].....ZR.E...
+taille totale : 263
+------
+FX.25[0] send frame: FX.25 mode = 110
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: transmit 128 data bytes, ctag number 0x0a
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+  040:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  050:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  060:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+  070:  f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9  ................
+FX.25[0]: transmit 64 check bytes:
+  000:  b7 65 4b c1 80 98 29 95 8b d7 08 18 46 dc ad b0  .eK...).....F...
+  010:  ac 47 42 8f ad a5 01 dd fb 91 61 d7 c5 94 56 d7  .GB.......a...V.
+  020:  d5 6b 9e 44 7d eb 85 0d 4c 24 cc 46 fa 2a 01 b9  .k.D}...L$.F.*..
+  030:  ef 14 26 c6 b6 7d d0 87 b7 45 a7 b1 b0 44 24 0c  ..&..}...E...D$.
+taille totale : 200
+------
+FX.25[0] send frame: FX.25 mode = 111
+  000:  8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae 92  .b...@d.b...@j..
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 21 34  ..b@b....d@e..!4
+  020:  37 35 33 2e 34 31 4e 2f 30 30 30 31 36 2e 36 31  753.41N/00016.61
+  030:  45 3e 74 65 73 74 65 e2                          E>teste.
+FX.25[0]: transmit 64 data bytes, ctag number 0x0b
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+FX.25[0]: transmit 64 check bytes:
+  000:  a2 0c 68 14 e5 ce 31 69 6e 4f d6 cc 09 90 75 2c  ..h...1inO....u,
+  010:  8c d1 dc cd 03 87 2a 8c 07 d2 9f 97 3c eb 7a 31  ......*.....<.z1
+  020:  18 88 de c7 4c bf 4c d5 6d 03 b1 5d 5a 15 25 78  ....L.L.m..]Z.%x
+  030:  27 3b 4a ae 49 16 cf 6d fc 80 ad dd 9d c7 fc ef  ';J.I..m........
+taille totale : 136
+Choisi la trame la plus adaptée
+
+
+cooucouFX.25[64]: transmit data bytes, ctag number 0x03
+  000:  7e 8c 62 b4 9a 9a 40 64 8c 62 b4 9a 9a 40 6a ae  ~.b...@d.b...@j.
+  010:  92 88 8a 62 40 62 ae 92 88 8a 64 40 65 03 f0 41  ...b@b....d@e..A
+  020:  68 6e 6a 66 5c 68 62 9c 5e 60 60 60 62 6c 5c 6c  hnjf\hb.^```bl\l
+  030:  62 8a 7c d0 95 cd d1 95 89 fb f9 f9 f9 f9 f9 f9  b.|.............
+FX.25[16]: transmit 0 check bytes:
+  000:  0c a2 76 b2 d1 f6 40 f8 0e 1f 12 af 87 88 cb 5e  ..v...@........^
+------
+Bilan de la trame FX.25 : 88 data bytes
+  000:  9e b0 d9 f3 08 05 dc c7 7e 8c 62 b4 9a 9a 40 64  ........~.b...@d
+  010:  8c 62 b4 9a 9a 40 6a ae 92 88 8a 62 40 62 ae 92  .b...@j....b@b..
+  020:  88 8a 64 40 65 03 f0 41 68 6e 6a 66 5c 68 62 9c  ..d@e..Ahnjf\hb.
+  030:  5e 60 60 60 62 6c 5c 6c 62 8a 7c d0 95 cd d1 95  ^```bl\lb.|.....
+  040:  89 fb f9 f9 f9 f9 f9 f9 0c a2 76 b2 d1 f6 40 f8  ..........v...@.
+  050:  0e 1f 12 af 87 88 cb 5e                          .......^
+
+correspond à la trame 103 FX.25[0] send frame: FX.25 mode = 103
+
+

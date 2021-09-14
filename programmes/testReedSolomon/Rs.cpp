@@ -1,9 +1,10 @@
 /* 
  * File:   Rs.cpp
- * Author: ale
+ * Author: Anthony Le Cren & Philippe Simier
  * 
- * Created on 8 septembre 2021, 13:32
+ * Created on 14 septembre 2021, 13:18
  */
+
 
 #include "Rs.h"
 
@@ -553,4 +554,3 @@ int Rs::stuff_it(unsigned char *in, int ilen, unsigned char *out, int osize) {
     return (ret);
 
 } // end stuff_it
-

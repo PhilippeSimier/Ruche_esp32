@@ -1,21 +1,14 @@
 /* 
  * File:   Rs.h
- * Author: ale
+ * Author: Anthony Le Cren & Philippe Simier
  *
- * Created on 8 septembre 2021, 13:32
+ * Created on 14 septembre 2021, 13:18
  */
 
 #ifndef RS_H
 #define RS_H
 
-#include <stdint.h> // for uint64_t
-#include <cstddef>
-#include <cstdlib>
-#include <assert.h>     // pour afficher les erreurs avec la fct assert
-#include <cstdio>
-#include <stdio.h>
-#include <ctype.h>
-#include <cstring>    // for memcpy
+#include <Arduino.h>
 
 #define A0 (rs->nn)
 
@@ -30,8 +23,6 @@
 #define FX25_BLOCK_SIZE 255 // Block size always 255 for 8 bit symbols.
 
 #define NTAB 3
-
-
 
 /* Reed-Solomon codec control block */
 struct rs {
@@ -130,23 +121,23 @@ public:
     Rs(const Rs& orig);
     virtual ~Rs();
 
-    int  fx25_print_all_frame(int chan, unsigned char *fbuf, int flen, int fx_mode);
-    int  fx25Generate(uint8_t *fbuf, int flen, uint8_t *dest, int *destLen, int fx_mode);
+    int fx25_print_all_frame(int chan, unsigned char *fbuf, int flen, int fx_mode);
+    int fx25Generate(uint8_t *fbuf, int flen, uint8_t *dest, int *destLen, int fx_mode);
     void fx_hex_dump(uint8_t *p, int len);
 
 private:
     void fx25_init();
     void encodeRs(struct rs *rs, uint8_t *data, uint8_t *bb);
 
-    int      fx25_pick_mode(int fx_mode, int dlen);
+    int fx25_pick_mode(int fx_mode, int dlen);
     uint64_t fx25_get_ctag_value(int ctag_num);
-    int      fx25_get_k_data_radio(int ctag_num);
-    int      fx25_get_k_data_rs(int ctag_num);
+    int fx25_get_k_data_radio(int ctag_num);
+    int fx25_get_k_data_rs(int ctag_num);
     struct rs *fx25_get_rs(int ctag_num);
     struct rs *initRS(unsigned int symsize, unsigned int gfpoly, unsigned fcr, unsigned prim, unsigned int nroots);
     int fx25_get_nroots(int ctag_num);
     int stuff_it(unsigned char *in, int ilen, unsigned char *out, int osize);
-    
+
     uint8_t frameRadio[263];
 };
 
