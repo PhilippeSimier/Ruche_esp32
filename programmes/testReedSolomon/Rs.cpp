@@ -19,7 +19,7 @@ Rs::~Rs() {
 }
 
 /**
- *  __builtin_popcountll Cette fonction renvoie le nombre de bits définis dans un entier 
+ *  __builtin_popcountll Cette fonction renvoie le nombre de bits définis dans un entier long long
  *                       (le nombre de uns dans la représentation binaire de l'entier). 
  */
 void Rs::fx25_init() {
