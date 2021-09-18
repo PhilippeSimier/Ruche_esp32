@@ -18,7 +18,7 @@ void setup() {
     char path1[] = "WIDE1-1";
     char path2[] = "WIDE2-2";
     ax25->begin(srcCallsign, dstCallsign, path1, path2);
-    ax25->setFec(true);
+    ax25->setFec(true);  // La trame Ax25 est encapsulée dans une trame Fec
 
 }
 
@@ -32,8 +32,7 @@ void loop() {
         switch (c) {
             case 'f':
                 
-                ax25->txMessage(trameAPRS);
-                ax25->debug();  
+                ax25->txMessage(trameAPRS);                
                 break;
                 
             case 'p':
@@ -41,7 +40,6 @@ void loop() {
                 Serial.println("Position p2 trame compressée avec altitude");
                 p2.setAltitude(80);
                 ax25->txMessage(p2.getPduAprs(true));
-                ax25->debug();
                 break;
         }
     }

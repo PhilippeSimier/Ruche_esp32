@@ -42,8 +42,9 @@ void Ax25::txMessage(char *bufMsg) {
         leRs->fx25Generate (buffer, frameLength , frame.data, &frame.nBytes, 1);
         leRs->fx_hex_dump(frame.data, frame.nBytes);
     } else {
-        frame.nBytes = frameLength;
-        memcpy(frame.data, buffer, frameLength);
+        frame.nBytes = leRs->stuff_it(buffer, frameLength, frame.data, DATA_MAX_LENGTH);
+        //frame.nBytes = frameLength;
+        //memcpy(frame.data, buffer, frameLength);
     }
 
     frame.attenuation = attenuation;

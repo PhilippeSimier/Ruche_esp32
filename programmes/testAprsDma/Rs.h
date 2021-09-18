@@ -124,6 +124,7 @@ public:
     int fx25_print_all_frame(int chan, unsigned char *fbuf, int flen, int fx_mode);
     int fx25Generate(uint8_t *fbuf, int flen, uint8_t *dest, uint16_t *destLen, int fx_mode);
     void fx_hex_dump(uint8_t *p, int len);
+    int stuff_it(unsigned char *in, int ilen, unsigned char *out, int osize);
 
 private:
     void fx25_init();
@@ -136,7 +137,7 @@ private:
     struct rs *fx25_get_rs(int ctag_num);
     struct rs *initRS(unsigned int symsize, unsigned int gfpoly, unsigned fcr, unsigned prim, unsigned int nroots);
     int fx25_get_nroots(int ctag_num);
-    int stuff_it(unsigned char *in, int ilen, unsigned char *out, int osize);
+    
 
     uint8_t frameRadio[263];
 };

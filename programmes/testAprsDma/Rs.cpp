@@ -296,24 +296,6 @@ struct rs *Rs::initRS(unsigned int symsize, unsigned int gfpoly, unsigned fcr, u
     for (i = 0; i <= nroots; i++) {
         rs->genpoly[i] = rs->index_of[rs->genpoly[i]];
     }
-
-    // diagnostic prints
-    /*
-      printf("Alpha To:\n\r");
-      for (i=0; i < sizeof(uint8_t)*(rs->nn+1); i++) 
-        printf("0x%2x,", rs->alpha_to[i]);
-      printf("\n\r");
-
-      printf("Index Of:\n\r");
-      for (i=0; i < sizeof(uint8_t)*(rs->nn+1); i++) 
-        printf("0x%2x,", rs->index_of[i]);
-      printf("\n\r");
-  
-      printf("GenPoly:\n\r");
-      for (i = 0; i <= nroots; i++) 
-        printf("0x%2x,", rs->genpoly[i]);
-      printf("\n\r");
-     */
     return rs;
 }
 
@@ -434,10 +416,6 @@ int Rs::fx25_print_all_frame(int chan, unsigned char *fbuf, int flen, int fx_mod
 }
 
 int Rs::fx25Generate(uint8_t *fbuf, int flen, uint8_t *radio, uint16_t *radioLen, int fx_mode) {
-
-
-    printf("Choisi la trame la mieux adaptée\n");
-    printf("mais garde toujours un fec de 16 octets (NROOTS) peut être la méthode fx25_pick_mode a adapter\n");
 
     // Add bit-stuffing.
     const unsigned char fence = 0xaa;
