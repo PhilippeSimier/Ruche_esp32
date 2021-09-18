@@ -18,6 +18,7 @@ void setup() {
     char path1[] = "WIDE1-1";
     char path2[] = "WIDE2-2";
     ax25->begin(srcCallsign, dstCallsign, path1, path2);
+    ax25->setFec(true);
 
 }
 

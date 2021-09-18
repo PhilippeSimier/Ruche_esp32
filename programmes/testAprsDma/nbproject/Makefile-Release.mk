@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/DdsI2s.o \
 	${OBJECTDIR}/Message.o \
 	${OBJECTDIR}/Position.o \
+	${OBJECTDIR}/Rs.o \
 	${OBJECTDIR}/Telemetry.o \
 	${OBJECTDIR}/Weather.o \
 	${OBJECTDIR}/main.ino.o
@@ -93,6 +94,11 @@ ${OBJECTDIR}/Position.o: Position.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Position.o Position.cpp
+
+${OBJECTDIR}/Rs.o: Rs.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Rs.o Rs.cpp
 
 ${OBJECTDIR}/Telemetry.o: Telemetry.cpp
 	${MKDIR} -p ${OBJECTDIR}

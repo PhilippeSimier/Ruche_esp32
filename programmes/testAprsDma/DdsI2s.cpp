@@ -118,7 +118,7 @@ void DdsI2s::sendByte( uint8_t inByte, bool flag) {
         bt = inByte & 0x01;         //masque sur le LSB 1st
         if (bt == 0) flipOut();     //si c'est un 0 alors appel inversion mark <-> space
         else {                      //c'est un 1 on reste sur la meme fréquence
-            stuff++;                         //incrementation compteur pour inserer un bit de stuffing
+            //stuff++;                         //incrementation compteur pour inserer un bit de stuffing
             if ((flag == 0) && (stuff == 5)) //inversion mark <-> space pour le bit stuffing
             { //et si flag = 0 (pas de bit stuffing dans le préambule)
                 sendBit();
