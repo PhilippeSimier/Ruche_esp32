@@ -9,7 +9,7 @@
 #include "Rs.h"
 
 Rs::Rs() {
-    fx25_init();
+    init();
 }
 
 Rs::Rs(const Rs& orig) {
@@ -22,12 +22,12 @@ Rs::~Rs() {
  *  __builtin_popcountll Cette fonction renvoie le nombre de bits définis dans un entier long long
  *                       (le nombre de uns dans la représentation binaire de l'entier). 
  */
-void Rs::fx25_init() {
+void Rs::init() {
 
     for (int i = 0; i < NTAB; i++) {
         Tab[i].rs = initRS(Tab[i].symsize, Tab[i].genpoly, Tab[i].fcs, Tab[i].prim, Tab[i].nroots);
         if (Tab[i].rs == NULL) {
-            printf("FX.25 internal error: init_rs_char failed!\n");
+            Serial.printf("FX.25 internal error: init_rs_char failed!\n");
             exit(EXIT_FAILURE);
         }
     }
@@ -52,69 +52,69 @@ void Rs::fx25_init() {
         assert(tags[j].n_block_rs == FX25_BLOCK_SIZE);
     }
 
-    assert(fx25_pick_mode(100 + 1, 239) == 1);
-    assert(fx25_pick_mode(100 + 1, 240) == -1);
+    assert(pick_mode(100 + 1, 239) == 1);
+    assert(pick_mode(100 + 1, 240) == -1);
 
-    assert(fx25_pick_mode(100 + 5, 223) == 5);
-    assert(fx25_pick_mode(100 + 5, 224) == -1);
+    assert(pick_mode(100 + 5, 223) == 5);
+    assert(pick_mode(100 + 5, 224) == -1);
 
-    assert(fx25_pick_mode(100 + 9, 191) == 9);
-    assert(fx25_pick_mode(100 + 9, 192) == -1);
+    assert(pick_mode(100 + 9, 191) == 9);
+    assert(pick_mode(100 + 9, 192) == -1);
 
-    assert(fx25_pick_mode(16, 32) == 4);
-    assert(fx25_pick_mode(16, 64) == 3);
-    assert(fx25_pick_mode(16, 128) == 2);
-    assert(fx25_pick_mode(16, 239) == 1);
-    assert(fx25_pick_mode(16, 240) == -1);
+    assert(pick_mode(16, 32) == 4);
+    assert(pick_mode(16, 64) == 3);
+    assert(pick_mode(16, 128) == 2);
+    assert(pick_mode(16, 239) == 1);
+    assert(pick_mode(16, 240) == -1);
 
-    assert(fx25_pick_mode(32, 32) == 8);
-    assert(fx25_pick_mode(32, 64) == 7);
-    assert(fx25_pick_mode(32, 128) == 6);
-    assert(fx25_pick_mode(32, 223) == 5);
-    assert(fx25_pick_mode(32, 234) == -1);
+    assert(pick_mode(32, 32) == 8);
+    assert(pick_mode(32, 64) == 7);
+    assert(pick_mode(32, 128) == 6);
+    assert(pick_mode(32, 223) == 5);
+    assert(pick_mode(32, 234) == -1);
 
-    assert(fx25_pick_mode(64, 64) == 11);
-    assert(fx25_pick_mode(64, 128) == 10);
-    assert(fx25_pick_mode(64, 191) == 9);
-    assert(fx25_pick_mode(64, 192) == -1);
+    assert(pick_mode(64, 64) == 11);
+    assert(pick_mode(64, 128) == 10);
+    assert(pick_mode(64, 191) == 9);
+    assert(pick_mode(64, 192) == -1);
 
-    assert(fx25_pick_mode(1, 32) == 4);
-    assert(fx25_pick_mode(1, 33) == 3);
-    assert(fx25_pick_mode(1, 64) == 3);
-    assert(fx25_pick_mode(1, 65) == 6);
-    assert(fx25_pick_mode(1, 128) == 6);
-    assert(fx25_pick_mode(1, 191) == 9);
-    assert(fx25_pick_mode(1, 223) == 5);
-    assert(fx25_pick_mode(1, 239) == 1);
-    assert(fx25_pick_mode(1, 240) == -1);
+    assert(pick_mode(1, 32) == 4);
+    assert(pick_mode(1, 33) == 3);
+    assert(pick_mode(1, 64) == 3);
+    assert(pick_mode(1, 65) == 6);
+    assert(pick_mode(1, 128) == 6);
+    assert(pick_mode(1, 191) == 9);
+    assert(pick_mode(1, 223) == 5);
+    assert(pick_mode(1, 239) == 1);
+    assert(pick_mode(1, 240) == -1);
 
-} // fx25_init
+} // init
 
 // Get properties of specified CTAG number.
 
-struct rs *Rs::fx25_get_rs(int ctag_num) {
+struct rs *Rs::get_rs(int ctag_num) {
     assert(ctag_num >= CTAG_MIN && ctag_num <= CTAG_MAX);
     assert(tags[ctag_num].itab >= 0 && tags[ctag_num].itab < NTAB);
     assert(Tab[tags[ctag_num].itab].rs != NULL);
     return (Tab[tags[ctag_num].itab].rs);
 }
 
-uint64_t Rs::fx25_get_ctag_value(int ctag_num) {
+uint64_t Rs::get_ctag_value(int ctag_num) {
     assert(ctag_num >= CTAG_MIN && ctag_num <= CTAG_MAX);
     return (tags[ctag_num].value);
 }
 
-int Rs::fx25_get_k_data_radio(int ctag_num) {
+int Rs::get_k_data_radio(int ctag_num) {
     assert(ctag_num >= CTAG_MIN && ctag_num <= CTAG_MAX);
     return (tags[ctag_num].k_data_radio);
 }
 
-int Rs::fx25_get_k_data_rs(int ctag_num) {
+int Rs::get_k_data_rs(int ctag_num) {
     assert(ctag_num >= CTAG_MIN && ctag_num <= CTAG_MAX);
     return (tags[ctag_num].k_data_rs);
 }
 
-int Rs::fx25_get_nroots(int ctag_num) {
+int Rs::get_nroots(int ctag_num) {
     assert(ctag_num >= CTAG_MIN && ctag_num <= CTAG_MAX);
     return (Tab[tags[ctag_num].itab].nroots);
 }
@@ -143,14 +143,14 @@ int Rs::fx25_get_nroots(int ctag_num) {
  *
  *--------------------------------------------------------------*/
 
-int Rs::fx25_pick_mode(int fx_mode, int dlen) {
+int Rs::pick_mode(int fx_mode, int dlen) {
     if (fx_mode <= 0) return (-1);
 
     // Spécifiez une balise spécifique en ajoutant 100 au nombre. 
     // Échoue si les données ne rentrent pas. 
 
     if (fx_mode - 100 >= CTAG_MIN && fx_mode - 100 <= CTAG_MAX) {
-        if (dlen <= fx25_get_k_data_radio(fx_mode - 100)) {
+        if (dlen <= get_k_data_radio(fx_mode - 100)) {
             return (fx_mode - 100);
         } else {
             return (-1); // En supposant que l'appelant imprime un message d'échec.
@@ -160,7 +160,7 @@ int Rs::fx25_pick_mode(int fx_mode, int dlen) {
 
     else if (fx_mode == 16 || fx_mode == 32 || fx_mode == 64) {
         for (int k = CTAG_MAX; k >= CTAG_MIN; k--) {
-            if (fx_mode == fx25_get_nroots(k) && dlen <= fx25_get_k_data_radio(k)) {
+            if (fx_mode == get_nroots(k) && dlen <= get_k_data_radio(k)) {
                 return (k);
             }
         }
@@ -192,7 +192,7 @@ int Rs::fx25_pick_mode(int fx_mode, int dlen) {
     static const int prefer[6] = {0x04, 0x03, 0x06, 0x09, 0x05, 0x01};
     for (int k = 0; k < 6; k++) {
         int m = prefer[k];
-        if (dlen <= fx25_get_k_data_radio(m)) {
+        if (dlen <= get_k_data_radio(m)) {
             return (m);
         }
     }
@@ -202,28 +202,27 @@ int Rs::fx25_pick_mode(int fx_mode, int dlen) {
 
 }
 
-/*   Initialize a Reed-Solomon codec
- *   symsize = symbol size, bits (1-8) - always 8 for this application.
- *   gfpoly = Field generator polynomial coefficients
- *   fcr = first root of RS code generator polynomial, index form
- *   prim = primitive element to generate polynomial roots
- *   nroots = RS code generator polynomial degree (number of roots)
+/*   Initialise un codeur décodeur (codec) Reed-Solomon 
+ *   symsize = taille du symbole, bits (1-8) - toujours 8 pour cette application. 
+ *   gfpoly = Coefficients polynomiaux du générateur de champ 
+ *   fcr = première racine du polynôme générateur de code Reed Solomon,, index form
+ *   prim = élément primitif pour générer des racines polynomiales 
+ *   nroots = Degré polynomial du générateur de code RS (nombre de racines) 
  */
 
-struct rs *Rs::initRS(unsigned int symsize, unsigned int gfpoly, unsigned fcr, unsigned prim,
-        unsigned int nroots) {
+struct rs *Rs::initRS(unsigned int symsize, unsigned int gfpoly, unsigned fcr, unsigned prim,  unsigned int nroots) {
     struct rs *rs;
     int i, j, sr, root, iprim;
 
     if (symsize > 8 * sizeof (uint8_t))
-        return NULL; /* Need version with ints rather than chars */
+        return NULL; /* Besoin d'une version avec des entiers plutôt que des caractères  */
 
     if (fcr >= (1 << symsize))
         return NULL;
     if (prim == 0 || prim >= (1 << symsize))
         return NULL;
     if (nroots >= (1 << symsize))
-        return NULL; /* Can't have more roots than symbol values! */
+        return NULL; /* Ne peut pas avoir plus de racines que de valeurs de symboles !  */
 
     rs = (struct rs *) calloc(1, sizeof (struct rs));
     rs->mm = symsize;
@@ -241,7 +240,7 @@ struct rs *Rs::initRS(unsigned int symsize, unsigned int gfpoly, unsigned fcr, u
         return NULL;
     }
 
-    /* Generate Galois field lookup tables */
+    /* Génére des tables de recherche de champs de Galois  */
     rs->index_of[0] = A0; /* log(zero) = -inf */
     rs->alpha_to[A0] = 0; /* alpha**-inf = 0 */
     sr = 1;
@@ -254,7 +253,7 @@ struct rs *Rs::initRS(unsigned int symsize, unsigned int gfpoly, unsigned fcr, u
         sr &= rs->nn;
     }
     if (sr != 1) {
-        /* field generator polynomial is not primitive! */
+        /* le polynôme générateur de champ n'est pas primitif !  */
         free(rs->alpha_to);
         free(rs->index_of);
         free(rs);
@@ -305,18 +304,18 @@ void Rs::hex_dump(uint8_t *p, int len) {
     offset = 0;
     while (len > 0) {
         n = len < 16 ? len : 16;
-        printf("  %03x: ", offset);
+        Serial.printf("  %03x: ", offset);
         for (i = 0; i < n; i++) {
-            printf(" %02x", p[i]);
+            Serial.printf(" %02x", p[i]);
         }
         for (i = n; i < 16; i++) {
-            printf("   ");
+            Serial.printf("   ");
         }
-        printf("  ");
+        Serial.printf("  ");
         for (i = 0; i < n; i++) {
-            printf("%c", isprint(p[i]) ? p[i] : '.');
+            Serial.printf("%c", isprint(p[i]) ? p[i] : '.');
         }
-        printf("\n");
+        Serial.printf("\r");
         p += 16;
         offset += 16;
         len -= 16;
@@ -345,76 +344,6 @@ void Rs::encodeRs(struct rs * rs, uint8_t * data, uint8_t * bb) {
     }
 }
 
-int Rs::fx25_print_all_frame(int chan, unsigned char *fbuf, int flen, int fx_mode) {
-
-    printf("------\n");
-    printf("FX.25[%d] send frame: FX.25 mode = %d\n", chan, fx_mode);
-    hex_dump(fbuf, flen);
-
-
-    // Append the FCS.
-
-    //int fcs = fcs_calc (fbuf, flen);
-    //fbuf[flen++] = fcs & 0xff;
-    //fbuf[flen++] = (fcs >> 8) & 0xff;
-
-    // Add bit-stuffing.
-
-    unsigned char data[FX25_MAX_DATA + 1];
-    const unsigned char fence = 0xaa;
-    data[FX25_MAX_DATA] = fence;
-
-    int dlen = stuff_it(fbuf, flen, data, FX25_MAX_DATA);
-
-    assert(data[FX25_MAX_DATA] == fence);
-    if (dlen < 0) {
-        printf("FX.25[%d]: Frame length of %d + overhead is too large to encode.\n", chan, flen);
-        return (-1);
-    }
-
-    // Pick suitable correlation tag depending on
-    // user's preference, for number of check bytes,
-    // and the data size.
-
-    int ctag_num = fx25_pick_mode(fx_mode, dlen);
-
-    if (ctag_num < CTAG_MIN || ctag_num > CTAG_MAX) {
-        printf("FX.25[%d]: Could not find suitable format for requested %d and data length %d.\n", chan, fx_mode, dlen);
-        return (-1);
-    }
-
-    uint64_t ctag_value = fx25_get_ctag_value(ctag_num);
-
-    // Zero out part of data which won't be transmitted.
-    // It should all be filled by extra HDLC "flag" patterns.
-
-    int k_data_radio = fx25_get_k_data_radio(ctag_num);
-    int k_data_rs = fx25_get_k_data_rs(ctag_num);
-    int shorten_by = FX25_MAX_DATA - k_data_radio;
-    if (shorten_by > 0) {
-        memset(data + k_data_radio, 0, shorten_by);
-    }
-
-    // Compute the check bytes.
-
-    unsigned char check[FX25_MAX_CHECK + 1];
-    check[FX25_MAX_CHECK] = fence;
-    struct rs *rs = fx25_get_rs(ctag_num);
-
-    assert(k_data_rs + rs->nroots == rs->nn);
-
-    encodeRs(rs, data, check);
-    assert(check[FX25_MAX_CHECK] == fence);
-
-/**
-    printf("FX.25[%d]: transmit %d data bytes, ctag number 0x%02x\n", chan, k_data_radio, ctag_num);
-    hex_dump(data, k_data_radio);
-    printf("FX.25[%d]: transmit %d check bytes:\n", chan, rs->nroots);
-    hex_dump(check, rs->nroots);
-    printf("taille totale : %d\n", 8 + k_data_radio + rs->nroots);
- */
-    return 1;
-}
 
 int Rs::generate(uint8_t *fbuf, int flen, uint8_t *radio, uint16_t *radioLen, int fx_mode) {
 
@@ -427,7 +356,7 @@ int Rs::generate(uint8_t *fbuf, int flen, uint8_t *radio, uint16_t *radioLen, in
 
     assert(data[FX25_MAX_DATA] == fence);
     if (dlen < 0) {
-        printf("FX.25[%d]: Frame length of %d + overhead is too large to encode.\n", flen);
+        Serial.printf("FX.25[%d]: Frame length of %d + overhead is too large to encode.\n", flen);
         return (-1);
     }
 
@@ -435,20 +364,20 @@ int Rs::generate(uint8_t *fbuf, int flen, uint8_t *radio, uint16_t *radioLen, in
     // user's preference(fx_mode), for number of check bytes,
     // and the data size.
 
-    int ctag_num = fx25_pick_mode(fx_mode, dlen);
+    int ctag_num = pick_mode(fx_mode, dlen);
 
     if (ctag_num < CTAG_MIN || ctag_num > CTAG_MAX) {
-        printf("FX.25[%d]: Could not find suitable format for requested %d and data length %d.\n", fx_mode, dlen);
+        Serial.printf("FX.25[%d]: Could not find suitable format for requested %d and data length %d.\n", fx_mode, dlen);
         return (-1);
     }
 
-    uint64_t ctag_value = fx25_get_ctag_value(ctag_num);
+    uint64_t ctag_value = get_ctag_value(ctag_num);
 
     // Zero out part of data which won't be transmitted.
     // It should all be filled by extra HDLC "flag" patterns.
 
-    int k_data_radio = fx25_get_k_data_radio(ctag_num);
-    int k_data_rs = fx25_get_k_data_rs(ctag_num);
+    int k_data_radio = get_k_data_radio(ctag_num);
+    int k_data_rs    = get_k_data_rs(ctag_num);
     int shorten_by = FX25_MAX_DATA - k_data_radio;
     if (shorten_by > 0) {
         memset(data + k_data_radio, 0, shorten_by);
@@ -458,20 +387,12 @@ int Rs::generate(uint8_t *fbuf, int flen, uint8_t *radio, uint16_t *radioLen, in
 
     unsigned char check[FX25_MAX_CHECK + 1];
     check[FX25_MAX_CHECK] = fence;
-    struct rs *rs = fx25_get_rs(ctag_num);
+    struct rs *rs = get_rs(ctag_num);
 
     assert(k_data_rs + rs->nroots == rs->nn);
 
     encodeRs(rs, data, check);
     assert(check[FX25_MAX_CHECK] == fence);
-
-    /**
-    printf("FX.25[%d]: transmit data bytes, ctag number 0x%02x\n", k_data_radio, ctag_num);
-    hex_dump(data, k_data_radio);
-    printf("FX.25[%d]: transmit %d check bytes:\n", rs->nroots);
-    hex_dump(check, rs->nroots);
-    printf("------\n");
-    */
 
     int k;
     for (k = 0; k < 8; k++) {
