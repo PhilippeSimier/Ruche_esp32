@@ -39,10 +39,11 @@ void Fx25::txMessage(char *bufMsg) {
 
     //si fec est vrai encapsule la trame ax25 dans une trame fec
     if (fec) {
-        leRs->fx25Generate (buffer, frameLength , frame.data, &frame.nBytes, 1);
-        leRs->fx_hex_dump(frame.data, frame.nBytes);
+        leRs->generate (buffer, frameLength , frame.data, &frame.nBytes, 1);
+        leRs->hex_dump(frame.data, frame.nBytes);
     } else {
         frame.nBytes = leRs->stuff_it(buffer, frameLength, frame.data, DATA_MAX_LENGTH);
+        leRs->hex_dump(frame.data, frame.nBytes);
     }
 
     frame.attenuation = attenuation;

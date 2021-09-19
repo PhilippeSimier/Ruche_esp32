@@ -299,7 +299,7 @@ struct rs *Rs::initRS(unsigned int symsize, unsigned int gfpoly, unsigned fcr, u
     return rs;
 }
 
-void Rs::fx_hex_dump(uint8_t *p, int len) {
+void Rs::hex_dump(uint8_t *p, int len) {
     int n, i, offset;
 
     offset = 0;
@@ -349,7 +349,7 @@ int Rs::fx25_print_all_frame(int chan, unsigned char *fbuf, int flen, int fx_mod
 
     printf("------\n");
     printf("FX.25[%d] send frame: FX.25 mode = %d\n", chan, fx_mode);
-    fx_hex_dump(fbuf, flen);
+    hex_dump(fbuf, flen);
 
 
     // Append the FCS.
@@ -406,16 +406,17 @@ int Rs::fx25_print_all_frame(int chan, unsigned char *fbuf, int flen, int fx_mod
     encodeRs(rs, data, check);
     assert(check[FX25_MAX_CHECK] == fence);
 
-
+/**
     printf("FX.25[%d]: transmit %d data bytes, ctag number 0x%02x\n", chan, k_data_radio, ctag_num);
-    fx_hex_dump(data, k_data_radio);
+    hex_dump(data, k_data_radio);
     printf("FX.25[%d]: transmit %d check bytes:\n", chan, rs->nroots);
-    fx_hex_dump(check, rs->nroots);
+    hex_dump(check, rs->nroots);
     printf("taille totale : %d\n", 8 + k_data_radio + rs->nroots);
+ */
     return 1;
 }
 
-int Rs::fx25Generate(uint8_t *fbuf, int flen, uint8_t *radio, uint16_t *radioLen, int fx_mode) {
+int Rs::generate(uint8_t *fbuf, int flen, uint8_t *radio, uint16_t *radioLen, int fx_mode) {
 
     // Add bit-stuffing.
     const unsigned char fence = 0xaa;
@@ -464,14 +465,13 @@ int Rs::fx25Generate(uint8_t *fbuf, int flen, uint8_t *radio, uint16_t *radioLen
     encodeRs(rs, data, check);
     assert(check[FX25_MAX_CHECK] == fence);
 
-
+    /**
     printf("FX.25[%d]: transmit data bytes, ctag number 0x%02x\n", k_data_radio, ctag_num);
-    fx_hex_dump(data, k_data_radio);
+    hex_dump(data, k_data_radio);
     printf("FX.25[%d]: transmit %d check bytes:\n", rs->nroots);
-    fx_hex_dump(check, rs->nroots);
+    hex_dump(check, rs->nroots);
     printf("------\n");
-
-
+    */
 
     int k;
     for (k = 0; k < 8; k++) {

@@ -122,8 +122,8 @@ public:
     virtual ~Rs();
 
     int fx25_print_all_frame(int chan, unsigned char *fbuf, int flen, int fx_mode);
-    int fx25Generate(uint8_t *fbuf, int flen, uint8_t *dest, uint16_t *destLen, int fx_mode);
-    void fx_hex_dump(uint8_t *p, int len);
+    int  generate(uint8_t *fbuf, int flen, uint8_t *dest, uint16_t *destLen, int fx_mode);
+    void hex_dump(uint8_t *p, int len);
     int stuff_it(unsigned char *in, int ilen, unsigned char *out, int osize);
 
 private:
