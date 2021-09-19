@@ -108,7 +108,7 @@ void DdsI2s::sendBit() {
 }
 
 void DdsI2s::flipOut() {
-    stuff = 0; //mise à zéro du bit stuffing
+    
     flip ^= 1; //inversion drapeau mark <-> space
 }
 
@@ -117,14 +117,6 @@ void DdsI2s::sendByte( uint8_t inByte, bool flag) {
     for (k = 0; k < 8; k++) {
         bt = inByte & 0x01;         //masque sur le LSB 1st
         if (bt == 0) flipOut();     //si c'est un 0 alors appel inversion mark <-> space
-        else {                      //c'est un 1 on reste sur la meme fréquence
-            //stuff++;                         //incrementation compteur pour inserer un bit de stuffing
-            if ((flag == 0) && (stuff == 5)) //inversion mark <-> space pour le bit stuffing
-            { //et si flag = 0 (pas de bit stuffing dans le préambule)
-                sendBit();
-                flipOut();
-            }
-        }
         inByte >>= 1; //décallage vers la droite pour le prochain bit
         sendBit(); //envoi du bit en cours
     }
@@ -148,7 +140,6 @@ void DdsI2s::dma() {
         vTaskDelay(1); //indispensable car sinon guru ?!
         if (xQueueReceive(queueDds, &frame, portMAX_DELAY) == pdPASS) {
   
-            stuff = 0; //compteur de bit stuffing à zéro
             flip = 1; //fréquence space activée
             attenuation = frame.attenuation;
             dra->ptt(1);

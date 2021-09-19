@@ -35,9 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Ax25.o \
 	${OBJECTDIR}/DRA818.o \
 	${OBJECTDIR}/DdsI2s.o \
+	${OBJECTDIR}/Fx25.o \
 	${OBJECTDIR}/Message.o \
 	${OBJECTDIR}/Position.o \
 	${OBJECTDIR}/Rs.o \
@@ -70,11 +70,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprsdma: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testaprsdma ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/Ax25.o: Ax25.cpp
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Ax25.o Ax25.cpp
-
 ${OBJECTDIR}/DRA818.o: DRA818.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -84,6 +79,11 @@ ${OBJECTDIR}/DdsI2s.o: DdsI2s.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DdsI2s.o DdsI2s.cpp
+
+${OBJECTDIR}/Fx25.o: Fx25.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Fx25.o Fx25.cpp
 
 ${OBJECTDIR}/Message.o: Message.cpp
 	${MKDIR} -p ${OBJECTDIR}

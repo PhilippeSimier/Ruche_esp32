@@ -73,7 +73,6 @@ private:
     dac_channel_t   dacChannel;
     uint32_t        accumulateur;
     uint8_t         flip;
-    uint8_t         stuff;
     attenuation_t   attenuation;
     uint32_t        freq[2];
     DRA818          *dra;

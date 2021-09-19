@@ -1,12 +1,14 @@
+
+
 /* 
- * File:   Ax25.h
+ * File:   Fx25.h
  * Author: Anthony le Cren & philippe SIMIER
  *
- * Created on 30 août 2021, 09:51
+ * Created on 19 septembre 2021, 09:00
  */
 
-#ifndef AX25_H
-#define AX25_H
+#ifndef FX25_H
+#define FX25_H
 
 #include <Arduino.h>
 #include <WString.h>
@@ -19,22 +21,24 @@
 #define AX25_PROTOCOL    0xF0  //Protocol Identifier
 #define AX25_MAX_LENGTH  512
 
-class Ax25 {
+class Fx25 {
 public:
-    Ax25();
-    Ax25(const Ax25& orig);
-    virtual ~Ax25();
-    
-    void begin(char *sourceCallsign ,
-               char *destinationCallsign ,
-               char *path1 ,
-               char *path2);
-        
+   
+    Fx25();
+    Fx25(const Fx25& orig);
+    virtual ~Fx25();
+
+    void begin(char *sourceCallsign,
+            char *destinationCallsign,
+            char *path1,
+            char *path2);
+
     void txMessage(char *bufMsg);
     void setFec(bool val);
     void debug();
     
 private:
+
     uint8_t*  addCallsign(uint8_t *buf, char *callsign);
     void      calculateCRC();
     bool    fec;
@@ -44,8 +48,9 @@ private:
     attenuation_t attenuation;
     
     DdsI2s  *leDdsI2s;
-    Rs      *leRs;
+    Rs      *leRs;    
+
 };
 
-#endif /* AX25_H */
+#endif /* FX25_H */
 

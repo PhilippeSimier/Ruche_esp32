@@ -1,13 +1,13 @@
 /* 
- * File:   Ax25.cpp
- * Author: Anthony le Cren & philippe SIMIER
+ * File:   Fx25.cpp
+ * Author: philippe
  * 
- * Created on 30 août 2021, 09:51
+ * Created on 19 septembre 2021, 09:00
  */
 
-#include "Ax25.h"
+#include "Fx25.h"
 
-Ax25::Ax25() :
+Fx25::Fx25() :
 attenuation(dB_0),
 fec(false) {
     buffer = new uint8_t[AX25_MAX_LENGTH];
@@ -16,19 +16,19 @@ fec(false) {
     leRs = new Rs();
 }
 
-Ax25::Ax25(const Ax25& orig) {
+Fx25::Fx25(const Fx25& orig) {
 }
 
-Ax25::~Ax25() {
+Fx25::~Fx25() {
     delete buffer;
     delete leDdsI2s;
 }
 
-void Ax25::setFec(bool val) {
+void Fx25::setFec(bool val) {
     fec = val;
 }
 
-void Ax25::txMessage(char *bufMsg) {
+void Fx25::txMessage(char *bufMsg) {
 
     frame_t frame;
 
@@ -43,8 +43,6 @@ void Ax25::txMessage(char *bufMsg) {
         leRs->fx_hex_dump(frame.data, frame.nBytes);
     } else {
         frame.nBytes = leRs->stuff_it(buffer, frameLength, frame.data, DATA_MAX_LENGTH);
-        //frame.nBytes = frameLength;
-        //memcpy(frame.data, buffer, frameLength);
     }
 
     frame.attenuation = attenuation;
@@ -59,7 +57,7 @@ void Ax25::txMessage(char *bufMsg) {
  *path1 chemin1
  *path2 chemin2
  */
-void Ax25::begin(char *sourceCallsign, char *destinationCallsign, char *path1, char *path2) {
+void Fx25::begin(char *sourceCallsign, char *destinationCallsign, char *path1, char *path2) {
     uint8_t *ptr = buffer;
 
     ptr = addCallsign(buffer, destinationCallsign); // ajoute la destination dans l'header AX25
@@ -73,14 +71,14 @@ void Ax25::begin(char *sourceCallsign, char *destinationCallsign, char *path1, c
 }
 
 /**
-   @brief   Ax25::addCallsign(uint8_t *buf, char *callsign)
+   @brief   Fx25::addCallsign(uint8_t *buf, char *callsign)
    @details Ajoute un callSign (addresse) dans l'entête de la trame
    @param   *buf pointeur dans le buffer pour le positionnement du callsign
  *callsign pointeur de la chaine callsign
    @return  le pointeur courant ds le buffer pour le prochain ajout
  */
 
-uint8_t* Ax25::addCallsign(uint8_t *buf, char *callsign) {
+uint8_t* Fx25::addCallsign(uint8_t *buf, char *callsign) {
     char ssid;
     char i;
     for (i = 0; i < 6; i++) {
@@ -101,7 +99,7 @@ uint8_t* Ax25::addCallsign(uint8_t *buf, char *callsign) {
  * https://github.com/espressif/esp-idf/blob/master/components/esp_rom/include/esp32/rom/crc.h
  */
 
-void Ax25::calculateCRC() {
+void Fx25::calculateCRC() {
     uint16_t crc;
     uint8_t *s;
     s = buffer + frameLength;
@@ -112,11 +110,11 @@ void Ax25::calculateCRC() {
 }
 
 /**
-   @brief Ax25::debug()
-   @details permet d'afficher la trame fabriquée par la classe Ax25 !!
+   @brief Fx25::debug()
+   @details permet d'afficher la trame Ax25 !!
  */
 
-void Ax25::debug() {
+void Fx25::debug() {
     int n;
     Serial.print("longueur de la trame : ");
     Serial.print(frameLength);
@@ -139,5 +137,4 @@ void Ax25::debug() {
     Serial.print(',');
     Serial.println(buffer[frameLength - 1], HEX);
 }
-
 
