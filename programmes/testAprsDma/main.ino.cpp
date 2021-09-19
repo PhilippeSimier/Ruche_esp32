@@ -5,10 +5,12 @@
 
 #include "Fx25.h"
 #include "Position.h"
+#include "Weather.h"
 
 Fx25* fx25;
 
 Position p2(48.010237, 0.206267, "test unitaire p2", '/', '['); // icon Human
+Weather  w3(47.816326, 0.113171);                                // a Weather station
 
 void setup() {
     Serial.begin(115200);
@@ -41,6 +43,21 @@ void loop() {
                 p2.setAltitude(80);
                 fx25->txMessage(p2.getPduAprs(true));
                 break;
+                
+            case 'w':
+                Serial.println("Test weather report");
+                w3.setWind(90);          // Direction du vent 
+                w3.setSpeed(2.5);        // Vitesse moyenne du vent en m/s
+                //w3.setGust(5.1);         // Vitesse en rafale en m/s
+                w3.setTemp(25.5);        // Température en degré celsius
+                w3.setRain(0);           // Pluie en mm/1h
+                w3.setRain24(0);         // Pluie en mm/24h
+                w3.setRainMid(0);        // Pluie en mm/depuit minuit
+                w3.setHumidity(49);      // Hmidité relative en %
+                w3.setPressure(1024.5);  // Pression barométrique en hPa
+                
+                fx25->txMessage(w3.getPduAprs());
+                break;    
         }
     }
 }
