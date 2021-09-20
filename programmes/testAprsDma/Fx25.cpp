@@ -9,6 +9,7 @@
 
 Fx25::Fx25() :
 attenuation(dB_0),
+        
 fec(false) {
     buffer = new uint8_t[AX25_MAX_LENGTH];
     leDdsI2s = new DdsI2s();
@@ -22,6 +23,7 @@ Fx25::Fx25(const Fx25& orig) {
 Fx25::~Fx25() {
     delete buffer;
     delete leDdsI2s;
+    delete leRs;
 }
 
 void Fx25::setFec(bool val) {
