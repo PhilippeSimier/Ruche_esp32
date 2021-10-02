@@ -21,7 +21,9 @@ Le décodeur peut corriger n'importe quelle **erreur de 16 symboles** dans le bl
 
 Les blocs de codes Reed-Solomon peuvent être raccourcis en mettant (conceptuellement) un certain nombre de symboles de données à zéro au niveau du codeur, en ne les transmettant pas, puis en les réinsérant dans le décodeur.
 
-Une erreur de symbole se produit lorsqu'un bit d'un symbole est erroné ou lorsque tous les bits d'un symbole sont erronés. le RS(255,223) peut corriger 16 erreurs de symboles. Dans le pire des cas, des erreurs sur 16 bits peuvent se produire, chacune dans un symbole (octet) distinct, le décodeur corrige les erreurs sur 16 bits. Dans le meilleur des cas, des erreurs sur 16 octets complets peuvent se produire, dans ce cas le décodeur corrige les erreurs de 16 x 8 bits. Les codes Reed-Solomon sont particulièrement bien adaptés à la correction des erreurs en rafale (où une série de bits dans le mot de code est reçue en erreur).
+Une erreur sur un octet se produit lorsqu'un bit de l'octet est erroné ou lorsque tous les bits de l'octet sont erronés. le RS(255,223) peut corriger jusqu'à 16 erreurs d'octet. Dans le pire des cas, des erreurs sur 16 bits peuvent se produire chacune dans un octet distinct, le décodeur corrige les 16 bits en erreurs sur les 16 octets. Dans le meilleur des cas, des erreurs sur 16 octets complets peuvent se produire, dans ce cas le décodeur corrige les erreurs de 16 x 8 bits. Les codes Reed-Solomon sont particulièrement bien adaptés à la correction des erreurs en rafale (où une série de bits dans le mot de code est reçue en erreur).
+
+![Reception avec 4 octets en erreur](/programmes/testReedSolomon/Documentation/direwolf_with_4_errors.png)
 
 ### FX25 -> AX25 +FEC
 **FX.25** est un protocole de transmission de données. C'est un protocole Ax.25, auquel est rajouté une couche de correction d'erreur  FEC (Forward Error Correction, basée sur le Code de Reed-Solomon.
