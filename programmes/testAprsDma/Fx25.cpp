@@ -9,7 +9,6 @@
 
 Fx25::Fx25() :
 attenuation(dB_0),
-        
 fec(false) {
     buffer = new uint8_t[AX25_MAX_LENGTH];
     leDdsI2s = new DdsI2s();
@@ -41,7 +40,7 @@ void Fx25::txMessage(char *bufMsg) {
 
     //si fec est vrai encapsule la trame ax25 dans une trame fec
     if (fec) {
-        leRs->generate (buffer, frameLength , frame.data, &frame.nBytes, 1);
+        leRs->generate(buffer, frameLength, frame.data, &frame.nBytes, 1);
         leRs->hex_dump(frame.data, frame.nBytes);
     } else {
         frame.nBytes = leRs->stuff_it(buffer, frameLength, frame.data, DATA_MAX_LENGTH);
