@@ -28,6 +28,9 @@ Les blocs de codes Reed-Solomon peuvent être raccourcis en mettant (conceptuell
 
 Une erreur sur un octet se produit lorsqu'un bit de l'octet est erroné ou lorsque tous les bits de l'octet sont erronés. le RS(255,223) peut corriger jusqu'à 16 erreurs d'octet. Dans le pire des cas, des erreurs sur 16 bits peuvent se produire chacune dans un octet distinct, le décodeur corrige les 16 bits en erreurs sur les 16 octets. Dans le meilleur des cas, des erreurs sur 16 octets complets peuvent se produire, dans ce cas le décodeur corrige les erreurs de 16 x 8 bits. Les codes Reed-Solomon sont particulièrement bien adaptés à la correction des erreurs en rafale (où une série de bits dans le mot de code est reçue en erreur).
 
+#### Emission d'une trame avec 4 octets effacés
+![Emission avec 4 octets en erreur](/programmes/testReedSolomon/Documentation/buffer_emi.png)
+#### Reception et décodage de la trame FX25 
 ![Reception avec 4 octets en erreur](/programmes/testReedSolomon/Documentation/direwolf_with_4_errors.png)
 
 ### FX25 -> AX25 +FEC
@@ -35,7 +38,7 @@ Une erreur sur un octet se produit lorsqu'un bit de l'octet est erroné ou lorsq
 
 La trame FX.25 est conçue pour être compatible avec les anciens paquets AX.25. Des octets de drapeau 0x7E supplémentaires peuvent être inclus avant ou après l'ensemble de données de paquet AX.25 minimum, tant que la restriction de longueur de paquet maximum est respectée.
 
-### La trame FEC
+### La trame FX25
 |Préambule| Correlation tag | data AX25 | PAD | symboles de contrôle RS | postambule |
 |--|--|--|--|--|--|
 |0x7E  | 8 octets |  | | 16,32 ou 64 octets | 0x7E
@@ -49,3 +52,5 @@ Le bloc **Pad** est nécessaire pour construire le bloc de code RS jusqu'au nomb
 
 Les **symboles de contrôle RS** sont appliqués à la fin du bloc de code FEC. Le nombre de symboles de contrôle  dépend de l'algorithme RS sélectionné.
 
+
+![Trame fx25](/programmes/testReedSolomon/Documentation/trame FX25.png)
