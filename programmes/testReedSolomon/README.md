@@ -8,12 +8,19 @@ Si le nombre d'erreurs de transmission est dans les limites de la capacité de c
 
 
 
-Cependant, parce que la FEC peut corriger un certain nombre de bits erronés, on peut accepter une réduction du niveau du signal reçu et le laisser chuter proche du niveau du bruit, du moment qu’on reste dans la limite des erreurs corrigibles. Cette réduction autorisée du SNR s’appelle le gain de codage, Cela permet de  diminuer la puissance de transmission tout en maintenant l’intégrité de l’information sur l’ensemble de la portée. 
+Cependant, parce que la FEC peut corriger un certain nombre de bits erronés, on peut accepter une réduction du niveau du signal reçu et le laisser chuter proche du niveau du bruit, du moment qu’on reste dans la limite des erreurs corrigibles. Cette réduction autorisée du SNR s’appelle le **gain de codage**, Cela permet de  diminuer la puissance de transmission tout en maintenant l’intégrité de l’information sur l’ensemble de la portée. 
 
 
 ### les  codes de Reed-Solomon
 L’intérêt  de  ces  codes  RS est  que  ce  sont  des  codes  qui ont le meilleur rapport possible entres le nombre d’erreurs  qu’ils permettent de corriger par rapport à la redondance qu’ils introduisent.  
 De  plus,  il  existe  des  algorithmes  de  décodage  très  efficaces.  Ils  sont  donc  très utilisés, par exemple, dans la transmission des données par ADSL ou par satellite, ou encore dans  la communication avec les sondes spatiales.
+
+Les codes de **Reed Solomon** notés ܴܵ**RS (n, ݇k)** sont des codes de détection et de correction des erreurs.  Les messages sont divisés en blocs de ݇k octets chacun dont on a ajouté  k−n ݇ octets de redondance ou de contrôle à chaque bloc. La longueur des blocs dépend de la capacité du codeur. A la réception, le décodeur traite chaque bloc de n octets et corrige les éventuelles erreurs. A la fin de ce traitement, les données originelles seront restaurées. 
+
+Grâce à un ajout de redondance, ces codes permettent de corriger deux types d’erreurs
+
+ - les erreurs induisant une modification des données, ou certains bits passent de la valeur 0 à la valeur 1 et vice versa.
+ - les erreurs provoquant des pertes d’informations aussi appelées effacements, lorsque des paquets d’informations sont perdus.
 
 Un code populaire de Reed-Solomon est le **RS(255,223)** avec des symboles de 8 bits. Chaque bloc contient 255 octets, dont **223 octets de données** et **32 octets de parité**. Pour ce code :
 Le décodeur peut corriger n'importe quelle **erreur de 16 symboles** dans le bloc : c'est-à-dire que les erreurs jusqu'à 16 octets n'importe où dans le bloc peuvent être corrigées automatiquement.
