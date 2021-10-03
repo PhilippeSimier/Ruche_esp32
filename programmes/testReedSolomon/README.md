@@ -52,5 +52,4 @@ Le bloc **Pad** est nécessaire pour construire le bloc de code RS jusqu'au nomb
 
 Les **symboles de contrôle RS** sont appliqués à la fin du bloc de code FEC. Le nombre de symboles de contrôle  dépend de l'algorithme RS sélectionné.
 
-
-![Trame fx25](/programmes/testReedSolomon/Documentation/trame FX25.png)
+![Trame fx25](/programmes/testReedSolomon/Documentation/trame_FX25.png)
