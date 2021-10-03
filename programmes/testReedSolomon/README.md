@@ -6,9 +6,7 @@ Comme nous le savons, les signaux radios peuvent parfois se détériorer au cour
 La correction d’erreur sans voie de retour est un procédé dans lequel les résultats des algorithmes sont envoyés comme information supplémentaire avec les données. En répétant les mêmes algorithmes à l’autre extrémité, le récepteur a la possibilité de détecter les erreurs au bit près et de les corriger (erreurs corrigibles) sans devoir demander à renvoyer les données.
 Si le nombre d'erreurs de transmission est dans les limites de la capacité de correction (erreurs non répétitives), le décodeur de canal localisera et corrigera le "0" ou "1" incorrect afin de retrouver les données transmises.
 
-
-
-Cependant, parce que la FEC peut corriger un certain nombre de bits erronés, on peut accepter une réduction du niveau du signal reçu et le laisser chuter proche du niveau du bruit, du moment qu’on reste dans la limite des erreurs corrigibles. Cette réduction autorisée du SNR s’appelle le **gain de codage**, Cela permet de  diminuer la puissance de transmission tout en maintenant l’intégrité de l’information sur l’ensemble de la portée. 
+Étant donné  que la FEC peut corriger un certain nombre de bits erronés, on peut accepter une réduction du niveau du signal reçu et le laisser chuter proche du niveau du bruit, du moment qu’on reste dans la limite des erreurs corrigibles. Cette réduction autorisée du SNR s’appelle le **gain de codage**, Cela permet de  diminuer la puissance de transmission tout en maintenant l’intégrité de l’information sur l’ensemble de la portée. 
 
 
 ### les  codes de Reed-Solomon
@@ -33,12 +31,21 @@ Une erreur sur un octet se produit lorsqu'un bit de l'octet est erroné ou lorsq
 ![Reception avec 4 octets en erreur](/programmes/testReedSolomon/Documentation/direwolf_with_4_errors.png)
 
 ### FX25 -> AX25 +FEC
-**FX.25** est un protocole de transmission de données. C'est un protocole Ax.25, auquel est rajouté une couche de correction d'erreur  FEC (Forward Error Correction, basée sur le Code de Reed-Solomon.
+**FX.25** est un protocole de transmission de données. C'est un protocole Ax.25, auquel est rajouté une couche de correction d'erreur  FEC (Forward Error Correction, basée sur un code  Reed-Solomon.
+
+La trame FX.25 est conçue pour être compatible avec les anciens paquets AX.25. Des octets de drapeau 0x7E supplémentaires peuvent être inclus avant ou après l'ensemble de données de paquet AX.25 minimum, tant que la restriction de longueur de paquet maximum est respectée.
 
 ### La trame FEC
-|Préambule| tag | data | FEC | postambule |
-|--|--|--|--|--|
-|0x7E  | 8 octets | 32-239 octets | 16,32 ou 64 octets | 0x7E
+|Préambule| Correlation tag | data AX25 | PAD | symboles de contrôle RS | postambule |
+|--|--|--|--|--|--|
+|0x7E  | 8 octets |  | | 16,32 ou 64 octets | 0x7E
 
+**tag**  ; La balise de corrélation est une séquence fixe de 8 octets (64 bits) conçue pour indiquer le début d'un paquet. Différentes balises de corrélation ont été sélectionnées pour indiquer quel algorithme RS est appliqué.
+Le bloc de code FEC (data AX25  + PAD + FEC) est l'espace de données sur lequel l'algorithme RS est appliqué. La balise de corrélation est en dehors de cette limite car la balise de corrélation est conçue pour fournir une bonne corrélation même dans le  cas de présence d'erreurs de canal. La taille du bloc de code FEC dépend des exigences de bloc de l'algorithme RS mis en œuvre.
 
+Le paquet AX.25 est conforme aux spécifications, non modifié et complet. Pour assurer la compatibilité avec les équipements existants, tous les bits de bourrage et de formatage nécessaires sont appliqués aux éléments de paquet AX.25 comme si le wrapper FX.25 n'était pas en cours de transmission.
+
+Le bloc **Pad** est nécessaire pour construire le bloc de code RS jusqu'au nombre d'octets requis par l'algorithme RS.
+
+Les **symboles de contrôle RS** sont appliqués à la fin du bloc de code FEC. Le nombre de symboles de contrôle  dépend de l'algorithme RS sélectionné.
 
