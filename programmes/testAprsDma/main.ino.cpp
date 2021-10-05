@@ -49,12 +49,12 @@ void loop() {
                 w3.setWind(90);          // Direction du vent 
                 w3.setSpeed(2.5);        // Vitesse moyenne du vent en m/s
                 //w3.setGust(5.1);         // Vitesse en rafale en m/s
-                w3.setTemp(25.5);        // Température en degré celsius
+                w3.setTemp(17.5);        // Température en degré celsius
                 w3.setRain(0);           // Pluie en mm/1h
                 w3.setRain24(0);         // Pluie en mm/24h
                 w3.setRainMid(0);        // Pluie en mm/depuit minuit
-                w3.setHumidity(49);      // Hmidité relative en %
-                w3.setPressure(1024.5);  // Pression barométrique en hPa
+                w3.setHumidity(60);      // Hmidité relative en %
+                w3.setPressure(1008.5);  // Pression barométrique en hPa
                 
                 fx25->txMessage(w3.getPduAprs());
                 break;    
