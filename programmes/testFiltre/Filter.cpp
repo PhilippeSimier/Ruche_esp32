@@ -33,8 +33,8 @@ void Filter::begin() {
 
     dac_output_enable(dacChannel);
     
-    adc1_config_width(ADC_WIDTH_BIT_9);
-    adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_11);
+    adc1_config_width(ADC_WIDTH_BIT_9);   // Configuration de la résolution
+    adc1_config_channel_atten(adc1Channel, ADC_ATTEN_DB_11);   // Configuration de l'atténuation
     
     timer = timerBegin(0, 80, true);
     timerAttachInterrupt(timer, Filter::marshall, true);
