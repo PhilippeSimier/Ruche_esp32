@@ -14,6 +14,9 @@
 #include <driver/adc.h>
 #include <driver/dac.h>
 #include <Arduino.h>
+#include "Filter.h"
+
+//Filter leFiltre;
 
 #define TAILLE_TAMPON 0b00001000     // supérieure à max(na,nb) ici 8
 #define MASQUE_TAMPON 0b00000111     // TAILLE_TAMPON-1
@@ -33,7 +36,11 @@ float accum;
 void setup() {
 
     Serial.begin(115200);
+    
     dac_output_enable(DAC_CHANNEL_1);
+    
+    adc1_config_width(ADC_WIDTH_BIT_9);                         // Résolution 9 bits
+    adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_11); // Atténuation 11 dB
 
     // Filtre passe bas du second ordre 
     b[0] = 0.084971;
@@ -42,11 +49,13 @@ void setup() {
     a[1] = -1.55193;
     a[2] = 0.89181;
     
+    //leFiltre.begin();
+    
 }
 
 void loop() {
 
-    x[j] = analogRead(34) / 16; // Lecture de l'entrée analogique
+    x[j] = adc1_get_raw(ADC1_CHANNEL_6) / 2; // Lecture de l'entrée analogique
 
     accum = 0;
     i = j;
