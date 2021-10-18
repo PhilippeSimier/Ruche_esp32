@@ -32,8 +32,7 @@ compteur(0)
     anchor = this;
 }
 
-Dds::Dds(const Dds& orig) {
-}
+
 
 Dds::~Dds() {
 }

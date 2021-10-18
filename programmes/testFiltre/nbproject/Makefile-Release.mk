@@ -15,8 +15,8 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=xtensa-esp32-elf-gcc
-CCC=xtensa-esp32-elf-c++
-CXX=xtensa-esp32-elf-c++
+CCC=xtensa-esp32-elf-g++
+CXX=xtensa-esp32-elf-g++
 FC=gfortran
 AS=xtensa-esp32-elf-as
 

@@ -18,20 +18,16 @@
 
 //Filter leFiltre;
 
-#define TAILLE_TAMPON 0b00001000     // supérieure à max(na,nb) ici 8
-#define MASQUE_TAMPON 0b00000111     // TAILLE_TAMPON-1
+#define TAILLE_TAMPON 16     // supérieure a la taille du tableau des coefficients ici 16
+#define MASQUE_TAMPON 15     // TAILLE_TAMPON-1
 
-uint8_t nb = 2; // nombre de coefficients b
-float b[2];     // tableau des coefficients b
-uint8_t na = 2; // nombre de coefficients a
 float a[2];     // tableau des coefficients a
+float b[2];     // tableau des coefficients b
 
-int16_t x[TAILLE_TAMPON] = {0}; // tampon pour les x_n
-int16_t y[TAILLE_TAMPON] = {0}; // tampon pour les y_n
 
-uint8_t j = 0;                 // indice pour les tampons
-uint8_t i = 0;
-float accum;
+float x[TAILLE_TAMPON] = {0}; // tampon pour les x_n
+float y[TAILLE_TAMPON] = {0}; // tampon pour les y_n
+
 
 void setup() {
 
@@ -54,26 +50,21 @@ void setup() {
 }
 
 void loop() {
-
-    x[j] = adc1_get_raw(ADC1_CHANNEL_6) / 2; // Lecture de l'entrée analogique
-
-    accum = 0;
-    i = j;
-    for (int k = 0; k < nb; k++) {
-        accum += x[i] * b[k];
-        i = (i - 1) & MASQUE_TAMPON;
-    }
     
-    i = (j - 1) & MASQUE_TAMPON;
-    for (int k = 1; k < na; k++) {
-        accum -= y[i] * a[k];
-        i = (i - 1) & MASQUE_TAMPON;
-    }
+    float accum;
+    static uint8_t n = 0;
     
-    y[j] = accum;
-    j = (j + 1) & MASQUE_TAMPON;
-
-    dac_output_voltage(DAC_CHANNEL_1, accum); // Ecriture de la sortie ananlogique
-
+    x[n] = adc1_get_raw(ADC1_CHANNEL_6); // Lecture de l'entrée analogique
+    
+    // Calcul de l'équation de récurrence
+    accum  = b[0] * x[ n    & MASQUE_TAMPON];
+    accum += b[1] * x[(n-1) & MASQUE_TAMPON];
+    accum += b[2] * x[(n-2) & MASQUE_TAMPON];
+    accum -= a[1] * y[(n-1) & MASQUE_TAMPON];
+    accum -= a[2] * y[(n-2) & MASQUE_TAMPON];  
+    y[n] = accum;
+    
+    dac_output_voltage(DAC_CHANNEL_1, y[n] / 2); // Ecriture de la sortie analogique
+    n = (n + 1) & MASQUE_TAMPON;
 }
 

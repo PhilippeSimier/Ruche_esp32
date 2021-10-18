@@ -28,11 +28,9 @@ typedef enum {
 
 class Dds {
 public:
-    Dds(float _splFreq = SAMPLING_FREQUENCY,  
-        dac_channel_t _dacChannel = DAC_CHANNEL_1, 
-        gpio_num_t _syncLed = GPIO_NUM_2);
     
-    Dds(const Dds& orig);
+    
+    Dds(const Dds& orig) = delete;
     virtual ~Dds();
 
     void begin();
@@ -57,6 +55,11 @@ private:
     volatile uint32_t accumulateur;        // Accumulateur de phase
     
 protected:
+    
+    Dds(float _splFreq = SAMPLING_FREQUENCY,  
+        dac_channel_t _dacChannel = DAC_CHANNEL_1, 
+        gpio_num_t _syncLed = GPIO_NUM_2);
+    
     uint32_t computeIncrementPhase(float freq);
     
     volatile uint32_t incrementPhase;      // Increment de phase courant
