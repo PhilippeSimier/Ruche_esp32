@@ -1,6 +1,6 @@
 /* 
  * File:   Filter.h
- * Author: philippe
+ * Author: philippe SIMIER Touchard Washington
  *
  * Created on 17 octobre 2021, 09:02
  * 
@@ -14,8 +14,13 @@
 #include <Arduino.h>
 #include <driver/adc.h>
 #include <driver/dac.h>
+#include <esp_attr.h>
 
-#define SAMPLING_FREQUENCY 25000    //fréquence d'échantillonage en Hz
+
+#define SAMPLING_FREQUENCY 5000      //fréquence d'échantillonage par défaut en Hz
+#define TAILLE_TAMPON 16     // Taille du tempon ici 8
+#define MASQUE_TAMPON 15     // Masque = TAILLE_TAMPON-1
+
 
 class Filter {
 public:
@@ -28,6 +33,7 @@ public:
     virtual ~Filter();
 
     void begin();
+    void setLPFOrdre1(float fc);
 
 private:
     hw_timer_t * timer;
@@ -38,7 +44,15 @@ private:
     int splFreq; // Fréquence d'échantillonage   
     adc1_channel_t adc1Channel;
     dac_channel_t dacChannel;
-    int accum;
+    
+    uint8_t n;
+    uint32_t cp0_regs[18];
+    
+    float x[TAILLE_TAMPON]; // tampon pour les x_n
+    float y[TAILLE_TAMPON]; // tampon pour les y_n
+    
+    float a[3];     // tableau des coefficients a
+    float b[3];     // tableau des coefficients b
 
 };
 
