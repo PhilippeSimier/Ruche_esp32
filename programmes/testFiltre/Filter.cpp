@@ -22,16 +22,15 @@ splFreq(_splFreq),
 adc1Channel(_adc1Channel),
 dacChannel(_dacChannel),
 timer(NULL),
-n(0)
-{
+n(0) {
     anchor = this;
-    // Second ordre m = 0.1
-    a[0] = 0.084971;
-    a[1] = 0.16994;
-    a[2] = 0.084971;
-    b[1] = 1.55193;
-    b[2] = -0.89181; 
     
+    a[0] = 1.0;
+    a[1] = 0.0;
+    a[2] = 0.0;
+    b[1] = 0.0;
+    b[2] = 0.0;
+
 }
 
 Filter::Filter(const Filter& orig) {
@@ -47,10 +46,10 @@ void Filter::begin() {
     adc1_config_width(ADC_WIDTH_BIT_12); // Configuration de la résolution
     adc1_config_channel_atten(adc1Channel, ADC_ATTEN_DB_11); // Configuration de l'atténuation tension d'entrée /4
 
-    timer = timerBegin(0, 80, true);  // Configuration du timer
-    timerAttachInterrupt(timer, Filter::marshall, true);  // Attache une fonction au timer
-    timerAlarmWrite(timer, 1000000 / splFreq, true);   // Configuration de la fréquence d'échantillonage
-    timerAlarmEnable(timer);  // Lancement du timer
+    timer = timerBegin(0, 80, true); // Configuration du timer
+    timerAttachInterrupt(timer, Filter::marshall, true); // Attache une fonction au timer
+    timerAlarmWrite(timer, 1000000 / splFreq, true); // Configuration de la fréquence d'échantillonage
+    timerAlarmEnable(timer); // Lancement du timer
 
 }
 
@@ -59,44 +58,90 @@ void Filter::marshall() {
 }
 
 void IRAM_ATTR Filter::interuption() {
-   
-    xthal_set_cpenable(1);      // enable FPU
-    xthal_save_cp0(cp0_regs);   // Save FPU registers
+
+    xthal_set_cpenable(1); // enable FPU
+    xthal_save_cp0(cp0_regs); // Save FPU registers
 
     x[n] = adc1_get_raw(adc1Channel); // Lecture de la valeur sur adc1
 
     // Calcul de l'équation de récurrence filtre IIR
-    y[n]  = a[0] * x[ n];
-    y[n] += a[1] * x[(n-1) & MASQUE_TAMPON];
-    y[n] += a[2] * x[(n-2) & MASQUE_TAMPON];
-    y[n] += b[1] * y[(n-1) & MASQUE_TAMPON];
-    y[n] += b[2] * y[(n-2) & MASQUE_TAMPON];
-  
-        
+    y[n] = a[0] * x[ n];
+    y[n] += a[1] * x[(n - 1) & MASQUE_TAMPON];
+    y[n] += a[2] * x[(n - 2) & MASQUE_TAMPON];
+    y[n] += b[1] * y[(n - 1) & MASQUE_TAMPON];
+    y[n] += b[2] * y[(n - 2) & MASQUE_TAMPON];
+
+
     dac_output_voltage(dacChannel, y[n] / 16); //envoi de la valeur entière vers le dac
-    n = (n + 1) & MASQUE_TAMPON;              // incrémentation de n
-    
-    xthal_restore_cp0(cp0_regs);    // Restore FPU  
-    xthal_set_cpenable(0);          // and turn it back off
+    n = (n + 1) & MASQUE_TAMPON; // incrémentation de n
+
+    xthal_restore_cp0(cp0_regs); // Restore FPU  
+    xthal_set_cpenable(0); // and turn it back off
 }
 
 /**
  * @brief méthode pour calculer les coefficients 
- * pour un filtre passe bas du premier ordre
+ * d'un filtre passe bas du premier ordre
  *
  * @param fc la fréquence de coupure en Hz
  */
-void Filter::setLPFOrdre1(float fc){
-    
-   
+void Filter::setLPFOrdre1(float fc) {
+
+
     float A = splFreq / (M_PI * fc);
-    
-    a[0] = 1/(1+A);
+
+    a[0] = 1 / (1 + A);
     a[1] = a[0];
-    a[2] = 0;
-    
-    b[1] = (A-1)/(A+1);
-    b[2] = 0;   
+    a[2] = .0;
+
+    b[1] = (A - 1) / (A + 1);
+    b[2] = .0;
+}
+
+/**
+ * Methode pour obtenir l'équation de récurrence sous forme litérale
+ * @param client le flux de sortie
+ */
+void Filter::printEquaReccurence(Stream* client) {
+
+    client->print("Yn = ");
+    if (std::fpclassify(a[0]) != FP_ZERO) {
+        client->printf("%.4f", a[0]);
+        client->print(" Xn ");
+    }
+    if (std::fpclassify(a[1]) != FP_ZERO) {
+        client->print(" + ");
+        client->printf("%.4f", a[1]);
+        client->print(" Xn_1 ");
+    }
+    if (std::fpclassify(a[2]) != FP_ZERO) {
+        client->print(" + ");
+        client->printf("%.4f", a[2]);
+        client->print(" Xn_2 ");
+    }
+    if (std::fpclassify(b[1]) != FP_ZERO) {
+        client->print(" + ");
+        client->printf("%.4f", b[1]);
+        client->print(" Yn_1 ");
+    }
+    if (std::fpclassify(b[2]) != FP_ZERO) {
+        client->print(" + ");
+        client->printf("%.4f", b[2]);
+        client->println(" Yn_2");
+    }
+    client->println(" ");
+}
+
+/**
+ * Methode pour fixer les coefficients de l'équation de réccurence 
+ * @param _a le tableau des coefficients a
+ * @param _b le tableau des coefficients b
+ */
+void Filter::setEquaReccurence(float _a[3],float _b[3]){
+   for(int i = 0; i<3; i++){
+       a[i] = _a[i];
+       b[i] = _b[i];
+   } 
 }
 
 Filter* Filter::anchor = NULL;

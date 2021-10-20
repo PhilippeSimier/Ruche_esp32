@@ -15,6 +15,7 @@
 #include <driver/adc.h>
 #include <driver/dac.h>
 #include <esp_attr.h>
+#include <math.h>
 
 
 #define SAMPLING_FREQUENCY 5000      //fréquence d'échantillonage par défaut en Hz
@@ -34,6 +35,9 @@ public:
 
     void begin();
     void setLPFOrdre1(float fc);
+    void setEquaReccurence(float _a[3],float _b[3]);
+    void printEquaReccurence(Stream* client);
+    
 
 private:
     hw_timer_t * timer;
