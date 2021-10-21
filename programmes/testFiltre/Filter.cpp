@@ -65,11 +65,11 @@ void IRAM_ATTR Filter::interuption() {
     x[n] = adc1_get_raw(adc1Channel); // Lecture de la valeur sur adc1
 
     // Calcul de l'équation de récurrence filtre IIR
-    y[n] = a[0] * x[ n];
-    y[n] += a[1] * x[(n - 1) & MASQUE_TAMPON];
-    y[n] += a[2] * x[(n - 2) & MASQUE_TAMPON];
-    y[n] += b[1] * y[(n - 1) & MASQUE_TAMPON];
-    y[n] += b[2] * y[(n - 2) & MASQUE_TAMPON];
+    y[n] = b[0] * x[ n];
+    y[n] += b[1] * x[(n - 1) & MASQUE_TAMPON];
+    y[n] += b[2] * x[(n - 2) & MASQUE_TAMPON];
+    y[n] -= a[1] * y[(n - 1) & MASQUE_TAMPON];
+    y[n] -= a[2] * y[(n - 2) & MASQUE_TAMPON];
 
 
     dac_output_voltage(dacChannel, y[n] / 16); //envoi de la valeur entière vers le dac
@@ -90,12 +90,12 @@ void Filter::setLPFOrdre1(float fc) {
 
     float A = splFreq / (M_PI * fc);
 
-    a[0] = 1 / (1 + A);
-    a[1] = a[0];
-    a[2] = .0;
-
-    b[1] = (A - 1) / (A + 1);
+    b[0] = 1 / (1 + A);
+    b[1] = b[0];
     b[2] = .0;
+
+    a[1] = (1 -A) / (1 + A);
+    a[2] = .0;
 }
 
 /**
@@ -105,28 +105,28 @@ void Filter::setLPFOrdre1(float fc) {
 void Filter::printEquaReccurence(Stream* client) {
 
     client->print("Yn = ");
-    if (std::fpclassify(a[0]) != FP_ZERO) {
-        client->printf("%.4f", a[0]);
+    if (std::fpclassify(b[0]) != FP_ZERO) {
+        client->printf("%.4f", b[0]);
         client->print(" Xn ");
-    }
-    if (std::fpclassify(a[1]) != FP_ZERO) {
-        client->print(" + ");
-        client->printf("%.4f", a[1]);
-        client->print(" Xn_1 ");
-    }
-    if (std::fpclassify(a[2]) != FP_ZERO) {
-        client->print(" + ");
-        client->printf("%.4f", a[2]);
-        client->print(" Xn_2 ");
     }
     if (std::fpclassify(b[1]) != FP_ZERO) {
         client->print(" + ");
         client->printf("%.4f", b[1]);
-        client->print(" Yn_1 ");
+        client->print(" Xn_1 ");
     }
     if (std::fpclassify(b[2]) != FP_ZERO) {
         client->print(" + ");
         client->printf("%.4f", b[2]);
+        client->print(" Xn_2 ");
+    }
+    if (std::fpclassify(a[1]) != FP_ZERO) {
+        client->print(" + ");
+        client->printf("%.4f", a[1]);
+        client->print(" Yn_1 ");
+    }
+    if (std::fpclassify(a[2]) != FP_ZERO) {
+        client->print(" + ");
+        client->printf("%.4f", a[2]);
         client->println(" Yn_2");
     }
     client->println(" ");

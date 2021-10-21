@@ -18,6 +18,7 @@
 #include <math.h>
 
 
+
 #define SAMPLING_FREQUENCY 5000      //fréquence d'échantillonage par défaut en Hz
 #define TAILLE_TAMPON 16     // Taille du tempon ici 8
 #define MASQUE_TAMPON 15     // Masque = TAILLE_TAMPON-1
