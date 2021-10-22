@@ -62,7 +62,7 @@ void IRAM_ATTR Filter::interuption() {
     xthal_set_cpenable(1); // enable FPU
     xthal_save_cp0(cp0_regs); // Save FPU registers
 
-    x[n] = adc1_get_raw(adc1Channel); // Lecture de la valeur sur adc1
+    x[n] = adc1_get_raw(adc1Channel) -2047; // Lecture de la valeur sur adc1
 
     // Calcul de l'équation de récurrence filtre IIR
     y[n] = b[0] * x[ n];
@@ -72,7 +72,7 @@ void IRAM_ATTR Filter::interuption() {
     y[n] -= a[2] * y[(n - 2) & MASQUE_TAMPON];
 
 
-    dac_output_voltage(dacChannel, y[n] / 16); //envoi de la valeur entière vers le dac
+    dac_output_voltage(dacChannel, (y[n] + 2047) / 16); //envoi de la valeur entière vers le dac
     n = (n + 1) & MASQUE_TAMPON; // incrémentation de n
 
     xthal_restore_cp0(cp0_regs); // Restore FPU  

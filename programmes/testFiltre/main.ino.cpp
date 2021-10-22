@@ -29,17 +29,21 @@ void setup() {
 
 void loop() {
     char c = 0;
-    // Coefficients pour un filtre du second ordre  m = 0.1
+    // Coefficients pour un filtre PB du second ordre  m = 0.1
     float a1[3] = {0.0      , -1.55193 , 0.89181};
     float b1[3] = {0.084971 ,  0.16994 , 0.084971};
     
-    // Coefficients pour un filtre du premier ordre  fc=50
+    // Coefficients pour un filtre PB du premier ordre  fc=50
     float a2[3] = {1.0      , -0.9390625, 0.0};
     float b2[3] = {0.030468 , 0.030468 , 0.0};
     
-    // Coefficient pour un filtre 2 pôles Chebyshev
-    float a3[3] = {1.0      , -1.916900, +0.92043911};
+    // Coefficient pour un filtre PB 2 pôles Chebyshev
+    float a3[3] = {1.0      , -1.916900, 0.92043911};
     float b3[3] = {0.000884 , 0.001769 , 0.000884};
+    
+    // Coefficient pour un filtre PH 2 pôles Chebyshev
+    float a4[3] = {1.0      , -1.128311, 0.415951};
+    float b4[3] = {0.636065 , -1.272131 , 0.636065};   
     
     
     if (Serial.available() > 0) {
@@ -53,34 +57,41 @@ void loop() {
                 break;
             
             case '1':
-                Serial.println("F coupure 100Hz");
+                Serial.println("Filtre Passe bas 1er ordre fc 100Hz");
                 leFiltre.setLPFOrdre1(100);
                 leFiltre.printEquaReccurence(&Serial);
                 break;
 
             case '2':
-                Serial.println("F coupure 200Hz");
+                Serial.println("Filtre Passe bas 1er ordre fc 200Hz");
                 leFiltre.setLPFOrdre1(200);
                 leFiltre.printEquaReccurence(&Serial);
                 break;
 
-            case '5':
-                Serial.println("F coupure 500Hz");
+            case '3':
+                Serial.println("Filtre Passe bas 1er ordre fc 500Hz");
                 leFiltre.setLPFOrdre1(500);
                 leFiltre.printEquaReccurence(&Serial);
                 break;
                 
             case '6':
-                Serial.println("Filtre du second ordre m = 0.1");
+                Serial.println("Filtre Passe bas du second ordre m = 0.1");
                 
                 leFiltre.setEquaReccurence(a1,b1);
                 leFiltre.printEquaReccurence(&Serial);
                 break;
                 
             case '7':
-                Serial.println("Filtre 2 pôles Chebyshev fc = 50hz");
+                Serial.println("Filtre Passe bas 2 pôles Chebyshev fc = 50hz");
                 
                 leFiltre.setEquaReccurence(a3,b3);
+                leFiltre.printEquaReccurence(&Serial);
+                break; 
+                
+            case '8':
+                Serial.println("Filtre Passe haut 2 pôles Chebyshev fc = 500hz");
+                
+                leFiltre.setEquaReccurence(a4,b4);
                 leFiltre.printEquaReccurence(&Serial);
                 break;    
                 
