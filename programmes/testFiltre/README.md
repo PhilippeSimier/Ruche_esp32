@@ -14,7 +14,13 @@ Les filtres RII (**réponse impulsionnelle infinie**) sont généralement choisi
 
 ## Définition
 
-l’équation peut être écrite en termes d’un nombre fini de **pôles  p**  et de **zéros  q**, comme défini par l’équation de différence linéaire à coefficient constant donnée par:
+On peut écrire la fonction de transfert comme un rapport de deux polynômes.
+Les **pôles** sont les racines du dénominateur. 
+Les **zéros** sont les  racines du numérateur
+
+La **fréquence de Nyquist** est la moitié de la fréquence d'échantillonnage.
+
+L’équation peut être écrite en termes d’un nombre fini de **pôles  p**  et de **zéros  q**, comme défini par l’équation de différence linéaire à coefficient constant donnée par:
 
 y(n)=∑k=0qb(k)x(n−k)−∑k=1pa(k)y(n−k)
 
@@ -24,4 +30,4 @@ où  a(k)  et  b(k)  sont les coefficients polynomiaux du dénominateur et du nu
 
 Comme on le voit, la  **fonction de transfert**  est une représentation du filtre dans le domaine fréquentiel.
 
-les **pôles** agissent sur les **données de sortie**, et les **zéros** sur les **données d’entrée**. Puisque les pôles agissent sur les données de sortie et affectent la stabilité, il est essentiel que leurs rayons **restent à l’intérieur du cercle unitaire** (c’est-à-dire <1) pour la stabilité BIBO (bounded input, bounded output). Les rayons des zéros sont moins critiques, car ils n’affectent pas la stabilité du filtre.
+les **pôles** agissent sur les **données de sortie**, et les **zéros** sur les **données d’entrée**. Puisque les pôles agissent sur les données de sortie et affectent la stabilité, il est essentiel que leurs rayons **restent à l’intérieur du cercle unitaire** (c’est-à-dire <1) pour la stabilité. Les rayons des zéros sont moins critiques, car ils n’affectent pas la stabilité du filtre.
