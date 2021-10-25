@@ -1,9 +1,10 @@
 ﻿#  Les filtres RII
 
 ## Introduction
-Les filtres à **réponse impulsionnelle infinie** (RII) sont utiles pour  les applications de mesure avec capteur , y compris la suppression du bruit de mesure et l'annulation de composants indésirables, tels que les interférences de ligne électrique.
+Les filtres à **réponse impulsionnelle infinie** (RII) sont utiles pour  les applications de mesure avec capteur, qui nécessitent la suppression du bruit de mesure et l'annulation de composants indésirables, tels que les interférences de ligne électrique.
 Les filtres RII sont généralement choisis pour les applications où la phase linéaire n’est pas trop importante et où **la mémoire est limitée**.
-La classe Filter met en œuvre un filtre biquad IIR sur un esp32,  les calculs sont  effectués sur des variable en virgule flottante.
+
+La classe **Filter** met en œuvre un filtre biquad IIR sur un esp32,  les calculs sont  effectués sur des variable en virgule flottante.
 
 #### Avantages du filtre RII
 -   Peut être utilisé pour imiter les caractéristiques des filtres analogiques en utilisant des transformations de mappage dans le plan p-z
@@ -21,6 +22,7 @@ On peut écrire la fonction de transfert comme un rapport de deux polynômes.
  - Les **zéros** sont les  racines du numérateur
  - La **fréquence de Nyquist** est la moitié de la fréquence
    d'échantillonnage.
+ - La fréquence de coupure (fc) est proportionnelle à la fréquence de Nyquist.
 
 L’équation peut être écrite en termes d’un nombre fini de **pôles  p**  et de **zéros  q**, comme défini par l’équation de différence linéaire à coefficient constant donnée par:
 
@@ -46,6 +48,61 @@ Ce qui nous donne l'équation de récurrence :
 
 ![equation biquad](/programmes/testFiltre/documentation/reccursive_equation.png)
 
+## Implémentation (C++)
 
+L'implémentation du filtrage en temps réel, sur un microcontrôleur ESP32, pose des problèmes spécifiques liés aux ressources disponibles sur ce type d'unité (quantité de mémoire, vitesse de calcul, calculs en virgule flottante). 
 
+Les coefficients des polynômes sont enregistrés dans les tableaux a et b. Les coefficients sont réels. 3 coefficients bn et 3 coefficients an  (a0  = 1)
+```cpp
+float a[3]; // tableau des coefficients a
+float b[3]; // tableau des coefficients b 
+```
+Pour faire le calcul, on doit mémoriser xn-2 xn-1 yn-1 yn-2. On dit que cette réalisation nécessite des variables d'état. D'une manière générale, le nombre de variables d'état est égal au nombre de bloc z-1.
+Les variables d'états x et y sont enregistrées dans des tableaux.
+```cpp
+float x[TAILLE_TAMPON]; // tampon pour les x_n
+float y[TAILLE_TAMPON]; // tampon pour les y_n
+```
+Les échantillons sont prélevés à intervalle de temps régulier (la période d'échantillonnage Te), sous le contrôle d'un timer. 
+```cpp
+timer = timerBegin(0, 80, true); // Configuration du timer
+
+timerAttachInterrupt(timer, Filter::marshall, true); // Attache une fonction au timer
+
+timerAlarmWrite(timer, 1000000 / splFreq, true); // Configuration de la fréquence d'échantillonage
+
+timerAlarmEnable(timer); // Lancement du timer
+```
+Le timer déclenche à intervalle de temps régulier une interruption qui lance l’exécution de la fonction statique **marshall**. Cette fonction est rattachée à la méthode **interuption()** grace au pointeur **anchor**.
+La fonction **interruption()** doit effectuer les calculs en virgule flottante sur 32 bits, et la durée des calculs ne doit pas dépasser la période d'échantillonnage. 
+```cpp
+void IRAM_ATTR Filter::interuption() {
+
+xthal_set_cpenable(1); // enable FPU
+xthal_save_cp0(cp0_regs); // Save FPU registers
+
+x[n] = adc1_get_raw(adc1Channel) -2047; // Lecture de la valeur sur adc1
+
+// Calcul de l'équation de récurrence filtre IIR
+
+y[n] = b[0] * x[ n];
+y[n] += b[1] * x[(n - 1) & MASQUE_TAMPON];
+y[n] += b[2] * x[(n - 2) & MASQUE_TAMPON];
+y[n] -= a[1] * y[(n - 1) & MASQUE_TAMPON];
+y[n] -= a[2] * y[(n - 2) & MASQUE_TAMPON];
+
+dac_output_voltage(dacChannel, (y[n] + 2047) / 16); //envoi de la valeur entière vers le dac
+
+n = (n + 1) & MASQUE_TAMPON; // incrémentation circulaire de n
+
+xthal_restore_cp0(cp0_regs); // Restore FPU
+xthal_set_cpenable(0); // and turn it back off
+}
+```
+Le signal d'entrée analogique est compris entre 0 et 3V avec un offset de 1.5V . La conversion d'entrée se fait sur 12 bits (valeur numérique comprise de 0 à 4095).
+La valeur de l'offset (2047) est retirée avant les calculs. La composante continue du signal se mesure donc par rapport à l'offset de 1.5V.
+
+En fin de chaîne, une conversion numérique-analogique (CNA) est effectuée  avec une résolution 8 bits. la valeur de l'offset est ajouté et la valeur obtenue est divisée par 16. (décalage de 4 bits).
+Le signal analogique de sortie est donc lui aussi compris entre 0 et 3V avec un offset de 1.5V.
+  
 
