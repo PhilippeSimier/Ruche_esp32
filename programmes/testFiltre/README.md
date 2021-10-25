@@ -24,11 +24,13 @@ On peut écrire la fonction de transfert comme un rapport de deux polynômes.
 
 L’équation peut être écrite en termes d’un nombre fini de **pôles  p**  et de **zéros  q**, comme défini par l’équation de différence linéaire à coefficient constant donnée par:
 
-y(n)=∑k=0qb(k)x(n−k)−∑k=1pa(k)y(n−k)
+![Equation de recurrence](/programmes/testFiltre/documentation/equationReccurence.png)
+
 
 où  a(k)  et  b(k)  sont les coefficients polynomiaux du dénominateur et du numérateur du filtre, dont les racines sont respectivement égales aux  **pôles**  et aux  **zéros**  du filtre. Ainsi, une relation entre l’équation de différence et la transformée en z (fonction de transfert) peut donc être définie en utilisant la propriété de retard de la transformée en z telle que,
 
-∑k=0qb(k)x(n−k)−∑k=1pa(k)y(n−k)⟷Z∑k=0qb(k)z−k1+∑k=1pa(k)z−k
+![Equation de recurrence](/programmes/testFiltre/documentation/equationZ.png)
+
 
 Comme on le voit, la  **fonction de transfert**  est une représentation du filtre dans le domaine fréquentiel.
 
@@ -36,4 +38,14 @@ les **pôles** agissent sur les **données de sortie**, et les **zéros** sur le
 
 ## Filtre biquad IIR
 
-L'implémentation du filtre IIR proposée ici est dite **biquad** , car la fonction de transfert a deux pôles et deux zéros, comme illustré ci-dessous dans la figure ci dessous.
+L'implémentation du filtre IIR proposée ici est dite **biquad** , car la fonction de transfert a **deux pôles** et **deux zéros**, comme illustré  dans la figure ci dessous.
+
+![filtre IIR biquad](/programmes/testFiltre/documentation/filtreBiquad.png)
+
+Ce qui nous donne l'équation de récurrence :
+
+![equation biquad](/programmes/testFiltre/documentation/reccursive_equation.png)
+
+
+
+
