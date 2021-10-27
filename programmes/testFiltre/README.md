@@ -54,8 +54,8 @@ L'implémentation du filtrage en temps réel, sur un microcontrôleur ESP32, pos
 
 Les coefficients des polynômes sont enregistrés dans les tableaux a et b. Les coefficients sont réels. 3 coefficients bn et 3 coefficients an  (a0  = 1)
 ```cpp
-float a[3]; // tableau des coefficients a
-float b[3]; // tableau des coefficients b 
+float a[3]; // tableau des coefficients a coefficients (zéros)
+float b[3]; // tableau des coefficients b coefficients (pôles)
 ```
 Pour faire le calcul, on doit mémoriser xn-2 xn-1 yn-1 yn-2. On dit que cette réalisation nécessite des variables d'état. D'une manière générale, le nombre de variables d'état est égal au nombre de bloc z-1.
 Les variables d'états x et y sont enregistrées dans des tableaux.
@@ -104,5 +104,64 @@ La valeur de l'offset (2047) est retirée avant les calculs. La composante conti
 
 En fin de chaîne, une conversion numérique-analogique (CNA) est effectuée  avec une résolution 8 bits. la valeur de l'offset est ajouté et la valeur obtenue est divisée par 16. (décalage de 4 bits).
 Le signal analogique de sortie est donc lui aussi compris entre 0 et 3V avec un offset de 1.5V.
-  
+
+## Calcul des coefficients
+
+Une feuille de calcul excel est proposée pour calculer les coefficients du biquad et obtenir le diagramme de bode.
+Il existe également une calculatrice en ligne  qui permet d'obtenir les mêmes valeurs.
+https://www.earlevel.com/main/2021/09/02/biquad-calculator-v3/
+Attention sur la calculatrice en ligne les notations a et b sont inversées.
+
+### Exemple de calcul pour un filtre passe bas (LPF)
+
+- Fréquence d'échantillonnage (Hz) : fs = **5000**
+ - Fréquence de coupure Fc (Hz) : fc = **500**
+ - Q :  1/sqrt(2) = **0.707**
+ - Gain : **0 dB**
+ 
+```cpp
+float a[3] = { 1.0 , 
+              -1.1429772843080923 , 
+              0.41279762014290533 };
+float b[3] = { 0.06745508395870334 ,
+			   0.13491016791740668 ,
+               0.06745508395870334 };
+```
+**w0** = 2 * pi (fc/fs)
+**alpha** = sin( w0) / (2* Q)
+**a0** = 1 + alpha
+
+**a[1]** = ( -2 * cos(w0)) / a0
+**a[2]** = (1-alpha)/ a0
+**b[0]** = ((1 + cos(w0)) / 2) / a0
+**b[1]** = (1- cos(w0) / a0
+**b[2]** = ((1 + cos(w0)) / 2) / a0
+
+
+### Exemple de calcul pour un filtre passe haut (HPF)
+
+
+ - Fréquence d'échantillonnage (Hz) : fs = **5000**
+ - Fréquence de coupure Fc (Hz) : fc = **500**
+ - Q :  1/sqrt(2) = **0.707**
+ - Gain : **0 dB**
+
+```cpp
+float a[3] = { 1.0 , 
+              -1.1429772843080923 , 
+               0.41279762014290533 };
+float b[3] = { 0.6389437261127494 ,
+			  -1.2778874522254988 ,
+			   0.6389437261127494 };
+```
+**w0** = 2 * pi (fc/fs)
+**alpha** = sin( w0) / (2* Q)
+**a0** = 1 + alpha
+
+**a[1]** = ( -2 * cos(w0)) / a0
+**a[2]** = (1-alpha)/ a0
+**b[0]** = ((1 - cos(w0)) / 2) / a0
+**b[1]** = (-(1+ cos(w0))/ a0
+**b[2]** = ((1 - cos(w0)) / 2) / a0
+
 
