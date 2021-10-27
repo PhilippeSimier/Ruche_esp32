@@ -112,9 +112,9 @@ Il existe également une calculatrice en ligne  qui permet d'obtenir les mêmes 
 https://www.earlevel.com/main/2021/09/02/biquad-calculator-v3/
 Attention sur la calculatrice en ligne les notations a et b sont inversées.
 
-### Exemple de calcul pour un filtre passe bas (LPF)
+### 1 Exemple de calcul pour un filtre passe bas (LPF)
 
-- Fréquence d'échantillonnage (Hz) : fs = **5000**
+ - Fréquence d'échantillonnage (Hz) : fs = **5000**
  - Fréquence de coupure Fc (Hz) : fc = **500**
  - Q :  1/sqrt(2) = **0.707**
  - Gain : **0 dB**
@@ -127,18 +127,17 @@ float b[3] = { 0.06745508395870334 ,
 			   0.13491016791740668 ,
                0.06745508395870334 };
 ```
-**w0** = 2 * pi (fc/fs)
-**alpha** = sin( w0) / (2* Q)
-**a0** = 1 + alpha
+ - **w0** = 2 * pi (fc/fs)
+ -    **alpha** = sin( w0) / (2* Q)
+ -    **a0** = 1 + alpha
+ - **a[1]** = ( -2 * cos(w0)) / a0
+ - **a[2]** = (1-alpha)/ a0
+ - **b[0]** = ((1 + cos(w0)) / 2) / a0
+ - **b[1]** = (1- cos(w0) / a0
+ - **b[2]** = ((1 + cos(w0)) / 2) / a0
 
-**a[1]** = ( -2 * cos(w0)) / a0
-**a[2]** = (1-alpha)/ a0
-**b[0]** = ((1 + cos(w0)) / 2) / a0
-**b[1]** = (1- cos(w0) / a0
-**b[2]** = ((1 + cos(w0)) / 2) / a0
 
-
-### Exemple de calcul pour un filtre passe haut (HPF)
+### 2 Exemple de calcul pour un filtre passe haut (HPF)
 
 
  - Fréquence d'échantillonnage (Hz) : fs = **5000**
@@ -154,14 +153,14 @@ float b[3] = { 0.6389437261127494 ,
 			  -1.2778874522254988 ,
 			   0.6389437261127494 };
 ```
-**w0** = 2 * pi (fc/fs)
-**alpha** = sin( w0) / (2* Q)
-**a0** = 1 + alpha
 
-**a[1]** = ( -2 * cos(w0)) / a0
-**a[2]** = (1-alpha)/ a0
-**b[0]** = ((1 - cos(w0)) / 2) / a0
-**b[1]** = (-(1+ cos(w0))/ a0
-**b[2]** = ((1 - cos(w0)) / 2) / a0
+ - **w0** = 2 * pi (fc/fs)
+ - **alpha** = sin( w0) / (2* Q)
+ - **a0** = 1 + alpha
+ - **a[1]** = ( -2 * cos(w0)) / a0
+ - **a[2]** = (1-alpha)/ a0
+ - **b[0]** = ((1 - cos(w0)) / 2) / a0
+ - **b[1]** = (-(1+ cos(w0))/ a0
+ - **b[2]** = ((1 - cos(w0)) / 2) / a0
 
 
