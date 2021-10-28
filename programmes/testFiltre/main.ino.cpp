@@ -1,8 +1,8 @@
 /* 
  * File:   main.ino.cpp
- * Author: philippe SIMIER
+ * Author: philippe SIMIER SNIR Touchard Washington - Le Mans
  * 
- * Filtrage numérique 
+ * Filtrage numérique avec biquad
  * 
  *  
  * Created on 16 octobre 2021, 17:11
@@ -74,26 +74,47 @@ void loop() {
                 leFiltre.printEquaReccurence(&Serial);
                 break;
                 
-            case '6':
+            case '4':
                 Serial.println("Filtre Passe bas du second ordre m = 0.1");
                 
                 leFiltre.setEquaReccurence(a1,b1);
                 leFiltre.printEquaReccurence(&Serial);
                 break;
                 
-            case '7':
+            case '5':
                 Serial.println("Filtre Passe bas 2 pôles Chebyshev fc = 50hz");
                 
                 leFiltre.setEquaReccurence(a3,b3);
                 leFiltre.printEquaReccurence(&Serial);
                 break; 
                 
-            case '8':
+            case '6':
                 Serial.println("Filtre Passe haut 2 pôles Chebyshev fc = 500hz");
                 
                 leFiltre.setEquaReccurence(a4,b4);
                 leFiltre.printEquaReccurence(&Serial);
-                break;    
+                break; 
+                
+            case '7':
+                Serial.println("Filtre Passe bas 2eme ordre fc = 500hz, Q = 0.707");
+                
+                leFiltre.setLPFordre2(500);
+                leFiltre.printEquaReccurence(&Serial);
+                break; 
+                
+            case '8':
+                Serial.println("Filtre Passe haut 2eme ordre fc = 500hz, Q = 0.707");
+                
+                leFiltre.setHPFordre2(500);
+                leFiltre.printEquaReccurence(&Serial);
+                break;
+            
+            case 'n':
+                Serial.println("Filtre Notch fc = 50hz, Q = 1");
+                
+                leFiltre.setNotch(50);
+                leFiltre.printEquaReccurence(&Serial);
+                break;     
                 
             case 'e':
                 leFiltre.printEquaReccurence(&Serial);

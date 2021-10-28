@@ -16,6 +16,7 @@
 #include <driver/dac.h>
 #include <esp_attr.h>
 #include <math.h>
+#include <xtensa/hal.h>   // Pour FPU dans ISR
 
 
 
@@ -35,7 +36,12 @@ public:
     virtual ~Filter();
 
     void begin();
+    
     void setLPFOrdre1(float fc);
+    void setLPFordre2(float fc, float Q = 0.707);
+    void setHPFordre2(float fc, float Q = 0.707);
+    void setNotch(float fc, float Q = 1);
+    
     void setEquaReccurence(float _a[3],float _b[3]);
     void printEquaReccurence(Stream* client);
     

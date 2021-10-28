@@ -28,6 +28,7 @@ n(0) {
     a[0] = 1.0;
     a[1] = 0.0;
     a[2] = 0.0;
+    b[0] = 0.0;
     b[1] = 0.0;
     b[2] = 0.0;
 
@@ -106,34 +107,35 @@ void Filter::printEquaReccurence(Stream* client) {
 
     client->print("Yn = ");
     if (std::fpclassify(b[0]) != FP_ZERO) {
-        client->printf("%.4f", b[0]);
+        client->printf("%.5f", b[0]);
         client->print(" Xn ");
     }
     if (std::fpclassify(b[1]) != FP_ZERO) {
         client->print(" + ");
-        client->printf("%.4f", b[1]);
+        client->printf("%.5f", b[1]);
         client->print(" Xn_1 ");
     }
     if (std::fpclassify(b[2]) != FP_ZERO) {
         client->print(" + ");
-        client->printf("%.4f", b[2]);
+        client->printf("%.5f", b[2]);
         client->print(" Xn_2 ");
     }
     if (std::fpclassify(a[1]) != FP_ZERO) {
         client->print(" + ");
-        client->printf("%.4f", a[1]);
+        client->printf("%.5f", a[1]);
         client->print(" Yn_1 ");
     }
     if (std::fpclassify(a[2]) != FP_ZERO) {
         client->print(" + ");
-        client->printf("%.4f", a[2]);
+        client->printf("%.5f", a[2]);
         client->println(" Yn_2");
     }
     client->println(" ");
 }
 
 /**
- * Methode pour fixer les coefficients de l'équation de réccurence 
+ * Methode pour fixer les coefficients de l'équation de réccurence
+ * les coefficients sont calculés avec la feuille de calcul. 
  * @param _a le tableau des coefficients a
  * @param _b le tableau des coefficients b
  */
@@ -143,6 +145,69 @@ void Filter::setEquaReccurence(float _a[3],float _b[3]){
        b[i] = _b[i];
    } 
 }
+
+/**
+ * @brief Méthode pour calculer un filtre biquad passe bas
+ * @param fc  Fréquence de coupure du filtre passe bas
+ * @param Q   Attenuation à la fréquence de coupure 0.707 pour -3dB
+ */
+void Filter::setLPFordre2(float fc, float Q){
+    
+    float w0, alpha, a0;
+    
+    w0 = 2 * M_PI * (fc / splFreq);
+    alpha = sin(w0) / (2 * Q);
+    a0 = 1 + alpha;
+    
+    a[1] = (-2.0 * cos(w0)) / a0;
+    a[2] = ( 1.0 - alpha)/ a0;
+    b[0] = ((1.0 - cos(w0)) / 2.0) / a0;
+    b[1] = ( 1.0 - cos(w0)) / a0;
+    b[2] = ((1.0 - cos(w0)) / 2.0) / a0;    
+    
+}
+
+/**
+ * @brief Méthode pour calculer un filtre biquad passe haut
+ * @param fc  Fréquence de coupure du filtre passe haut
+ * @param Q   Attenuation à la fréquence de coupure 0.707 pour -3dB
+ */
+void Filter::setHPFordre2(float fc, float Q){
+    
+    float w0, alpha, a0;
+    
+    w0 = 2 * M_PI * (fc / splFreq);
+    alpha = sin(w0) / (2 * Q);
+    a0 = 1 + alpha;
+    
+    a[1] = (-2.0 * cos(w0)) / a0;
+    a[2] = ( 1.0 - alpha) / a0;
+    b[0] = ((1.0 + cos(w0)) / 2.0) / a0;
+    b[1] = (-1.0 - cos(w0)) / a0;
+    b[2] = ((1.0 + cos(w0)) / 2.0) / a0;   
+}
+
+/**
+ * @brief filtre notch2 (de l'anglais notch qui signifie encoche).
+ *        filtre coupe-bande aussi appelé filtre réjecteur de bande
+ * @param fc fréquence centrale 
+ * @param Q
+ */
+void Filter::setNotch(float fc, float Q){
+    
+    float w0, alpha, a0;
+    
+    w0 = 2 * M_PI * (fc / splFreq);
+    alpha = sin(w0) / (2 * Q);
+    a0 = 1 + alpha;
+    
+    a[1] = (-2.0 * cos(w0)) / a0;
+    a[2] = (1.0 - alpha) / a0;
+    b[0] = 1.0  / a0;
+    b[1] = (-2.0 * cos(w0)) / a0;
+    b[2] = 1.0  / a0; 
+}
+
 
 Filter* Filter::anchor = NULL;
 
