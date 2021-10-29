@@ -96,9 +96,9 @@ void loop() {
                 break; 
                 
             case '7':
-                Serial.println("Filtre Passe bas 2eme ordre fc = 500hz, Q = 0.707");
+                Serial.println("Filtre Passe bas 2eme ordre fc = 50hz, Q = 0.707");
                 
-                leFiltre.setLPFordre2(500);
+                leFiltre.setLPFordre2(50);
                 leFiltre.printEquaReccurence(&Serial);
                 break; 
                 

@@ -115,13 +115,13 @@ Attention sur la calculatrice en ligne les notations a et b sont inversées.
 ### 1 Exemple de calcul pour un filtre passe bas (LPF)
 
  - Fréquence d'échantillonnage (Hz) : fs = **5000**
- - Fréquence de coupure Fc (Hz) : fc = **500**
+ - Fréquence de coupure Fc (Hz) : fc = **50**
  - Q :  1/sqrt(2) = **0.707**
  - Gain : **0 dB**
  
 ```cpp
-float a[3] = { 1.0 , -1.14293 , 0.41274 };
-float b[3] = { 0.06745 , 0.13490 , 0.06745 };
+float a[3] = { 1.0 , -1.91118 , 0.91496 };
+float b[3] = { 0.00094 , 0.00189 , 0.00094 };
 ```
  - **w0** = 2 * pi (fc/fs)
  - **alpha** = sin( w0) / (2* Q)
@@ -132,6 +132,8 @@ float b[3] = { 0.06745 , 0.13490 , 0.06745 };
  - **b[1]** = (1- cos(w0) / a0
  - **b[2]** = ((1 - cos(w0)) / 2) / a0
 
+Diagramme de  Bode :
+![filtre lpf](/programmes/testFiltre/documentation/filtre_lpf.png)
 
 ### 2 Exemple de calcul pour un filtre passe haut (HPF)
 
@@ -155,6 +157,9 @@ float b[3] = { 0.63892 , -1.27783 , 0.63892 };
  - **b[1]** = (-1 - cos(w0)) / a0
  - **b[2]** = ((1 + cos(w0)) / 2) / a0
 
+Diagramme de  Bode :
+![filtre hpf](/programmes/testFiltre/documentation/filtre_hpf.png)
+
 ### 3 Exemple de calcul pour un filtre coupe bande (notch)
 
 - Fréquence d'échantillonnage (Hz) : fs = **5000**
@@ -175,6 +180,6 @@ float b[3] = { 0.96956 , -1.93529 , 0.96956 };
  - **b[0]** = 1  / a0
  - **b[1]** = (-2.0 * cos(w0)) / a0
  - **b[2]** = 1  / a0
- - 
+ 
 Diagramme de  Bode :
 ![filtre notch](/programmes/testFiltre/documentation/filtre_notch.png)
