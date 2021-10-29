@@ -133,6 +133,7 @@ float b[3] = { 0.00094 , 0.00189 , 0.00094 };
  - **b[2]** = ((1 - cos(w0)) / 2) / a0
 
 Diagramme de  Bode :
+
 ![filtre lpf](/programmes/testFiltre/documentation/filtre_lpf.png)
 
 ### 2 Exemple de calcul pour un filtre passe haut (HPF)
@@ -158,6 +159,7 @@ float b[3] = { 0.63892 , -1.27783 , 0.63892 };
  - **b[2]** = ((1 + cos(w0)) / 2) / a0
 
 Diagramme de  Bode :
+
 ![filtre hpf](/programmes/testFiltre/documentation/filtre_hpf.png)
 
 ### 3 Exemple de calcul pour un filtre coupe bande (notch)
@@ -183,3 +185,17 @@ float b[3] = { 0.96956 , -1.93529 , 0.96956 };
  
 Diagramme de  Bode :
 ![filtre notch](/programmes/testFiltre/documentation/filtre_notch.png)
+
+### 3 Calcul pour un filtre peak 
+
+- Fréquence d'échantillonnage (Hz) : fs = **5000**
+ - Fréquence  centrale Fc (Hz) : fc = **50**
+ - Q :   = **2**
+ - Gain : **6 dB**
+ ```cpp
+float a[3] = { 1.0 , -1.97412 , 0.97802 };
+float b[3] = { 1.01094 , -1.97412 , 0.96708 };
+```
+
+Diagramme de  Bode :
+![filtre peak](/programmes/testFiltre/documentation/filtre_peak.png)
