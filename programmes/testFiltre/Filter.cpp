@@ -188,7 +188,7 @@ void Filter::setHPFordre2(float fc, float Q){
 }
 
 /**
- * @brief filtre notch2 (de l'anglais notch qui signifie encoche).
+ * @brief filtre notch (de l'anglais notch qui signifie encoche).
  *        filtre coupe-bande aussi appelé filtre réjecteur de bande
  * @param fc fréquence centrale 
  * @param Q
@@ -206,6 +206,32 @@ void Filter::setNotch(float fc, float Q){
     b[0] = 1.0  / a0;
     b[1] = (-2.0 * cos(w0)) / a0;
     b[2] = 1.0  / a0; 
+}
+
+/**
+ * @brief filtre Peak (de l'anglais peak qui signifie crête).
+ *        Un filtre peak fait un pic dans la réponse en fréquence 
+ *        la hauteur du pic est fonction du gain G
+ *        la largeur du pic est fonction du facteur Q
+ * @param fc fréquence centrale 
+ * @param Q
+ */
+
+void Filter::setPeak(float fc, float Q, float G){
+    
+    float A, w0, alpha, a0;
+    
+    A = pow (10, G/40);
+    w0 = 2 * M_PI * (fc / splFreq);
+    alpha = sin(w0) / (2 * Q);
+    a0 = 1 + alpha/A;
+    
+    a[1] = (-2.0 * cos(w0)) / a0;
+    a[2] = (1.0  - alpha/A) / a0;
+    b[0] = (1.0  + alpha * A)/ a0;
+    b[1] = (-2.0 * cos(w0)) / a0;
+    b[2] = (1.0  - alpha * A) / a0;
+    
 }
 
 

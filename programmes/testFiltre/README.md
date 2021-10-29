@@ -69,7 +69,7 @@ timer = timerBegin(0, 80, true); // Configuration du timer0 en micro seconde
 
 timerAttachInterrupt(timer, Filter::marshall, true); // Attache une fonction a l'interuption provoquée par le timer
 
-timerAlarmWrite(timer, 1000000 / splFreq, true); // Configuration de la fréquence d'échantillonage en micro seconde
+timerAlarmWrite(timer, 1000000 / splFreq, true); // Configuration de la période d'échantillonage en micro seconde
 
 timerAlarmEnable(timer); // Lancement du timer
 ```

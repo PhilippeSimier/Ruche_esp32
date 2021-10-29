@@ -114,7 +114,14 @@ void loop() {
                 
                 leFiltre.setNotch(50);
                 leFiltre.printEquaReccurence(&Serial);
-                break;     
+                break; 
+                
+            case 'p':
+                Serial.println("Filtre Peak fc = 50hz, Q = 2, Gain = 6dB");
+                
+                leFiltre.setPeak(50.0 , 2.0 , 6.0);
+                leFiltre.printEquaReccurence(&Serial);
+                break;    
                 
             case 'e':
                 leFiltre.printEquaReccurence(&Serial);
