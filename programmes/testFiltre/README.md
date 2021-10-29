@@ -65,11 +65,11 @@ float y[TAILLE_TAMPON]; // tampon pour les y_n
 ```
 Les échantillons sont prélevés à intervalle de temps régulier (la période d'échantillonnage Te), sous le contrôle d'un timer. 
 ```cpp
-timer = timerBegin(0, 80, true); // Configuration du timer
+timer = timerBegin(0, 80, true); // Configuration du timer0 en micro seconde 
 
-timerAttachInterrupt(timer, Filter::marshall, true); // Attache une fonction au timer
+timerAttachInterrupt(timer, Filter::marshall, true); // Attache une fonction a l'interuption provoquée par le timer
 
-timerAlarmWrite(timer, 1000000 / splFreq, true); // Configuration de la fréquence d'échantillonage
+timerAlarmWrite(timer, 1000000 / splFreq, true); // Configuration de la fréquence d'échantillonage en micro seconde
 
 timerAlarmEnable(timer); // Lancement du timer
 ```
@@ -120,21 +120,17 @@ Attention sur la calculatrice en ligne les notations a et b sont inversées.
  - Gain : **0 dB**
  
 ```cpp
-float a[3] = { 1.0 , 
-              -1.1429772843080923 , 
-              0.41279762014290533 };
-float b[3] = { 0.06745508395870334 ,
-			   0.13491016791740668 ,
-               0.06745508395870334 };
+float a[3] = { 1.0 , -1.14293 , 0.41274 };
+float b[3] = { 0.06745 , 0.13490 , 0.06745 };
 ```
  - **w0** = 2 * pi (fc/fs)
- -    **alpha** = sin( w0) / (2* Q)
- -    **a0** = 1 + alpha
+ - **alpha** = sin( w0) / (2* Q)
+ - **a0** = 1 + alpha
  - **a[1]** = ( -2 * cos(w0)) / a0
- - **a[2]** = (1-alpha)/ a0
- - **b[0]** = ((1 + cos(w0)) / 2) / a0
+ - **a[2]** = (1-alpha) / a0
+ - **b[0]** = ((1 - cos(w0)) / 2) / a0
  - **b[1]** = (1- cos(w0) / a0
- - **b[2]** = ((1 + cos(w0)) / 2) / a0
+ - **b[2]** = ((1 - cos(w0)) / 2) / a0
 
 
 ### 2 Exemple de calcul pour un filtre passe haut (HPF)
@@ -146,21 +142,39 @@ float b[3] = { 0.06745508395870334 ,
  - Gain : **0 dB**
 
 ```cpp
-float a[3] = { 1.0 , 
-              -1.1429772843080923 , 
-               0.41279762014290533 };
-float b[3] = { 0.6389437261127494 ,
-			  -1.2778874522254988 ,
-			   0.6389437261127494 };
+float a[3] = { 1.0 , -1.14293 , 0.41274 };
+float b[3] = { 0.63892 , -1.27783 , 0.63892 };
 ```
 
  - **w0** = 2 * pi (fc/fs)
  - **alpha** = sin( w0) / (2* Q)
  - **a0** = 1 + alpha
  - **a[1]** = ( -2 * cos(w0)) / a0
- - **a[2]** = (1-alpha)/ a0
- - **b[0]** = ((1 - cos(w0)) / 2) / a0
- - **b[1]** = (-(1+ cos(w0))/ a0
- - **b[2]** = ((1 - cos(w0)) / 2) / a0
+ - **a[2]** = (1 - alpha) / a0
+ - **b[0]** = ((1 + cos(w0)) / 2) / a0
+ - **b[1]** = (-1 - cos(w0)) / a0
+ - **b[2]** = ((1 + cos(w0)) / 2) / a0
 
+### 3 Exemple de calcul pour un filtre coupe bande (notch)
 
+- Fréquence d'échantillonnage (Hz) : fs = **5000**
+ - Fréquence  centrale Fc (Hz) : fc = **50**
+ - Q :   = **1**
+ - Gain : **0 dB**
+ 
+ ```cpp
+float a[3] = { 1.0 , -1.93529 , 0.93912 };
+float b[3] = { 0.96956 , -1.93529 , 0.96956 };
+```
+
+ - **w0** = 2 * pi (fc/fs)
+ - **alpha** = sin( w0) / (2* Q)
+ - **a0** = 1 + alpha
+ - **a[1]** = (-2.0 * cos(w0)) / a0 
+ - **a[2]** = (1 - alpha) / a0
+ - **b[0]** = 1  / a0
+ - **b[1]** = (-2.0 * cos(w0)) / a0
+ - **b[2]** = 1  / a0
+ - 
+Diagramme de  Bode :
+![filtre notch](/programmes/testFiltre/documentation/filtre_notch.png)
