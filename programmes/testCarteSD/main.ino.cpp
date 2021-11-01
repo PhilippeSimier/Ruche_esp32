@@ -63,6 +63,11 @@ void loop(void) {
             case 'v':
                 carteSD.mv("/repertoire/unFichier", "/unAutreFichier2");
                 break;
+                
+            case 'b':
+                carteSD.fread("/main.ino.cpp");
+                break;
+                
             
         }
     }

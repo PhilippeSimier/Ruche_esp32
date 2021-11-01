@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=esp32-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/esp32-Linux
-CND_ARTIFACT_NAME_Debug=testcarte
-CND_ARTIFACT_PATH_Debug=dist/Debug/esp32-Linux/testcarte
+CND_ARTIFACT_NAME_Debug=testcartesd
+CND_ARTIFACT_PATH_Debug=dist/Debug/esp32-Linux/testcartesd
 CND_PACKAGE_DIR_Debug=dist/Debug/esp32-Linux/package
-CND_PACKAGE_NAME_Debug=testcarte.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/esp32-Linux/package/testcarte.tar
+CND_PACKAGE_NAME_Debug=testcartesd.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/esp32-Linux/package/testcartesd.tar
 # Release configuration
 CND_PLATFORM_Release=esp32-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/esp32-Linux
-CND_ARTIFACT_NAME_Release=testcarte
-CND_ARTIFACT_PATH_Release=dist/Release/esp32-Linux/testcarte
+CND_ARTIFACT_NAME_Release=testcartesd
+CND_ARTIFACT_PATH_Release=dist/Release/esp32-Linux/testcartesd
 CND_PACKAGE_DIR_Release=dist/Release/esp32-Linux/package
-CND_PACKAGE_NAME_Release=testcarte.tar
-CND_PACKAGE_PATH_Release=dist/Release/esp32-Linux/package/testcarte.tar
+CND_PACKAGE_NAME_Release=testcartesd.tar
+CND_PACKAGE_PATH_Release=dist/Release/esp32-Linux/package/testcartesd.tar
 #
 # include compiler specific variables
 #

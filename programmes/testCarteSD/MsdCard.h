@@ -27,6 +27,7 @@ public:
     bool ls(const char * path);
     void fwrite(const char * path,  const char * message);
     void fputs(const char * path, const char * message);
+    void fread(const char * path);
     bool mv(const char * path1, const char * path2);
     bool mkdir (const char * path);
     bool rmdir (const char * path);

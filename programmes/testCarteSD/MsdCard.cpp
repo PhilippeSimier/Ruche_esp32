@@ -194,3 +194,18 @@ bool MsdCard::mv(const char * path1, const char * path2){
         return false;
     }
 }
+
+void MsdCard::fread(const char * path){
+  Serial.printf("Reading file: %s\r\n", path);
+
+  File file = SDFileSystem.open(path);
+  if(!file){
+    Serial.println("Failed to open file for reading");
+    return;
+  }
+
+  while(file.available()){
+    Serial.write(file.read());
+  }
+  file.close();
+}
