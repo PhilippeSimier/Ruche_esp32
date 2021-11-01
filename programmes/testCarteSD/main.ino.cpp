@@ -1,28 +1,72 @@
 /* 
  * File:   main.ino.cpp
- * Author: Anthony le Cren
+ * Author: philippe SIMIER Touchard Washington 
  *
- * Created on 4 septembre 2021, 09:01
+ * Created on 30 octobre 2021, 14:13
  */
+#include <Arduino.h>
 
-#include "Msdcard.h"
+#include <SPI.h>
+#include <SD.h>
+#include <FS.h>
 
-Msdcard cartesd(18, 19, 23, 5); //SCK,MISO,MOSI,ss
+#include "MsdCard.h"
+
+MsdCard carteSD;  // Avec l'affectation des broches standard de la liaison SPI de l'esp32 (carte ruche)
+//MsdCard carteSD(14, 2, 15, 13)  // Avec l'affectation des broches (carte ballon)
 
 void setup() {
 
     Serial.begin(115200);
-    bool erreur;
-    erreur = cartesd.begin();
-    if (erreur == false) {
-        
-        cartesd.writeFile(SD, "/hello.txt", "Hello ");
-        cartesd.appendFile(SD, "/hello.txt", "World!\n");
+    while (!Serial) {}
+    carteSD.begin();
+ 
+}
+
+void loop(void) {
+
+    char c = 0;
+    
+    if (Serial.available() > 0) {
+        c = Serial.read();
+        switch (c) {
+            case 'l':
+                carteSD.ls("/");
+                break;
+                
+            case 'w':
+                Serial.println("Write");
+                
+                carteSD.fwrite("/unFichier", "une ligne de texte\r\n"); 
+                break;
+                
+            case 'a':
+                Serial.println("Append");
+                
+                carteSD.fputs("/unFichier", "une autre ligne de texte\r\n"); 
+                break;    
+            
+            case 'm':
+                carteSD.mkdir("/repertoire");
+                break;
+                
+            case 'r':
+                carteSD.rmdir("/repertoire");
+                break;
+                
+            case 'n':
+                Serial.println("Write dans repertoire");
+                
+                carteSD.fwrite("/repertoire/unFichier", "une ligne de texte\r\n"); 
+                break;  
+                
+            case 'v':
+                carteSD.mv("/repertoire/unFichier", "/unAutreFichier2");
+                break;
+            
+        }
     }
 }
 
-void loop() {
 
-
-}
 

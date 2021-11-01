@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=testCarteSD
+PROJECTNAME=testCarte
 
 # Active Configuration
 DEFAULTCONF=Debug
