@@ -23,3 +23,10 @@ Il est possible de connecter directement la carte SD
 
 
 ## Diagramme de classes
+Plusieurs classes sont proposées pour gérer les fichiers sur une carte SD.
+Nous avons la classe SDFS qui dérive de la classe FS (File System). Cette classe possède des méthodes pour ouvrir un fichier, renommer, supprimer, créer et supprimer un répertoire.
+La méthode open de FS renvoie un fichier (objet de type File) sur lequel on peut lire écrire des données.
+La classe File  dérive de la classe Stream qui dérive elle même de la classe Print.
+
+![Diagramme de classe](/programmes/testCarteSD/documentation/diagramme_SD.png)
+
