@@ -1,11 +1,12 @@
-#include <ESP32Time.h>
+#include <Arduino.h>
+#include "RTime.h"
 
-ESP32Time rtc;
+RTime rtc;
 
 void setup() {
   Serial.begin(115200);
-  rtc.setTime(30, 24, 15, 17, 1, 2021);  // 17th Jan 2021 15:24:30
-  //rtc.setTime(1609459200);  // 1st Jan 2021 00:00:00
+  rtc.setTime(00, 30, 9, 3, 11, 2021);  // 3 November 2021 9:30:00
+//rtc.setTime(1609459200);  // 1st Jan 2021 00:00:00
 
 /*---------set with NTP---------------*/
 //  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
@@ -13,6 +14,9 @@ void setup() {
 //  if (getLocalTime(&timeinfo)){
 //    rtc.setTimeStruct(timeinfo); 
 //  }
+  
+Serial.println(__TIME__);
+Serial.println(__DATE__);  
 }
 
 void loop() {
@@ -48,3 +52,4 @@ void loop() {
   
   delay(1000);
 }
+

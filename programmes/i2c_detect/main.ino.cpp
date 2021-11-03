@@ -16,13 +16,13 @@ String I2Ctest() {
     int nDevices;
     String s;
 
-    s  = "     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r";
+    s  = "     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\r\n";
     s += "00:         ";
     
     nDevices = 0;
     for (address = 3; address < 120; address++) {
         if ((address % 16) == 0) {
-            s += "\r";
+            s += "\r\n";
             s += String(address, HEX);
             s += ":";
         }
@@ -43,7 +43,7 @@ String I2Ctest() {
         
     }
 
-    s += "\r";
+    s += "\r\n";
     return s;
 }
 
@@ -60,8 +60,6 @@ void setup() {
 }
 
 void loop() {
-    // put your main code here, to run repeatedly:
-
-
+    
 }
 
