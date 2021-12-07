@@ -34,7 +34,7 @@
 #define SERIAL_SPEED        9600
 #define SLEEP_MODE  LOW
 #define NORMAL_MODE  HIGH
-#define PTT_SWITCHING_TIME 20
+#define PTT_SWITCHING_TIME  200
 #define INIT_TIME 500
 
 
