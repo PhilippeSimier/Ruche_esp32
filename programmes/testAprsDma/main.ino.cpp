@@ -10,7 +10,7 @@
 Fx25* fx25;
 
 Position p2(48.010237, 0.206267, "test unitaire p2", '/', '['); // icon Human
-Weather  w3(47.816326, 0.113171);                                // a Weather station
+Weather  w3(48.010237, 0.206267);                                // a Weather station
 
 void setup() {
     Serial.begin(115200);

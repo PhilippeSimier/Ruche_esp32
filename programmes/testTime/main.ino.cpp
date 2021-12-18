@@ -47,7 +47,7 @@ void loop() {
   // formating options  http://www.cplusplus.com/reference/ctime/strftime/
 
 
-  struct tm timeinfo = rtc.getTimeStruct();
+  //struct tm timeinfo = rtc.getTimeStruct();
   //Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");   //  (tm struct) Sunday, January 17 2021 07:24:38
   
   delay(1000);
